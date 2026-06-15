@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الملف الصحي — صناع الحياة المنوفية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1218;
+  --bg2: #151a23;
+  --bg3: #1c2330;
+  --bg4: #242e3f;
+  --card: #1a212e;
+  --border: #2a3649;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --primary: #3b82f6;
+  --accent: #10b981;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::selection { background: var(--primary); color: #fff; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+.header {
+  background: linear-gradient(135deg, #0d1321 0%, #1a212e 50%, #0d1321 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 48px 20px 36px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -120px; left: -120px;
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -100px; right: -100px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.brand-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 900;
+  padding: 6px 18px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(245,158,11,0.2);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+  animation: brandPulse 2s ease-in-out infinite;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+@keyframes brandPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(245,158,11,0.2); }
+  50% { box-shadow: 0 0 30px rgba(239,68,68,0.6), 0 0 60px rgba(245,158,11,0.3); }
+}
+.brand-banner-bottom {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ec4899, #ef4444, #f59e0b);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 999px;
+  box-shadow: 0 0 12px rgba(239,68,68,0.3);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255,255,255,0.15);
+  margin-top: 6px;
+}
+.brand-sep {
+  width: 2px;
+  height: 14px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 1px;
+  display: inline-block;
+}
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(59,130,246,0.1);
+  border: 1px solid rgba(59,130,246,0.2);
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 6px 18px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.header h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.header h1 em {
+  font-style: normal;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.header p {
+  font-size: 0.95rem;
+  color: var(--text2);
+  max-width: 500px;
+  margin: 0 auto;
+}
+.divider {
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: 999px;
+  margin: 18px auto 0;
+}
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 24px auto 0;
+}
+.stat {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--text2);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.stat-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+}
+.stat-dot.blue { background: var(--primary); }
+.stat-dot.green { background: var(--accent); }
+.main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 60px; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 18px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; right: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--accent), var(--primary));
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(59,130,246,0.3);
+  box-shadow: var(--shadow);
+}
+.card:hover::before { opacity: 1; }
+.card-icon {
+  width: 48px; height: 48px;
+  border-radius: 12px;
+  background: var(--bg3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  margin-bottom: 14px;
+  transition: transform var(--transition);
+}
+.card:hover .card-icon { transform: scale(1.1); }
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+.card-desc {
+  font-size: 0.82rem;
+  color: var(--text3);
+  line-height: 1.7;
+  flex: 1;
+  margin-bottom: 16px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-actions {
+  display: flex;
+  gap: 8px;
+}
+.btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  transition: all var(--transition);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), #2563eb);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.2);
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.3); }
+.btn-primary:active { transform: translateY(0); }
+.btn-ghost {
+  background: var(--bg3);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--bg4); color: var(--text); }
+.footer {
+  text-align: center;
+  padding: 32px 16px 20px;
+  color: var(--text3);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+.footer strong { color: var(--text2); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
+  <div class="logo">🌿 الملف الصحي</div>
+  <h1>نظام <em>الملف الصحي</em><br>صناع الحياة المنوفية</h1>
+  <p>جميع استمارات الملف الصحي في مكان واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام</p>
+  <div class="divider"></div>
+  <div class="stats">
+    <div class="stat"><span class="stat-dot blue"></span> <span id="count">0</span> استمارة</div>
+    <div class="stat">🔍 بحث سريع</div>
+    <div class="stat">📱 متوافق مع الموبايل</div>
+    <div class="stat" id="localCount" style="cursor:pointer" onclick="toggleLocalPanel()">💾 <span id="localTotal">0</span> سجل محلي</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="grid" id="grid">
+    <!-- تُضاف البطاقات هنا -->
+  </div>
+</div>
+
+<div id="localPanel" style="display:none; margin-top:24px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px;">
+  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
+    <h3 style="font-size:1rem; font-weight:700; color:#fff;">💾 البيانات المحفوظة محلياً</h3>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="exportAllCSV()" style="flex:none">📥 تصدير CSV شامل</button>
+      <button class="btn btn-ghost" onclick="clearAllData()" style="flex:none">🗑️ حذف الكل</button>
+      <button class="btn btn-ghost" onclick="toggleLocalPanel()" style="flex:none">✕ إغلاق</button>
+    </div>
+  </div>
+  <div id="localTableWrap" style="overflow-x:auto; display:none;">
+    <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
+      <thead>
+        <tr style="background:var(--bg3);">
+          <th style="padding:10px 12px; text-align:right; border-bottom:1px solid var(--border);">الاستمارة</th>
+          <th style="padding:10px 12px; text-align:center; border-bottom:1px solid var(--border);">عدد السجلات</th>
+          <th style="padding:10px 12px; text-align:center; border-bottom:1px solid var(--border);">آخر تحديث</th>
+          <th style="padding:10px 12px; text-align:center; border-bottom:1px solid var(--border);">إجراء</th>
+        </tr>
+      </thead>
+      <tbody id="localTableBody"></tbody>
+    </table>
+  </div>
+  <div id="localEmpty" style="text-align:center; padding:30px 0; color:var(--text3); font-size:0.9rem;">
+    <div style="font-size:2.5rem; margin-bottom:8px;">📂</div>
+    لا توجد بيانات محفوظة محلياً بعد
+  </div>
+</div>
+
+<div class="footer">
+  <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
+  <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية &nbsp;|&nbsp; التحول الرقمي © 2026</div>
+</div>
+
+<script src="offline-utils.js"></script>
+<script>
+const FORM_IDS = ['مساعدات_طبية','تحويلات_طبية','hser_edwia','adwyt_alqawafel','sarf_alqawafel','nata2_alqawafel','taaqodat','masroufat'];
+const FORM_LABELS = ['المساعدات الطبية','التحويلات الطبية','حصر الأدوية','أدوية القوافل','صرف أدوية القوافل','نتائج القوافل','التعاقدات الطبية','مصروفات الحالات'];
+
+const forms = [
+  {
+    title: "استمارة المساعدات الطبية وصرف الأدوية",
+    desc: "تسجيل المساعدات الطبية وصرف الأدوية مع التحقق التلقائي من الرقم القومي لمنع التكرار.",
+    icon: "🏥",
+    file: "المساعدات_الطبية.html",
+    color: "blue"
+  },
+  {
+    title: "استمارة التحويلات الطبية",
+    desc: "تسجيل ومتابعة التحويلات الطبية للحالات المستفيدة مع توثيق بيانات المرضى وجهات التحويل.",
+    icon: "🔄",
+    file: "التحويلات_الطبية.html",
+    color: "purple"
+  },
+  {
+    title: "استمارة حصر أدوية صيدلية صناع الحياة",
+    desc: "تسجيل وحصر الأدوية المتوفرة داخل صيدلية صناع الحياة، لتنظيم المخزون الدوائي.",
+    icon: "💊",
+    file: "حصر_الأدوية.html",
+    color: "green"
+  },
+  {
+    title: "استمارة أدوية القوافل الطبية",
+    desc: "تسجيل وحصر الأدوية المستخدمة أو المتوفرة بالقوافل الطبية وضمان توفرها.",
+    icon: "🧴",
+    file: "أدوية_القوافل.html",
+    color: "amber"
+  },
+  {
+    title: "استمارة صرف أدوية القوافل الطبية",
+    desc: "توثيق صرف الأدوية خلال القوافل الطبية ومتابعة الأدوية المصروفة للحالات.",
+    icon: "📋",
+    file: "صرف_أدوية_القوافل.html",
+    color: "blue"
+  },
+  {
+    title: "استمارة نتائج القوافل الطبية",
+    desc: "توثيق ومتابعة نتائج القوافل الطبية وتسجيل بيانات القافلة والخدمات المقدمة.",
+    icon: "🚑",
+    file: "نتائج_القوافل.html",
+    color: "green"
+  },
+  {
+    title: "استمارة التعاقدات والشراكات الطبية",
+    desc: "تسجيل بيانات التعاقدات والشراكات الطبية وحصر الجهات الطبية المتعاقدة.",
+    icon: "🤝",
+    file: "التعاقدات_الطبية.html",
+    color: "purple"
+  },
+  {
+    title: "استمارة مصروفات الحالات الطبية الشهرية",
+    desc: "توثيق ومتابعة مصروفات الحالات الطبية الشهرية وقيمة الأدوية والخدمات العلاجية.",
+    icon: "💰",
+    file: "مصروفات_الحالات.html",
+    color: "amber"
+  }
+];
+
+const grid = document.getElementById('grid');
+const count = document.getElementById('count');
+
+forms.forEach((f, i) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.style.animationDelay = (i * 0.08) + 's';
+  card.innerHTML = `
+    <div class="card-icon">${f.icon}</div>
+    <div class="card-title">${f.title}</div>
+    <div class="card-desc">${f.desc}</div>
+    <div class="card-actions">
+      <a href="${f.file}" class="btn btn-primary">📂 فتح الاستمارة</a>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+
+count.textContent = forms.length;
+
+// ---- local data panel ----
+function toggleLocalPanel() {
+  var p = document.getElementById('localPanel');
+  p.style.display = p.style.display === 'none' ? 'block' : 'none';
+  if (p.style.display === 'block') refreshLocalTable();
+}
+
+function refreshLocalTable() {
+  var tbody = document.getElementById('localTableBody');
+  var wrap = document.getElementById('localTableWrap');
+  var empty = document.getElementById('localEmpty');
+  var total = 0;
+  var rows = '';
+  FORM_IDS.forEach(function(id, i) {
+    var data = getLocalData(id);
+    if (data.length) {
+      total += data.length;
+      var lastDate = data[data.length - 1]?._savedAt || '';
+      if (lastDate) lastDate = new Date(lastDate).toLocaleString('ar-EG');
+      rows += '<tr style="border-bottom:1px solid var(--border);">' +
+        '<td style="padding:10px 12px; font-weight:600;">' + FORM_LABELS[i] + '</td>' +
+        '<td style="padding:10px 12px; text-align:center; color:var(--accent); font-weight:700;">' + data.length + '</td>' +
+        '<td style="padding:10px 12px; text-align:center; color:var(--text3); font-size:0.78rem;">' + lastDate + '</td>' +
+        '<td style="padding:10px 12px; text-align:center;">' +
+        '<button onclick="exportOneCSV(\'' + id + '\',\'' + FORM_LABELS[i] + '\')" class="btn btn-ghost" style="flex:none;padding:4px 12px;font-size:0.75rem;">📥 CSV</button>' +
+        '</td></tr>';
+    }
+  });
+  tbody.innerHTML = rows;
+  document.getElementById('localTotal').textContent = total;
+  if (rows) { wrap.style.display = ''; empty.style.display = 'none'; }
+  else { wrap.style.display = 'none'; empty.style.display = ''; }
+}
+
+function exportOneCSV(fid, flabel) {
+  var fields = ['dummy']; var headers = ['حقل'];
+  // determine fields from id
+  if (fid === 'hser_edwia') { fields = ['date','sec','med_name','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص']; }
+  else if (fid === 'adwyt_alqawafel') { fields = ['date','center','name','conc','exp','active','type','unit','qty','spec']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','تاريخ الانتهاء','المادة الفعالة','النوع','شريط/علبة','الكمية','التخصص']; }
+  else if (fid === 'sarf_alqawafel') { fields = ['center','caravan_date','doctor_name','doctor_specialty','medicine_name','quantity']; headers = ['المركز','تاريخ القافلة','اسم الدكتور','التخصص','اسم الدواء','الكمية']; }
+  else if (fid === 'nata2_alqawafel') { fields = ['center','total_checkups','total_labs','other_interventions','other_interventions_count','specialty','doctor_name','spec_checkups','time_spent']; headers = ['المركز','عدد الكشوفات الإجمالي','عدد التحاليل','التدخلات الصحية الأخرى','عدد التدخلات','التخصص','اسم الدكتور','عدد الكشوفات للدكتور','الوقت المستغرق']; }
+  else if (fid === 'taaqodat') { fields = ['entity_type','facility_name','contract_text','contractor_name','volunteer_number','name_contractor','job_title','facility_phone','detailed_address','location','center','notes']; headers = ['نوع الجهة','اسم المكان','نص التعاقد','المتطوع','رقم المتطوع','ممثل المكان','صفة الشخص','الهاتف','العنوان','الموقع الجغرافي','المركز','ملاحظات']; }
+  else if (fid === 'masroufat') { fields = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source']; headers = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء']; }
+  else { alert('⚠️ غير مدعوم'); return; }
+  var data = getLocalData(fid);
+  if (!data.length) { alert('⚠️ لا توجد بيانات محفوظة'); return; }
+  var csv = headers.join(',') + '\n';
+  data.forEach(function(d) {
+    csv += fields.map(function(f) { return escapeCSV(d[f] || ''); }).join(',') + '\n';
+  });
+  downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
+}
+
+function exportAllCSV() {
+  var any = false;
+  FORM_IDS.forEach(function(id) {
+    var data = getLocalData(id);
+    if (data.length) any = true;
+  });
+  if (!any) { alert('⚠️ لا توجد بيانات محفوظة للتصدير'); return; }
+  FORM_IDS.forEach(function(id, i) { exportOneCSV(id, FORM_LABELS[i]); });
+}
+
+function clearAllData() {
+  if (!confirm('⚠️ هل أنت متأكد من حذف جميع البيانات المحفوظة محلياً؟')) return;
+  FORM_IDS.forEach(function(id) { localStorage.removeItem('hsen_offline_' + id); });
+  refreshLocalTable();
+  updateAllLocalCounts();
+  showTooltip('🗑️ تم حذف جميع البيانات المحفوظة');
+}
+
+function updateAllLocalCounts() {
+  var total = 0;
+  FORM_IDS.forEach(function(id) {
+    var data = getLocalData(id);
+    total += data.length;
+  });
+  document.getElementById('localTotal').textContent = total;
+}
+
+// Init counts on page load
+setTimeout(updateAllLocalCounts, 100);
+</script>
+</body>
+</html>

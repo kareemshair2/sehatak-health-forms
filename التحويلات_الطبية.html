@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استمارة التحويلات الطبية — صناع الحياة المنوفية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1218;
+  --bg2: #151a23;
+  --bg3: #1c2330;
+  --bg4: #242e3f;
+  --card: #1a212e;
+  --card-hover: #1f2838;
+  --border: #2a3649;
+  --border-focus: #8b5cf6;
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #64748b;
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-glow: rgba(139,92,246,0.15);
+  --accent: #06b6d4;
+  --accent-hover: #0891b2;
+  --danger: #ef4444;
+  --danger-bg: rgba(239,68,68,0.1);
+  --success: #10b981;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --radius-full: 999px;
+  --shadow: 0 4px 24px rgba(0,0,0,0.3);
+  --shadow-lg: 0 12px 48px rgba(0,0,0,0.4);
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::selection { background: var(--primary); color: #fff; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+.header {
+  background: linear-gradient(135deg, #0d1321 0%, #1a212e 50%, #0d1321 100%);
+  border-bottom: 1px solid var(--border);
+  padding: 32px 20px 24px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -100px; right: -100px;
+  width: 300px; height: 300px;
+  background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -80px; left: -80px;
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, rgba(6,182,212,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.brand-banner {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 900;
+  padding: 6px 18px;
+  border-radius: var(--radius-full);
+  margin-bottom: 12px;
+  box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(245,158,11,0.2);
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+  letter-spacing: 1px;
+  animation: brandPulse 2s ease-in-out infinite;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+@keyframes brandPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(245,158,11,0.2); }
+  50% { box-shadow: 0 0 30px rgba(239,68,68,0.6), 0 0 60px rgba(245,158,11,0.3); }
+}
+.brand-banner-bottom {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #ec4899, #ef4444, #f59e0b);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 12px rgba(239,68,68,0.3);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  letter-spacing: 0.5px;
+  border: 1px solid rgba(255,255,255,0.15);
+  margin-top: 6px;
+}
+.brand-sep {
+  width: 2px;
+  height: 14px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 1px;
+}
+.header-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(139,92,246,0.1);
+  border: 1px solid rgba(139,92,246,0.2);
+  color: var(--primary);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: var(--radius-full);
+  margin-bottom: 14px;
+}
+.header h1 {
+  font-size: clamp(1.3rem, 3.5vw, 1.8rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.35;
+  margin-bottom: 6px;
+}
+.header p {
+  font-size: 0.85rem;
+  color: var(--text2);
+  font-weight: 400;
+}
+.header-divider {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  border-radius: var(--radius-full);
+  margin: 14px auto 0;
+}
+.progress-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+.progress-bar {
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary), var(--accent));
+  width: 0%;
+  transition: width 0.5s ease;
+}
+.main { max-width: 720px; margin: 0 auto; padding: 24px 16px 60px; }
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+  overflow: hidden;
+  transition: border-color var(--transition);
+}
+.section:hover { border-color: rgba(139,92,246,0.3); }
+.section-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 18px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #fff;
+}
+.section-header .icon { font-size: 1.1rem; }
+.section-header .badge {
+  margin-right: auto;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text3);
+  background: var(--bg4);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+}
+.section-body { padding: 18px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.field-row:last-child { margin-bottom: 0; }
+.field-row.single { grid-template-columns: 1fr; }
+.field-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 540px) { .field-row, .field-row.triple { grid-template-columns: 1fr; } }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.field label .req { color: var(--danger); }
+.field input, .field select, .field textarea {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.86rem;
+  padding: 11px 14px;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg2);
+  color: var(--text);
+  outline: none;
+  width: 100%;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  -webkit-appearance: none;
+  appearance: none;
+}
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+  background: var(--bg3);
+}
+.field input::placeholder, .field textarea::placeholder { color: var(--text3); }
+.field input.error { border-color: var(--danger) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.1) !important; background: rgba(239,68,68,0.05) !important; }
+.field input.valid { border-color: var(--accent) !important; background: rgba(6,182,212,0.05) !important; }
+.field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: left 12px center;
+  padding-left: 36px;
+}
+.field-hint { font-size: 0.72rem; color: var(--text3); margin-top: 1px; }
+.field-error { font-size: 0.72rem; color: var(--danger); margin-top: 2px; display: none; }
+.alert {
+  background: rgba(245,158,11,0.1);
+  border: 1px solid rgba(245,158,11,0.2);
+  border-right: 3px solid var(--warn, #f59e0b);
+  border-radius: var(--radius);
+  padding: 12px 16px;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  font-size: 0.82rem;
+  line-height: 1.7;
+  color: #fcd34d;
+}
+.alert-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+  background: var(--bg2);
+  position: relative;
+  min-height: 100px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.upload-area:hover { border-color: var(--primary); background: var(--bg3); }
+.upload-area input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  border: none; box-shadow: none;
+  width: 100%; height: 100%;
+}
+.upload-icon { font-size: 1.6rem; margin-bottom: 6px; opacity: 0.6; }
+.upload-text { font-size: 0.78rem; color: var(--text3); line-height: 1.5; }
+.upload-text small { font-size: 0.7rem; }
+.file-name { font-size: 0.78rem; color: var(--accent); font-weight: 700; margin-top: 6px; display: none; }
+.file-preview { max-width: 100px; max-height: 80px; border-radius: 6px; margin-top: 8px; display: none; object-fit: cover; }
+.btn-submit {
+  width: 100%;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 900;
+  padding: 16px 24px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(139,92,246,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all var(--transition);
+  margin-top: 20px;
+}
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(139,92,246,0.35);
+}
+.btn-submit:active:not(:disabled) { transform: translateY(0); }
+.btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.spinner {
+  width: 18px; height: 18px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: none;
+  flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 999;
+  align-items: center; justify-content: center;
+  padding: 16px;
+}
+.overlay.show { display: flex; }
+.overlay-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 32px 24px;
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow-lg);
+  animation: popIn 0.3s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+.overlay-card .ov-icon { font-size: 3rem; margin-bottom: 12px; }
+.overlay-card h2 { font-size: 1.15rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
+.overlay-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.75; margin-bottom: 18px; }
+.overlay-card.success .ov-icon ~ h2 { color: var(--accent); }
+.overlay-card.danger .ov-icon ~ h2 { color: var(--danger); }
+.btn-overlay {
+  border: none;
+  cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 700;
+  padding: 10px 24px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.btn-overlay.primary { background: var(--primary); color: #fff; }
+.btn-overlay.primary:hover { background: var(--primary-hover); }
+.btn-overlay.danger { background: var(--danger); color: #fff; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+.tag-blue { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+.tag-green { background: rgba(16,185,129,0.1); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+.tag-amber { background: rgba(245,158,11,0.1); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+.footer {
+  text-align: center;
+  padding: 24px 16px 16px;
+  color: var(--text3);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--border);
+  margin-top: 20px;
+}
+.footer strong { color: var(--text2); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
+  <div class="header-badge">🔄 الملف الصحي — التحول الرقمي</div>
+  <h1>استمارة التحويلات الطبية</h1>
+  <p>جمعية صناع الحياة — محافظة المنوفية</p>
+  <div class="header-divider"></div>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<div class="main">
+
+  <form id="mainForm" novalidate>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="icon">👤</span> بيانات المريض
+        <span class="badge">إلزامي</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>اسم المريض كاملاً <span class="req">*</span></label>
+            <input type="text" id="patient_name" placeholder="الاسم الرباعي" autocomplete="name">
+            <span class="field-hint">اكتب الاسم الرباعي</span>
+            <span class="field-error" id="e1">يرجى إدخال اسم المريض</span>
+          </div>
+          <div class="field">
+            <label>السن (بالسنوات) <span class="req">*</span></label>
+            <input type="number" id="patient_age" placeholder="مثال: 45" min="1" max="120" inputmode="numeric">
+            <span class="field-error" id="e2">يرجى إدخال سن صحيح (1-120)</span>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>الجنس <span class="req">*</span></label>
+            <select id="patient_gender">
+              <option value="">— اختر الجنس —</option>
+              <option value="male">ذكر</option>
+              <option value="female">أنثى</option>
+            </select>
+            <span class="field-error" id="e3">يرجى اختيار الجنس</span>
+          </div>
+          <div class="field">
+            <label>رقم الهاتف <span class="req">*</span></label>
+            <input type="tel" id="patient_phone" placeholder="01XXXXXXXXX" maxlength="11" inputmode="numeric"
+                   autocomplete="tel" oninput="this.value=this.value.replace(/\D/g,'')">
+            <span class="field-error" id="e4">يرجى إدخال رقم هاتف صحيح</span>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>الرقم القومي <span class="req">*</span></label>
+            <input type="text" id="national_id" placeholder="14 رقم" maxlength="14" inputmode="numeric"
+                   autocomplete="off" oninput="this.value=this.value.replace(/\D/g,'')">
+            <span class="field-error" id="e5">يرجى إدخال رقم قومي صحيح (14 رقم)</span>
+          </div>
+          <div class="field">
+            <label>المركز الصحي <span class="req">*</span></label>
+            <select id="patient_center">
+              <option value="">— اختر المركز —</option>
+              <option value="shibin_el_kom">شبين الكوم</option>
+              <option value="quwaysna">قويسنا</option>
+              <option value="birkat_el_sab">بركة السبع</option>
+              <option value="tala">تلا</option>
+              <option value="minuf">منوف</option>
+              <option value="el_bagour">الباجور</option>
+              <option value="el_shuhada">الشهداء</option>
+              <option value="el_sadat">السادات</option>
+              <option value="ashmoun">أشمون</option>
+            </select>
+            <span class="field-error" id="e6">يرجى اختيار المركز</span>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>العنوان</label>
+            <input type="text" id="patient_address" placeholder="القرية أو العنوان التفصيلي">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="icon">🏥</span> بيانات التحويل
+        <span class="badge">إلزامي</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>تاريخ التحويل <span class="req">*</span></label>
+            <input type="date" id="referral_date">
+            <span class="field-error" id="e7">يرجى اختيار تاريخ التحويل</span>
+          </div>
+          <div class="field">
+            <label>جهة التحويل <span class="req">*</span></label>
+            <select id="referral_type" onchange="onReferralTypeChange()">
+              <option value="">— اختر جهة التحويل —</option>
+              <option value="doctor">دكتور</option>
+              <option value="lab">معمل تحاليل</option>
+              <option value="radiology">مركز أشعة</option>
+              <option value="glasses">مركز نظارات</option>
+              <option value="physio">علاج طبيعي</option>
+            </select>
+            <span class="field-error" id="e8">يرجى اختيار جهة التحويل</span>
+          </div>
+        </div>
+
+        <!-- Doctor fields -->
+        <div id="grp_doctor" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>اسم الدكتور <span class="req">*</span></label>
+              <input type="text" id="doctor_name">
+              <span class="field-error" id="e9">يرجى إدخال اسم الدكتور</span>
+            </div>
+            <div class="field">
+              <label>التخصص الطبي <span class="req">*</span></label>
+              <select id="doctor_specialty" onchange="onSpecialtyChange()">
+                <option value="">— اختر التخصص —</option>
+                <option value="internal">باطنة</option>
+                <option value="cardiology">قلب وأوعية</option>
+                <option value="orthopedics">عظام</option>
+                <option value="neurology">أعصاب</option>
+                <option value="pediatrics">أطفال</option>
+                <option value="gynecology">نساء وتوليد</option>
+                <option value="dermatology">جلدية</option>
+                <option value="ophthalmology">عيون</option>
+                <option value="ent">أنف وأذن وحنجرة</option>
+                <option value="urology">مسالك بولية</option>
+                <option value="psychiatry">طب نفسي</option>
+                <option value="dentistry">أسنان</option>
+                <option value="endocrinology">غدد صماء</option>
+                <option value="general_surgery">جراحة عامة</option>
+                <option value="other">تخصص آخر</option>
+              </select>
+              <span class="field-error" id="e10">يرجى اختيار التخصص</span>
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>نوع الشراكة <span class="req">*</span></label>
+              <select id="partnership_type">
+                <option value="">— اختر نوع الشراكة —</option>
+                <option value="discount">خصم على الكشف</option>
+                <option value="full_discount">خصم كامل</option>
+                <option value="priority">أولوية في الحجز</option>
+                <option value="commission">عمولة تحويل</option>
+                <option value="package">باقة شاملة</option>
+                <option value="other">أخرى</option>
+              </select>
+              <span class="field-error" id="e11">يرجى اختيار نوع الشراكة</span>
+            </div>
+            <div class="field">
+              <label>تخصص آخر (اذكره)</label>
+              <input type="text" id="doctor_specialty_other" placeholder="اكتب اسم التخصص" style="display:none">
+            </div>
+          </div>
+          <div class="field-row">
+            <div class="field">
+              <label>امتيازات الشراكة</label>
+              <input type="text" id="partnership_benefits" placeholder="مثال: خصم 20% - أولوية الحجز">
+            </div>
+            <div class="field">
+              <label>هاتف الدكتور / العيادة</label>
+              <input type="tel" id="doctor_phone" placeholder="رقم هاتف العيادة">
+            </div>
+          </div>
+          <div class="field-row single">
+            <div class="field">
+              <label>عنوان العيادة</label>
+              <input type="text" id="doctor_address" placeholder="عنوان العيادة">
+            </div>
+          </div>
+        </div>
+
+        <!-- Lab fields -->
+        <div id="grp_lab" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>اسم المعمل <span class="req">*</span></label>
+              <input type="text" id="lab_name">
+              <span class="field-error" id="e12">يرجى إدخال اسم المعمل</span>
+            </div>
+            <div class="field">
+              <label>التحاليل المطلوبة <span class="req">*</span></label>
+              <input type="text" id="lab_tests" placeholder="نوع التحاليل المطلوبة">
+              <span class="field-error" id="e13">يرجى إدخال التحاليل المطلوبة</span>
+            </div>
+          </div>
+          <div class="field-row single">
+            <div class="field">
+              <label>عنوان المعمل</label>
+              <input type="text" id="lab_address" placeholder="عنوان المعمل">
+            </div>
+          </div>
+        </div>
+
+        <!-- Radiology fields -->
+        <div id="grp_radiology" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>اسم مركز الأشعة <span class="req">*</span></label>
+              <input type="text" id="radiology_center">
+              <span class="field-error" id="e14">يرجى إدخال اسم مركز الأشعة</span>
+            </div>
+            <div class="field">
+              <label>نوع الأشعة المطلوبة <span class="req">*</span></label>
+              <input type="text" id="radiology_type" placeholder="أشعة عادية / موجات صوتية / رنين مغناطيسي">
+              <span class="field-error" id="e15">يرجى إدخال نوع الأشعة</span>
+            </div>
+          </div>
+          <div class="field-row single">
+            <div class="field">
+              <label>عنوان المركز</label>
+              <input type="text" id="radiology_address" placeholder="عنوان المركز">
+            </div>
+          </div>
+        </div>
+
+        <!-- Glasses fields -->
+        <div id="grp_glasses" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>اسم مركز النظارات <span class="req">*</span></label>
+              <input type="text" id="glasses_center">
+              <span class="field-error" id="e16">يرجى إدخال اسم مركز النظارات</span>
+            </div>
+            <div class="field">
+              <label>وصفة النظارة / التفاصيل</label>
+              <input type="text" id="glasses_prescription" placeholder="وصفة النظارة أو التفاصيل">
+            </div>
+          </div>
+          <div class="field-row single">
+            <div class="field">
+              <label>عنوان المركز</label>
+              <input type="text" id="glasses_address" placeholder="عنوان المركز">
+            </div>
+          </div>
+        </div>
+
+        <!-- Physio fields -->
+        <div id="grp_physio" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>اسم مركز العلاج الطبيعي <span class="req">*</span></label>
+              <input type="text" id="physio_center">
+              <span class="field-error" id="e17">يرجى إدخال اسم مركز العلاج الطبيعي</span>
+            </div>
+            <div class="field">
+              <label>عدد الجلسات المحددة</label>
+              <input type="text" id="physio_sessions" placeholder="مثال: 10 جلسات">
+            </div>
+          </div>
+          <div class="field-row single">
+            <div class="field">
+              <label>عنوان المركز</label>
+              <input type="text" id="physio_address" placeholder="عنوان المركز">
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="icon">📸</span> صورة التحويل
+        <span class="badge">إلزامي</span>
+      </div>
+      <div class="section-body">
+        <div class="alert" style="margin-bottom:10px">
+          <div class="alert-icon">⚠️</div>
+          <div>يجب إرفاق صورة التحويل لجميع جهات التحويل</div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>صورة / مستند التحويل <span class="req">*</span></label>
+            <div class="upload-area" id="refArea">
+              <div class="upload-icon">📄</div>
+              <div class="upload-text">اضغط لرفع صورة التحويل<br><small>JPG / PNG — حد أقصى 5MB</small></div>
+              <div class="file-name" id="refName"></div>
+              <img class="file-preview" id="refPreview" alt="معاينة التحويل">
+              <input type="file" id="referral_image" accept="image/*" capture="environment"
+                     onchange="handleFile(this, 'refName', 'refPreview', 'e18', 'refArea')">
+            </div>
+            <span class="field-error" id="e18">يرجى رفع صورة التحويل</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="icon">📝</span> ملاحظات إضافية
+        <span class="badge">اختياري</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row single">
+          <div class="field">
+            <label>ملاحظات الطبيب / الأخصائي</label>
+            <textarea id="notes" rows="2" placeholder="أي معلومات إضافية تخص هذا التحويل..."></textarea>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>اسم الموظف المسؤول <span class="req">*</span></label>
+            <input type="text" id="staff_name" placeholder="اسم الموظف المسؤول عن التحويل">
+            <span class="field-error" id="e19">يرجى إدخال اسم الموظف المسؤول</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit" id="submitBtn">
+      <span class="spinner" id="submitSpinner"></span>
+      <span id="submitText">📨 تسجيل التحويل الطبي</span>
+    </button>
+
+  </form>
+
+  <div class="footer">
+    <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
+    <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية<br>
+    التحول الرقمي © 2026</div>
+  </div>
+</div>
+
+<div class="overlay" id="successOverlay">
+  <div class="overlay-card success">
+    <div class="ov-icon">✅</div>
+    <h2>تم تسجيل التحويل</h2>
+    <p id="successMsg">تم تسجيل بيانات التحويل الطبي بنجاح.</p>
+    <button class="btn-overlay primary" onclick="resetForm()">تسجيل تحويل جديد</button>
+  </div>
+</div>
+
+<div class="overlay" id="errorOverlay">
+  <div class="overlay-card danger">
+    <div class="ov-icon">⚠️</div>
+    <h2>حدث خطأ</h2>
+    <p id="errorMsg">تعذّر الاتصال بالخادم. يرجى المحاولة مرة أخرى.</p>
+    <button class="btn-overlay danger" onclick="closeOverlay('errorOverlay')">إعادة المحاولة</button>
+  </div>
+</div>
+
+<script>
+// ═══ CONFIG ═══
+const API_URL = "https://script.google.com/macros/s/AKfycbzZQI2Ebd6IrJ8_EyBcJwo-MkrtJ29oUegQ1gTG-U8KLB4H6yuVgZWgM6odjE4Q9llN/exec";
+
+// ─── مختصرات ───
+const $ = id => document.getElementById(id);
+const show = id => { const e = $(id); if (e) e.style.display = 'block'; };
+const hide = id => { const e = $(id); if (e) e.style.display = 'none'; };
+const showErr = (id, msg) => { const e = $(id); e.textContent = msg || e.textContent; e.style.display = 'block'; };
+const hideErr = id => { const e = $(id); if (e) e.style.display = 'none'; };
+const hideAllErrs = () => document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
+
+// ─── Progress ───
+function updateProgress() {
+  const fields = ['patient_name', 'patient_age', 'patient_gender', 'patient_phone', 'national_id', 'patient_center', 'referral_date', 'referral_type', 'staff_name'];
+  const done = fields.filter(id => $(id)?.value?.trim()).length
+    + ($('referral_image')?.files?.length > 0 ? 1 : 0);
+  $('progressBar').style.width = Math.round(done / (fields.length + 1) * 100) + '%';
+}
+document.querySelectorAll('input,select,textarea').forEach(el => el.addEventListener('input', updateProgress));
+
+// ─── Show/hide referral type groups ───
+function onReferralTypeChange() {
+  const val = $('referral_type').value;
+  ['grp_doctor','grp_lab','grp_radiology','grp_glasses','grp_physio'].forEach(id => hide(id));
+  if (val === 'doctor') show('grp_doctor');
+  else if (val === 'lab') show('grp_lab');
+  else if (val === 'radiology') show('grp_radiology');
+  else if (val === 'glasses') show('grp_glasses');
+  else if (val === 'physio') show('grp_physio');
+}
+
+function onSpecialtyChange() {
+  const val = $('doctor_specialty').value;
+  $('doctor_specialty_other').style.display = val === 'other' ? 'block' : 'none';
+}
+
+// ─── File handling ───
+function handleFile(inp, nameId, prevId, errId, areaId) {
+  const file = inp.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) {
+    alert('⚠️ حجم الملف يتجاوز 5MB');
+    inp.value = '';
+    return;
+  }
+  if (file.size > 1024 * 1024) {
+    compressImage(file, 0.7).then(compressed => {
+      inp._compressed = compressed;
+      showFileInfo(compressed, nameId, prevId, errId);
+    }).catch(() => showFileInfo(file, nameId, prevId, errId));
+  } else {
+    showFileInfo(file, nameId, prevId, errId);
+  }
+}
+
+function showFileInfo(f, nameId, prevId, errId) {
+  $(nameId).textContent = '📎 ' + f.name;
+  $(nameId).style.display = 'block';
+  hideErr(errId);
+  const r = new FileReader();
+  r.onload = ev => { const i = $(prevId); i.src = ev.target.result; i.style.display = 'block'; };
+  r.readAsDataURL(f);
+  updateProgress();
+}
+
+function compressImage(file, quality) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const maxW = 1200;
+      const scale = Math.min(1, maxW / img.width);
+      canvas.width = img.width * scale;
+      canvas.height = img.height * scale;
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        URL.revokeObjectURL(url);
+        if (blob) resolve(new File([blob], file.name, { type: 'image/jpeg' }));
+        else reject();
+      }, 'image/jpeg', quality);
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); reject(); };
+    img.src = url;
+  });
+}
+
+// ─── Overlay ───
+function showOverlay(id) { $(id).classList.add('show'); }
+function closeOverlay(id) { $(id).classList.remove('show'); }
+
+function resetForm() {
+  closeOverlay('successOverlay');
+  closeOverlay('errorOverlay');
+  $('mainForm').reset();
+  hideAllErrs();
+  ['grp_doctor','grp_lab','grp_radiology','grp_glasses','grp_physio'].forEach(id => hide(id));
+  $('referral_image').value = '';
+  $('refName').style.display = 'none';
+  $('refPreview').style.display = 'none';
+  updateProgress();
+}
+
+const toBase64 = file => new Promise((res, rej) => {
+  const r = new FileReader();
+  r.readAsDataURL(file);
+  r.onload = () => res(r.result);
+  r.onerror = rej;
+});
+
+// ─── إرسال النموذج ───
+$('mainForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+  hideAllErrs();
+  let valid = true;
+
+  const patient_name     = $('patient_name').value.trim();
+  const patient_age      = $('patient_age').value.trim();
+  const patient_gender   = $('patient_gender').value;
+  const patient_phone    = $('patient_phone').value.trim();
+  const national_id      = $('national_id').value.trim();
+  const patient_center   = $('patient_center').value;
+  const patient_address  = $('patient_address').value.trim();
+  const referral_date    = $('referral_date').value;
+  const referral_type    = $('referral_type').value;
+  const notes            = $('notes').value.trim();
+  const staff_name       = $('staff_name').value.trim();
+
+  if (!patient_name) { showErr('e1'); valid = false; }
+  if (!patient_age || patient_age < 1 || patient_age > 120) { showErr('e2'); valid = false; }
+  if (!patient_gender) { showErr('e3'); valid = false; }
+  if (!patient_phone || patient_phone.length < 10) { showErr('e4'); valid = false; }
+  if (national_id.length !== 14) { showErr('e5', 'يرجى إدخال رقم قومي صحيح (14 رقم)'); valid = false; }
+  if (!patient_center) { showErr('e6'); valid = false; }
+  if (!referral_date) { showErr('e7'); valid = false; }
+  if (!referral_type) { showErr('e8'); valid = false; }
+  if (!staff_name) { showErr('e19'); valid = false; }
+
+  // Validate referral sub-fields
+  const imgFile = $('referral_image')._compressed || $('referral_image').files[0];
+  if (!imgFile) { showErr('e18'); valid = false; }
+
+  if (referral_type === 'doctor') {
+    const dn = $('doctor_name').value.trim();
+    const ds = $('doctor_specialty').value;
+    const pt = $('partnership_type').value;
+    if (!dn) { showErr('e9'); valid = false; }
+    if (!ds) { showErr('e10'); valid = false; }
+    if (!pt) { showErr('e11'); valid = false; }
+  } else if (referral_type === 'lab') {
+    const ln = $('lab_name').value.trim();
+    const lt = $('lab_tests').value.trim();
+    if (!ln) { showErr('e12'); valid = false; }
+    if (!lt) { showErr('e13'); valid = false; }
+  } else if (referral_type === 'radiology') {
+    const rc = $('radiology_center').value.trim();
+    const rt = $('radiology_type').value.trim();
+    if (!rc) { showErr('e14'); valid = false; }
+    if (!rt) { showErr('e15'); valid = false; }
+  } else if (referral_type === 'glasses') {
+    const gc = $('glasses_center').value.trim();
+    if (!gc) { showErr('e16'); valid = false; }
+  } else if (referral_type === 'physio') {
+    const pc = $('physio_center').value.trim();
+    if (!pc) { showErr('e17'); valid = false; }
+  }
+
+  if (!valid) return;
+
+  const btn = $('submitBtn');
+  const spin = $('submitSpinner');
+  const btnTxt = $('submitText');
+  btn.disabled = true;
+  spin.style.display = 'inline-block';
+  btnTxt.textContent = '⏳ جارٍ حفظ التحويل...';
+
+  try {
+    const imgB64 = await toBase64(imgFile);
+
+    const payload = {
+      action: 'referral',
+      patient_name, patient_age, patient_gender, patient_phone,
+      national_id, patient_center, patient_address,
+      referral_date, referral_type,
+      referral_image: imgB64,
+      notes, staff_name
+    };
+
+    // Add sub-fields based on referral type
+    if (referral_type === 'doctor') {
+      payload.doctor_name = $('doctor_name').value.trim();
+      payload.doctor_specialty = $('doctor_specialty').value;
+      payload.doctor_specialty_other = $('doctor_specialty_other').value.trim();
+      payload.partnership_type = $('partnership_type').value;
+      payload.partnership_benefits = $('partnership_benefits').value.trim();
+      payload.doctor_address = $('doctor_address').value.trim();
+      payload.doctor_phone = $('doctor_phone').value.trim();
+    } else if (referral_type === 'lab') {
+      payload.lab_name = $('lab_name').value.trim();
+      payload.lab_tests = $('lab_tests').value.trim();
+      payload.lab_address = $('lab_address').value.trim();
+    } else if (referral_type === 'radiology') {
+      payload.radiology_center = $('radiology_center').value.trim();
+      payload.radiology_type = $('radiology_type').value.trim();
+      payload.radiology_address = $('radiology_address').value.trim();
+    } else if (referral_type === 'glasses') {
+      payload.glasses_center = $('glasses_center').value.trim();
+      payload.glasses_prescription = $('glasses_prescription').value.trim();
+      payload.glasses_address = $('glasses_address').value.trim();
+    } else if (referral_type === 'physio') {
+      payload.physio_center = $('physio_center').value.trim();
+      payload.physio_sessions = $('physio_sessions').value.trim();
+      payload.physio_address = $('physio_address').value.trim();
+    }
+
+    let lastErr = null;
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST', mode: 'cors', cache: 'no-cache',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const result = await res.json();
+        btn.disabled = false; spin.style.display = 'none';
+        btnTxt.textContent = '📨 تسجيل التحويل الطبي';
+        if (result.status === 'success') {
+          $('successMsg').textContent = `تم تسجيل تحويل المريض "${patient_name}" بنجاح`;
+          showOverlay('successOverlay');
+          return;
+        } else {
+          throw new Error(result.message || 'خطأ غير معروف');
+        }
+      } catch (err) {
+        lastErr = err;
+        if (attempt < 3) {
+          await new Promise(r => setTimeout(r, 2000));
+        }
+      }
+    }
+    throw lastErr;
+  } catch (err) {
+    btn.disabled = false; spin.style.display = 'none';
+    btnTxt.textContent = '📨 تسجيل التحويل الطبي';
+    console.error('Submit error:', err);
+    $('errorMsg').textContent = 'تعذّر الاتصال: ' + (err.message || 'خطأ في الشبكة');
+    showOverlay('errorOverlay');
+  }
+});
+
+updateProgress();
+</script>
+</body>
+</html>
