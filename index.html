@@ -6,29 +6,40 @@
 <title>الملف الصحي — صناع الحياة المنوفية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0f1218;
-  --bg2: #151a23;
-  --bg3: #1c2330;
-  --bg4: #242e3f;
-  --card: #1a212e;
-  --border: #2a3649;
+  --bg: #080c14;
+  --bg2: #0e1525;
+  --bg3: #162033;
+  --bg4: #1e2b42;
+  --card: #111b2e;
+  --card-hover: #162238;
+  --border: rgba(59,130,246,0.1);
+  --border-hover: rgba(59,130,246,0.2);
   --text: #e2e8f0;
   --text2: #94a3b8;
-  --text3: #64748b;
-  --primary: #3b82f6;
-  --accent: #10b981;
-  --radius: 14px;
+  --text3: #5a6d88;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-glow: rgba(37,99,235,0.12);
+  --accent: #0ea5e9;
+  --success: #10b981;
+  --success-bg: rgba(16,185,129,0.08);
+  --warn: #f59e0b;
+  --warn-bg: rgba(245,158,11,0.08);
+  --danger: #ef4444;
+  --danger-bg: rgba(239,68,68,0.08);
+  --radius: 16px;
   --radius-sm: 10px;
+  --radius-full: 999px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
   --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-  --shadow: 0 4px 24px rgba(0,0,0,0.3);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: var(--bg2); }
-::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
 ::selection { background: var(--primary); color: #fff; }
 body {
   font-family: 'Cairo', sans-serif;
@@ -36,299 +47,427 @@ body {
   color: var(--text);
   min-height: 100vh;
   line-height: 1.6;
+  animation: fadeIn 0.4s ease;
 }
-.header {
-  background: linear-gradient(135deg, #0d1321 0%, #1a212e 50%, #0d1321 100%);
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Header ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(8,12,20,0.85);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid var(--border);
-  padding: 48px 20px 36px;
+}
+.top-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+}
+.top-bar-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: #fff;
+}
+.top-bar-logo .org-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; font-weight: 900; color: #fff;
+}
+.top-bar-logo .org-name {
+  font-size: 0.85rem; font-weight: 800; line-height: 1.2;
+}
+.top-bar-logo .org-name span { color: var(--text3); font-weight: 500; font-size: 0.7rem; }
+.top-bar-left {
+  margin-right: auto;
+  display: flex; align-items: center; gap: 10px;
+}
+.top-stat {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; font-weight: 600; color: var(--text2);
+  padding: 5px 12px; border-radius: var(--radius-full);
+  background: var(--bg3); border: 1px solid var(--border);
+}
+.top-stat .num { color: var(--accent); font-weight: 800; }
+.top-stat .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--success);
+}
+
+/* ── Hero ── */
+.hero {
   text-align: center;
+  padding: 40px 20px 32px;
   position: relative;
   overflow: hidden;
 }
-.header::before {
+.hero::before {
   content: '';
   position: absolute;
-  top: -120px; left: -120px;
-  width: 350px; height: 350px;
-  background: radial-gradient(circle, rgba(59,130,246,0.1) 0%, transparent 70%);
+  top: -200px; left: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%);
   pointer-events: none;
 }
-.header::after {
-  content: '';
-  position: absolute;
-  bottom: -100px; right: -100px;
-  width: 300px; height: 300px;
-  background: radial-gradient(circle, rgba(16,185,129,0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.brand-banner {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #f59e0b, #ef4444, #ec4899);
-  color: #fff;
-  font-size: 0.85rem;
-  font-weight: 900;
-  padding: 6px 18px;
-  border-radius: 999px;
+.hero .badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.68rem; font-weight: 700;
+  color: var(--accent); background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.15);
+  padding: 4px 14px; border-radius: var(--radius-full);
   margin-bottom: 12px;
-  box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(245,158,11,0.2);
-  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
-  letter-spacing: 1px;
-  animation: brandPulse 2s ease-in-out infinite;
-  border: 1px solid rgba(255,255,255,0.2);
 }
-@keyframes brandPulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(245,158,11,0.2); }
-  50% { box-shadow: 0 0 30px rgba(239,68,68,0.6), 0 0 60px rgba(245,158,11,0.3); }
+.hero h1 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900; color: #fff;
+  line-height: 1.3; margin-bottom: 6px;
 }
-.brand-banner-bottom {
-  display: inline-flex;
+.hero h1 .hl { color: var(--accent); }
+.hero p {
+  font-size: 0.85rem; color: var(--text3);
+  max-width: 500px; margin: 0 auto;
+}
+
+/* ── Search & Filters ── */
+.toolbar {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 20px 16px;
+  display: flex; gap: 10px; flex-wrap: wrap;
   align-items: center;
-  gap: 8px;
-  background: linear-gradient(135deg, #ec4899, #ef4444, #f59e0b);
-  color: #fff;
-  font-size: 0.78rem;
-  font-weight: 700;
-  padding: 4px 14px;
-  border-radius: 999px;
-  box-shadow: 0 0 12px rgba(239,68,68,0.3);
-  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
-  letter-spacing: 0.5px;
-  border: 1px solid rgba(255,255,255,0.15);
-  margin-top: 6px;
 }
-.brand-sep {
-  width: 2px;
-  height: 14px;
-  background: rgba(255,255,255,0.4);
-  border-radius: 1px;
-  display: inline-block;
+.search-wrap {
+  flex: 1; min-width: 200px; position: relative;
 }
-.logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(59,130,246,0.1);
-  border: 1px solid rgba(59,130,246,0.2);
-  color: var(--primary);
-  font-size: 0.8rem;
-  font-weight: 700;
-  padding: 6px 18px;
-  border-radius: 999px;
-  margin-bottom: 18px;
+.search-wrap input {
+  width: 100%; font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem; padding: 10px 38px 10px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg3); color: var(--text);
+  outline: none; transition: all var(--transition);
 }
-.header h1 {
-  font-size: clamp(1.8rem, 5vw, 2.5rem);
-  font-weight: 900;
-  color: #fff;
-  line-height: 1.3;
-  margin-bottom: 8px;
+.search-wrap input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
 }
-.header h1 em {
-  font-style: normal;
-  background: linear-gradient(135deg, var(--primary), var(--accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.search-wrap .s-icon {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3); font-size: 0.85rem;
 }
-.header p {
-  font-size: 0.95rem;
-  color: var(--text2);
-  max-width: 500px;
-  margin: 0 auto;
+.filter-group {
+  display: flex; gap: 6px; flex-wrap: wrap;
 }
-.divider {
-  width: 50px;
-  height: 3px;
-  background: linear-gradient(90deg, var(--primary), var(--accent));
-  border-radius: 999px;
-  margin: 18px auto 0;
-}
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 24px auto 0;
-}
-.stat {
-  background: var(--card);
+.filter-btn {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 6px 14px; border-radius: var(--radius-full);
   border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 0.78rem;
-  font-weight: 600;
-  color: var(--text2);
-  display: flex;
-  align-items: center;
-  gap: 6px;
+  background: var(--bg3); color: var(--text2);
+  cursor: pointer; transition: all var(--transition);
+  white-space: nowrap;
 }
-.stat-dot {
-  width: 6px; height: 6px;
-  border-radius: 50%;
+.filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
+.filter-btn.active {
+  background: rgba(37,99,235,0.12);
+  border-color: rgba(37,99,235,0.3);
+  color: var(--primary);
 }
-.stat-dot.blue { background: var(--primary); }
-.stat-dot.green { background: var(--accent); }
-.main { max-width: 1100px; margin: 0 auto; padding: 32px 16px 60px; }
+
+/* ── Forms Grid ── */
+.main { max-width: 1200px; margin: 0 auto; padding: 8px 20px 60px; }
+.section-title {
+  font-size: 1rem; font-weight: 800; color: #fff;
+  margin: 28px 0 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title .count {
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--text3); background: var(--bg3);
+  padding: 1px 10px; border-radius: var(--radius-full);
+}
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
 }
 .card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 24px 20px 20px;
-  display: flex;
-  flex-direction: column;
+  padding: 18px;
+  display: flex; flex-direction: column;
   transition: all var(--transition);
   position: relative;
-  overflow: hidden;
-}
-.card::before {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 100%; height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--primary));
-  opacity: 0;
-  transition: opacity var(--transition);
+  cursor: pointer;
 }
 .card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(59,130,246,0.3);
-  box-shadow: var(--shadow);
+  border-color: var(--border-hover);
+  background: var(--card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
-.card:hover::before { opacity: 1; }
-.card-icon {
-  width: 48px; height: 48px;
-  border-radius: 12px;
-  background: var(--bg3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  margin-bottom: 14px;
-  transition: transform var(--transition);
-}
-.card:hover .card-icon { transform: scale(1.1); }
-.card-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #fff;
+.card:active { transform: translateY(0); }
+.card-cat {
+  font-size: 0.62rem; font-weight: 700;
+  color: var(--accent); text-transform: uppercase;
+  letter-spacing: 0.5px;
   margin-bottom: 8px;
-  line-height: 1.4;
+  display: flex; align-items: center; gap: 5px;
+}
+.card-title {
+  font-size: 0.88rem; font-weight: 800; color: #fff;
+  margin-bottom: 6px; line-height: 1.35;
 }
 .card-desc {
-  font-size: 0.82rem;
-  color: var(--text3);
-  line-height: 1.7;
-  flex: 1;
-  margin-bottom: 16px;
+  font-size: 0.75rem; color: var(--text3);
+  line-height: 1.7; flex: 1;
+  margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+.card-meta {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.card-tag {
+  font-size: 0.62rem; font-weight: 600;
+  padding: 2px 8px; border-radius: var(--radius-full);
+  background: var(--bg3); color: var(--text2);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; gap: 3px;
+}
+.card-tag.live { color: var(--success); border-color: rgba(16,185,129,0.2); background: var(--success-bg); }
 .card-actions {
-  display: flex;
-  gap: 8px;
+  display: flex; gap: 8px;
+  margin-top: auto;
 }
 .btn {
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 10px 16px;
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px; padding: 9px 14px;
   border-radius: var(--radius-sm);
   font-family: 'Cairo', sans-serif;
-  font-size: 0.84rem;
-  font-weight: 700;
-  cursor: pointer;
-  text-decoration: none;
-  border: none;
-  transition: all var(--transition);
+  font-size: 0.78rem; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  border: none; transition: all var(--transition);
 }
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary), #2563eb);
-  color: #fff;
-  box-shadow: 0 4px 14px rgba(59,130,246,0.2);
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; box-shadow: 0 4px 14px rgba(37,99,235,0.15);
 }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.3); }
-.btn-primary:active { transform: translateY(0); }
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.25); }
 .btn-ghost {
-  background: var(--bg3);
-  color: var(--text2);
+  background: transparent; color: var(--text2);
   border: 1px solid var(--border);
 }
-.btn-ghost:hover { background: var(--bg4); color: var(--text); }
+.btn-ghost:hover { background: var(--bg4); color: var(--text); border-color: var(--border-hover); }
+.btn-sm { flex: none; padding: 5px 12px; font-size: 0.72rem; }
+
+/* ── Local Data Panel ── */
+.data-panel {
+  margin-top: 32px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.data-panel-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.data-panel-header:hover { background: var(--bg4); }
+.data-panel-header .chevron {
+  transition: transform 0.3s ease;
+  color: var(--text3); font-size: 0.75rem;
+}
+.data-panel-header.open .chevron { transform: rotate(180deg); }
+.data-panel-header h3 {
+  font-size: 0.85rem; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 6px;
+}
+.data-panel-header .total-badge {
+  font-size: 0.68rem; font-weight: 700;
+  color: var(--accent); background: rgba(14,165,233,0.1);
+  padding: 1px 10px; border-radius: var(--radius-full);
+}
+.data-panel-body { display: none; padding: 16px 18px; }
+.data-panel-body.open { display: block; }
+.data-empty {
+  text-align: center; padding: 32px 0;
+  color: var(--text3); font-size: 0.82rem;
+}
+.data-empty .icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.data-table th {
+  text-align: right; padding: 10px 12px;
+  font-weight: 700; color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.72rem;
+}
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg3); }
+.data-actions {
+  display: flex; gap: 6px; justify-content: center;
+}
+
+/* ── Footer ── */
 .footer {
-  text-align: center;
-  padding: 32px 16px 20px;
-  color: var(--text3);
-  font-size: 0.8rem;
+  text-align: center; padding: 24px 16px 20px;
+  color: var(--text3); font-size: 0.72rem;
   border-top: 1px solid var(--border);
-  margin-top: 20px;
 }
 .footer strong { color: var(--text2); }
+
+/* ── Mobile Bottom Nav ── */
+.bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(8,12,20,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  padding: 6px 8px;
+  justify-content: space-around;
+}
+.bottom-nav a {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; text-decoration: none; color: var(--text3);
+  font-size: 0.6rem; font-weight: 600;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.bottom-nav a .nav-icon { font-size: 1.1rem; }
+.bottom-nav a.active { color: var(--primary); background: var(--primary-glow); }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .top-bar-inner { padding: 8px 14px; }
+  .top-bar-logo .org-name { font-size: 0.75rem; }
+  .top-stat { font-size: 0.65rem; padding: 3px 10px; }
+  .hero { padding: 28px 14px 24px; }
+  .hero h1 { font-size: 1.2rem; }
+  .toolbar { padding: 0 14px 12px; }
+  .grid { grid-template-columns: 1fr; }
+  .main { padding: 8px 14px 80px; }
+  .filter-btn { font-size: 0.65rem; padding: 5px 10px; }
+  .bottom-nav { display: flex; }
+  .data-table { font-size: 0.72rem; }
+  .data-table th, .data-table td { padding: 8px 8px; }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
 </style>
 </head>
 <body>
 
-<div class="header">
-  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div class="logo">🌿 الملف الصحي</div>
-  <h1>نظام <em>الملف الصحي</em><br>صناع الحياة المنوفية</h1>
-  <p>جميع استمارات الملف الصحي في مكان واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام</p>
-  <div class="divider"></div>
-  <div class="stats">
-    <div class="stat"><span class="stat-dot blue"></span> <span id="count">0</span> استمارة</div>
-    <div class="stat">🔍 بحث سريع</div>
-    <div class="stat">📱 متوافق مع الموبايل</div>
-    <div class="stat" id="localCount" style="cursor:pointer" onclick="toggleLocalPanel()">💾 <span id="localTotal">0</span> سجل محلي</div>
-  </div>
-</div>
-
-<div class="main">
-  <div class="grid" id="grid">
-    <!-- تُضاف البطاقات هنا -->
-  </div>
-</div>
-
-<div id="localPanel" style="display:none; margin-top:24px; background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:20px;">
-  <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:16px;">
-    <h3 style="font-size:1rem; font-weight:700; color:#fff;">💾 البيانات المحفوظة محلياً</h3>
-    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-      <button class="btn btn-primary" onclick="exportAllCSV()" style="flex:none">📥 تصدير CSV شامل</button>
-      <button class="btn btn-ghost" onclick="clearAllData()" style="flex:none">🗑️ حذف الكل</button>
-      <button class="btn btn-ghost" onclick="toggleLocalPanel()" style="flex:none">✕ إغلاق</button>
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="#" class="top-bar-logo">
+      <div class="org-icon">ص</div>
+      <div class="org-name">
+        صناع الحياة<br><span>محافظة المنوفية</span>
+      </div>
+    </a>
+    <div class="top-bar-left">
+      <div class="top-stat">
+        <span class="dot"></span>
+        <span id="count">0</span> استمارة
+      </div>
+      <div class="top-stat" id="localTopBtn" style="cursor:pointer">
+        <span id="localTotal">0</span> سجل محلي
+      </div>
     </div>
   </div>
-  <div id="localTableWrap" style="overflow-x:auto; display:none;">
-    <table style="width:100%; border-collapse:collapse; font-size:0.82rem;">
-      <thead>
-        <tr style="background:var(--bg3);">
-          <th style="padding:10px 12px; text-align:right; border-bottom:1px solid var(--border);">الاستمارة</th>
-          <th style="padding:10px 12px; text-align:center; border-bottom:1px solid var(--border);">عدد السجلات</th>
-          <th style="padding:10px 12px; text-align:center; border-bottom:1px solid var(--border);">آخر تحديث</th>
-          <th style="padding:10px 12px; text-align:center; border-bottom:1px solid var(--border);">إجراء</th>
-        </tr>
-      </thead>
-      <tbody id="localTableBody"></tbody>
-    </table>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <div class="badge">الملف الصحي — التحول الرقمي</div>
+  <h1>بوابة <span class="hl">الملف الصحي</span><br>صناع الحياة المنوفية</h1>
+  <p>منصة إدارة الاستمارات الطبية — تسجيل، متابعة، وتصدير البيانات الصحية</p>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="s-icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="ابحث عن استمارة..." oninput="filterForms()">
   </div>
-  <div id="localEmpty" style="text-align:center; padding:30px 0; color:var(--text3); font-size:0.9rem;">
-    <div style="font-size:2.5rem; margin-bottom:8px;">📂</div>
-    لا توجد بيانات محفوظة محلياً بعد
+  <div class="filter-group" id="filterGroup">
+    <button class="filter-btn active" data-cat="all" onclick="setFilter('all',this)">الكل</button>
+    <button class="filter-btn" data-cat="beneficiary" onclick="setFilter('beneficiary',this)">المستفيدين</button>
+    <button class="filter-btn" data-cat="caravan" onclick="setFilter('caravan',this)">القوافل</button>
+    <button class="filter-btn" data-cat="pharmacy" onclick="setFilter('pharmacy',this)">الأدوية</button>
+    <button class="filter-btn" data-cat="finance" onclick="setFilter('finance',this)">المالية</button>
   </div>
 </div>
 
+<!-- Main Content -->
+<div class="main">
+  <div class="section-title">
+    الاستمارات المتاحة
+    <span class="count" id="visibleCount">0</span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <!-- Local Data Panel -->
+  <div class="data-panel">
+    <div class="data-panel-header" onclick="toggleLocalPanel()">
+      <span class="chevron">&#9660;</span>
+      <h3>البيانات المحفوظة محلياً</h3>
+      <span class="total-badge" id="localTotalBadge">0</span>
+      <div style="margin-right:auto;display:flex;gap:6px">
+        <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();exportAllCSV()">تصدير CSV</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();clearAllData()">حذف الكل</button>
+      </div>
+    </div>
+    <div class="data-panel-body" id="localPanelBody">
+      <div id="localEmpty" class="data-empty">
+        <div class="icon">&#128451;</div>
+        لا توجد بيانات محفوظة محلياً بعد. قم بتسجيل استمارة أولاً.
+      </div>
+      <div id="localTableWrap" style="overflow-x:auto;display:none">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>الاستمارة</th>
+              <th style="text-align:center">السجلات</th>
+              <th style="text-align:center">آخر تحديث</th>
+              <th style="text-align:center">إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="localTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
 <div class="footer">
-  <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية &nbsp;|&nbsp; التحول الرقمي © 2026</div>
+  <strong>الملف الصحي</strong> — صناع الحياة المنوفية &nbsp;|&nbsp; التحول الرقمي © 2026<br>
+  <span style="font-size:0.65rem;color:var(--text3)">OP_IT_MLM | كريم شعير</span>
+</div>
+
+<!-- Bottom Navigation (mobile) -->
+<div class="bottom-nav">
+  <a href="#" class="active"><span class="nav-icon">&#128203;</span> الرئيسية</a>
+  <a href="#" onclick="toggleLocalPanel();return false"><span class="nav-icon">&#128451;</span> البيانات</a>
 </div>
 
 <script src="offline-utils.js"></script>
@@ -337,89 +476,75 @@ const FORM_IDS = ['مساعدات_طبية','تحويلات_طبية','hser_edwi
 const FORM_LABELS = ['المساعدات الطبية','التحويلات الطبية','حصر الأدوية','أدوية القوافل','صرف أدوية القوافل','نتائج القوافل','التعاقدات الطبية','مصروفات الحالات'];
 
 const forms = [
-  {
-    title: "استمارة المساعدات الطبية وصرف الأدوية",
-    desc: "تسجيل المساعدات الطبية وصرف الأدوية مع التحقق التلقائي من الرقم القومي لمنع التكرار.",
-    icon: "🏥",
-    file: "المساعدات_الطبية.html",
-    color: "blue"
-  },
-  {
-    title: "استمارة التحويلات الطبية",
-    desc: "تسجيل ومتابعة التحويلات الطبية للحالات المستفيدة مع توثيق بيانات المرضى وجهات التحويل.",
-    icon: "🔄",
-    file: "التحويلات_الطبية.html",
-    color: "purple"
-  },
-  {
-    title: "استمارة حصر أدوية صيدلية صناع الحياة",
-    desc: "تسجيل وحصر الأدوية المتوفرة داخل صيدلية صناع الحياة، لتنظيم المخزون الدوائي.",
-    icon: "💊",
-    file: "حصر_الأدوية.html",
-    color: "green"
-  },
-  {
-    title: "استمارة أدوية القوافل الطبية",
-    desc: "تسجيل وحصر الأدوية المستخدمة أو المتوفرة بالقوافل الطبية وضمان توفرها.",
-    icon: "🧴",
-    file: "أدوية_القوافل.html",
-    color: "amber"
-  },
-  {
-    title: "استمارة صرف أدوية القوافل الطبية",
-    desc: "توثيق صرف الأدوية خلال القوافل الطبية ومتابعة الأدوية المصروفة للحالات.",
-    icon: "📋",
-    file: "صرف_أدوية_القوافل.html",
-    color: "blue"
-  },
-  {
-    title: "استمارة نتائج القوافل الطبية",
-    desc: "توثيق ومتابعة نتائج القوافل الطبية وتسجيل بيانات القافلة والخدمات المقدمة.",
-    icon: "🚑",
-    file: "نتائج_القوافل.html",
-    color: "green"
-  },
-  {
-    title: "استمارة التعاقدات والشراكات الطبية",
-    desc: "تسجيل بيانات التعاقدات والشراكات الطبية وحصر الجهات الطبية المتعاقدة.",
-    icon: "🤝",
-    file: "التعاقدات_الطبية.html",
-    color: "purple"
-  },
-  {
-    title: "استمارة مصروفات الحالات الطبية الشهرية",
-    desc: "توثيق ومتابعة مصروفات الحالات الطبية الشهرية وقيمة الأدوية والخدمات العلاجية.",
-    icon: "💰",
-    file: "مصروفات_الحالات.html",
-    color: "amber"
-  }
+  { title:"المساعدات الطبية وصرف الأدوية", desc:"تسجيل المساعدات الطبية وصرف الأدوية مع التحقق من الرقم القومي", icon:"&#127973;", file:"المساعدات_الطبية.html", cat:"beneficiary", tags:["مستفيدين","صرف"] },
+  { title:"التحويلات الطبية", desc:"تسجيل ومتابعة التحويلات الطبية للحالات المستفيدة", icon:"&#128260;", file:"التحويلات_الطبية.html", cat:"beneficiary", tags:["مستفيدين","تحويلات"] },
+  { title:"حصر أدوية الصيدلية", desc:"تسجيل وحصر الأدوية المتوفرة داخل صيدلية صناع الحياة", icon:"&#128137;", file:"حصر_الأدوية.html", cat:"pharmacy", tags:["مخزون","جرد"] },
+  { title:"أدوية القوافل الطبية", desc:"تسجيل وحصر الأدوية المستخدمة بالقوافل الطبية", icon:"&#128719;", file:"أدوية_القوافل.html", cat:"caravan", tags:["قوافل","أدوية"] },
+  { title:"صرف أدوية القوافل", desc:"توثيق صرف الأدوية خلال القوافل الطبية ومتابعة المصروف", icon:"&#128196;", file:"صرف_أدوية_القوافل.html", cat:"caravan", tags:["قوافل","صرف"] },
+  { title:"نتائج القوافل الطبية", desc:"توثيق ومتابعة نتائج القوافل الطبية والخدمات المقدمة", icon:"&#128657;", file:"نتائج_القوافل.html", cat:"caravan", tags:["قوافل","نتائج"] },
+  { title:"التعاقدات الطبية", desc:"تسجيل بيانات التعاقدات والشراكات الطبية وحصر الجهات", icon:"&#129309;", file:"التعاقدات_الطبية.html", cat:"finance", tags:["تعاقدات","جهات"] },
+  { title:"مصروفات الحالات", desc:"توثيق مصروفات الحالات الطبية الشهرية وقيمة الخدمات", icon:"&#128176;", file:"مصروفات_الحالات.html", cat:"finance", tags:["حالات","مصروفات"] }
 ];
 
-const grid = document.getElementById('grid');
-const count = document.getElementById('count');
+const CAT_LABELS = { beneficiary:"المستفيدين", caravan:"القوافل", pharmacy:"الأدوية", finance:"المالية" };
 
-forms.forEach((f, i) => {
-  const card = document.createElement('div');
+var grid = document.getElementById('grid');
+var countEl = document.getElementById('count');
+var visibleCount = document.getElementById('visibleCount');
+var currentFilter = 'all';
+
+function filterForms() {
+  var query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+  var cards = grid.querySelectorAll('.card');
+  var visible = 0;
+  cards.forEach(function(card) {
+    var cat = card.dataset.cat;
+    var title = (card.dataset.title || '').toLowerCase();
+    var matchCat = currentFilter === 'all' || cat === currentFilter;
+    var matchSearch = !query || title.includes(query);
+    var show = matchCat && matchSearch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  visibleCount.textContent = visible;
+}
+
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('#filterGroup .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  else document.querySelector('#filterGroup .filter-btn[data-cat="' + cat + '"]')?.classList.add('active');
+  filterForms();
+}
+
+// Render cards
+countEl.textContent = forms.length;
+forms.forEach(function(f, i) {
+  var card = document.createElement('a');
+  card.href = f.file;
   card.className = 'card';
-  card.style.animationDelay = (i * 0.08) + 's';
-  card.innerHTML = `
-    <div class="card-icon">${f.icon}</div>
-    <div class="card-title">${f.title}</div>
-    <div class="card-desc">${f.desc}</div>
-    <div class="card-actions">
-      <a href="${f.file}" class="btn btn-primary">📂 فتح الاستمارة</a>
-    </div>
-  `;
+  card.dataset.cat = f.cat;
+  card.dataset.title = f.title + ' ' + f.desc + ' ' + (f.tags || []).join(' ');
+  var tagsHtml = (f.tags || []).map(function(t) { return '<span class="card-tag">' + t + '</span>'; }).join('');
+  card.innerHTML =
+    '<div class="card-cat">' + (CAT_LABELS[f.cat] || f.cat) + '</div>' +
+    '<div class="card-title">' + f.title + '</div>' +
+    '<div class="card-desc">' + f.desc + '</div>' +
+    '<div class="card-meta">' + tagsHtml + '<span class="card-tag live">نشط</span></div>' +
+    '<div class="card-actions">' +
+      '<span class="btn btn-primary">فتح الاستمارة</span>' +
+    '</div>';
   grid.appendChild(card);
 });
+visibleCount.textContent = forms.length;
 
-count.textContent = forms.length;
-
-// ---- local data panel ----
+// ---- Local Data Panel ----
 function toggleLocalPanel() {
-  var p = document.getElementById('localPanel');
-  p.style.display = p.style.display === 'none' ? 'block' : 'none';
-  if (p.style.display === 'block') refreshLocalTable();
+  var body = document.getElementById('localPanelBody');
+  var header = body.previousElementSibling;
+  body.classList.toggle('open');
+  header.classList.toggle('open');
+  if (body.classList.contains('open')) refreshLocalTable();
 }
 
 function refreshLocalTable() {
@@ -434,68 +559,64 @@ function refreshLocalTable() {
       total += data.length;
       var lastDate = data[data.length - 1]?._savedAt || '';
       if (lastDate) lastDate = new Date(lastDate).toLocaleString('ar-EG');
-      rows += '<tr style="border-bottom:1px solid var(--border);">' +
-        '<td style="padding:10px 12px; font-weight:600;">' + FORM_LABELS[i] + '</td>' +
-        '<td style="padding:10px 12px; text-align:center; color:var(--accent); font-weight:700;">' + data.length + '</td>' +
-        '<td style="padding:10px 12px; text-align:center; color:var(--text3); font-size:0.78rem;">' + lastDate + '</td>' +
-        '<td style="padding:10px 12px; text-align:center;">' +
-        '<button onclick="exportOneCSV(\'' + id + '\',\'' + FORM_LABELS[i] + '\')" class="btn btn-ghost" style="flex:none;padding:4px 12px;font-size:0.75rem;">📥 CSV</button>' +
-        '</td></tr>';
+      rows += '<tr>' +
+        '<td style="font-weight:600;">' + FORM_LABELS[i] + '</td>' +
+        '<td style="text-align:center;color:var(--accent);font-weight:700;">' + data.length + '</td>' +
+        '<td style="text-align:center;color:var(--text3);font-size:0.72rem;">' + lastDate + '</td>' +
+        '<td style="text-align:center;"><div class="data-actions">' +
+        '<button onclick="exportOneCSV(\'' + id + '\',\'' + FORM_LABELS[i] + '\')" class="btn btn-sm btn-ghost" style="font-size:0.68rem;">CSV</button>' +
+        '</div></td></tr>';
     }
   });
   tbody.innerHTML = rows;
   document.getElementById('localTotal').textContent = total;
+  document.getElementById('localTotalBadge').textContent = total;
   if (rows) { wrap.style.display = ''; empty.style.display = 'none'; }
   else { wrap.style.display = 'none'; empty.style.display = ''; }
 }
 
 function exportOneCSV(fid, flabel) {
   var fields = ['dummy']; var headers = ['حقل'];
-  // determine fields from id
   if (fid === 'hser_edwia') { fields = ['date','sec','med_name','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص']; }
   else if (fid === 'adwyt_alqawafel') { fields = ['date','center','name','conc','exp','active','type','unit','qty','spec']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','تاريخ الانتهاء','المادة الفعالة','النوع','شريط/علبة','الكمية','التخصص']; }
   else if (fid === 'sarf_alqawafel') { fields = ['center','caravan_date','doctor_name','doctor_specialty','medicine_name','quantity']; headers = ['المركز','تاريخ القافلة','اسم الدكتور','التخصص','اسم الدواء','الكمية']; }
   else if (fid === 'nata2_alqawafel') { fields = ['center','total_checkups','total_labs','other_interventions','other_interventions_count','specialty','doctor_name','spec_checkups','time_spent']; headers = ['المركز','عدد الكشوفات الإجمالي','عدد التحاليل','التدخلات الصحية الأخرى','عدد التدخلات','التخصص','اسم الدكتور','عدد الكشوفات للدكتور','الوقت المستغرق']; }
   else if (fid === 'taaqodat') { fields = ['entity_type','facility_name','contract_text','contractor_name','volunteer_number','name_contractor','job_title','facility_phone','detailed_address','location','center','notes']; headers = ['نوع الجهة','اسم المكان','نص التعاقد','المتطوع','رقم المتطوع','ممثل المكان','صفة الشخص','الهاتف','العنوان','الموقع الجغرافي','المركز','ملاحظات']; }
   else if (fid === 'masroufat') { fields = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source']; headers = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء']; }
-  else { alert('⚠️ غير مدعوم'); return; }
+  else { alert('غير مدعوم'); return; }
   var data = getLocalData(fid);
-  if (!data.length) { alert('⚠️ لا توجد بيانات محفوظة'); return; }
+  if (!data.length) { alert('لا توجد بيانات محفوظة'); return; }
   var csv = headers.join(',') + '\n';
-  data.forEach(function(d) {
-    csv += fields.map(function(f) { return escapeCSV(d[f] || ''); }).join(',') + '\n';
-  });
+  data.forEach(function(d) { csv += fields.map(function(f) { return escapeCSV(d[f] || ''); }).join(',') + '\n'; });
   downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
 }
 
 function exportAllCSV() {
   var any = false;
-  FORM_IDS.forEach(function(id) {
-    var data = getLocalData(id);
-    if (data.length) any = true;
-  });
-  if (!any) { alert('⚠️ لا توجد بيانات محفوظة للتصدير'); return; }
+  FORM_IDS.forEach(function(id) { if (getLocalData(id).length) any = true; });
+  if (!any) { alert('لا توجد بيانات محفوظة للتصدير'); return; }
   FORM_IDS.forEach(function(id, i) { exportOneCSV(id, FORM_LABELS[i]); });
 }
 
 function clearAllData() {
-  if (!confirm('⚠️ هل أنت متأكد من حذف جميع البيانات المحفوظة محلياً؟')) return;
-  FORM_IDS.forEach(function(id) { localStorage.removeItem('hsen_offline_' + id); });
+  if (!confirm('هل أنت متأكد من حذف جميع البيانات المحفوظة محلياً؟')) return;
+  FORM_IDS.forEach(function(id) { localStorage.removeItem('opencode_' + id); });
   refreshLocalTable();
   updateAllLocalCounts();
-  showTooltip('🗑️ تم حذف جميع البيانات المحفوظة');
 }
 
 function updateAllLocalCounts() {
   var total = 0;
-  FORM_IDS.forEach(function(id) {
-    var data = getLocalData(id);
-    total += data.length;
-  });
+  FORM_IDS.forEach(function(id) { total += getLocalData(id).length; });
   document.getElementById('localTotal').textContent = total;
+  document.getElementById('localTotalBadge').textContent = total;
 }
 
-// Init counts on page load
+document.getElementById('localTopBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  toggleLocalPanel();
+});
+
 setTimeout(updateAllLocalCounts, 100);
 </script>
 </body>
