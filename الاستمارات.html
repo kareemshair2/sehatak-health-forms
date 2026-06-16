@@ -17,6 +17,7 @@
   --primary-glow: rgba(15,118,110,0.08);
   --secondary: #b8944a;
   --secondary-dim: rgba(184,148,74,0.12);
+  --secondary-glow: rgba(184,148,74,0.08);
   --alert: #ef4444;
   --bg-deep: #070b18;
   --bg-surface: #0e1628;
@@ -64,7 +65,7 @@ body {
 .premium-bar .bar-icon { font-size: 0.75rem; opacity: 0.9; }
 body { padding-top: 32px; }
 
-/* ── Geometric Background ── */
+/* ── Geometric Pattern ── */
 .geo-bg {
   position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; opacity: 0.2;
 }
@@ -93,13 +94,32 @@ body { padding-top: 32px; }
 .top-inner {
   max-width: 1200px; margin: 0 auto;
   display: flex; align-items: center; gap: 14px;
-  padding: 12px 24px;
+  padding: 10px 24px;
 }
 .top-logo {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 12px;
   text-decoration: none; color: var(--text-primary);
 }
-.top-logo img { height: 44px; width: auto; border-radius: 8px; }
+.top-logo-frame {
+  position: relative;
+  padding: 4px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(14,22,40,0.4);
+}
+.top-logo-frame::before {
+  content: ''; position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--radius-sm) + 1px);
+  background: linear-gradient(135deg, var(--secondary-dim), transparent, var(--primary-dim));
+  z-index: -1;
+}
+.top-logo-frame img {
+  display: block;
+  height: 40px;
+  width: auto;
+  border-radius: 4px;
+}
 .top-logo-text {
   font-size: 0.85rem; font-weight: 700; line-height: 1.2;
 }
@@ -114,24 +134,62 @@ body { padding-top: 32px; }
   padding: 6px 16px; border-radius: 999px;
   background: var(--bg-card);
   border: 1px solid var(--border);
+  transition: all var(--transition);
+}
+.top-stat:hover {
+  border-color: var(--border-hover);
+  background: var(--bg-card-hover);
 }
 .top-stat .num { color: var(--primary); font-weight: 800; }
-.top-stat .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--primary); }
+.top-stat .dot {
+  width: 5px; height: 5px; border-radius: 50%; background: var(--primary);
+  animation: pulseDot 2s ease-in-out infinite;
+}
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:0.3} }
 
-/* ── Header ── */
+/* ── Page Header ── */
 .page-header {
   text-align: center;
-  padding: 44px 24px 24px;
+  padding: 56px 24px 20px;
   position: relative;
+}
+.page-header::after {
+  content: ''; position: absolute;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 80px; height: 2px;
+  background: linear-gradient(90deg, var(--primary-dim), var(--primary), var(--primary-dim));
+  border-radius: 2px;
+}
+.page-header .badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.68rem; font-weight: 600;
+  color: var(--secondary);
+  background: var(--secondary-dim);
+  border: 1px solid var(--border);
+  padding: 5px 18px;
+  border-radius: 999px;
+  margin-bottom: 18px;
+}
+.page-header .badge-dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--secondary);
+  animation: pulseDot 2s ease-in-out infinite;
 }
 .page-header h1 {
   font-family: 'Cairo', sans-serif;
-  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  font-size: clamp(1.8rem, 3vw, 2.4rem);
   font-weight: 800;
   color: var(--text-primary);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  line-height: 1.25;
 }
-.page-header h1 .hl { color: var(--primary); }
+.page-header h1 .hl {
+  background: linear-gradient(135deg, var(--primary), #1a9e9e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
 .page-header p {
   font-size: 0.82rem;
   color: var(--text-muted);
@@ -143,7 +201,7 @@ body { padding-top: 32px; }
 /* ── Search & Filters ── */
 .toolbar {
   max-width: 1200px; margin: 0 auto;
-  padding: 0 24px 20px;
+  padding: 24px 24px 16px;
   display: flex; gap: 12px; flex-wrap: wrap;
   align-items: center;
 }
@@ -200,6 +258,13 @@ body { padding-top: 32px; }
   color: var(--primary);
 }
 
+/* ── Section Divider ── */
+.section-divider {
+  max-width: 1200px; margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+
 /* ── Forms Grid ── */
 .main {
   max-width: 1200px; margin: 0 auto;
@@ -208,8 +273,13 @@ body { padding-top: 32px; }
 .section-title {
   font-family: 'Cairo', sans-serif;
   font-size: 1rem; font-weight: 700; color: var(--text-primary);
-  margin: 32px 0 16px;
+  margin: 28px 0 16px;
   display: flex; align-items: center; gap: 10px;
+}
+.section-title .deco {
+  width: 3px; height: 18px;
+  background: linear-gradient(180deg, var(--primary), var(--secondary));
+  border-radius: 2px;
 }
 .section-title .count {
   font-size: 0.68rem; font-weight: 600;
@@ -231,12 +301,22 @@ body { padding-top: 32px; }
   position: relative;
   box-shadow: var(--shadow-card);
   height: 100%;
+  overflow: hidden;
 }
 .card::before {
   content: ''; position: absolute;
   top: 0; right: 0; left: 0;
   height: 2px;
   background: linear-gradient(90deg, var(--primary-dim), var(--primary), var(--primary-dim));
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+.card::after {
+  content: ''; position: absolute;
+  inset: -1px;
+  border-radius: calc(var(--radius) + 1px);
+  background: linear-gradient(135deg, var(--secondary-dim), transparent, var(--primary-dim));
+  z-index: -1;
   opacity: 0;
   transition: opacity var(--transition);
 }
@@ -248,6 +328,7 @@ body { padding-top: 32px; }
   cursor: pointer;
 }
 .card:hover::before { opacity: 1; }
+.card:hover::after { opacity: 0.6; }
 .card:active { transform: translateY(-1px); }
 
 .card-cat {
@@ -305,6 +386,12 @@ body { padding-top: 32px; }
   font-size: 0.75rem; font-weight: 600;
   cursor: pointer; text-decoration: none;
   border: none; transition: all var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+.btn::after {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.06) 100%);
 }
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), #0d5e5e);
@@ -343,6 +430,14 @@ body { padding-top: 32px; }
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: var(--shadow-card);
+  position: relative;
+}
+.data-panel::before {
+  content: ''; position: absolute;
+  top: 0; right: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--secondary-dim), var(--secondary), var(--secondary-dim));
+  opacity: 0.4;
 }
 .data-panel-header {
   display: flex; align-items: center; gap: 12px;
@@ -427,12 +522,12 @@ body { padding-top: 32px; }
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .top-inner { padding: 10px 16px; }
-  .top-logo img { height: 36px; }
+  .top-inner { padding: 8px 16px; }
+  .top-logo-frame img { height: 32px; }
   .top-logo-text { font-size: 0.75rem; }
   .top-stat { font-size: 0.65rem; padding: 5px 12px; }
-  .page-header { padding: 32px 16px 18px; }
-  .toolbar { padding: 0 16px 14px; gap: 8px; }
+  .page-header { padding: 40px 16px 18px; }
+  .toolbar { padding: 18px 16px 12px; gap: 8px; }
   .search-wrap { min-width: 100%; }
   .search-wrap input { padding: 14px 42px 14px 16px; font-size: 0.82rem; }
   .filter-group { width: 100%; }
@@ -468,7 +563,9 @@ body { padding-top: 32px; }
 <div class="top-bar">
   <div class="top-inner">
     <a href="index.html" class="top-logo">
-      <img src="logo.jpg?v=2" alt="صناع الحياة">
+      <div class="top-logo-frame">
+        <img src="logo.jpg?v=2" alt="صناع الحياة">
+      </div>
       <div class="top-logo-text">
         صناع الحياة<br><span>محافظة المنوفية</span>
       </div>
@@ -485,8 +582,12 @@ body { padding-top: 32px; }
   </div>
 </div>
 
-<!-- Header -->
+<!-- Page Header -->
 <div class="page-header">
+  <div class="badge">
+    <span class="badge-dot"></span>
+    الملف الصحي — منصة الاستمارات
+  </div>
   <h1>استمارات <span class="hl">الملف الصحي</span></h1>
   <p>جميع استمارات الملف الصحي في مكانٍ واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام في أي وقت.</p>
 </div>
@@ -506,9 +607,12 @@ body { padding-top: 32px; }
   </div>
 </div>
 
+<div class="section-divider"></div>
+
 <!-- Main Content -->
 <div class="main">
   <div class="section-title">
+    <span class="deco"></span>
     الاستمارات المتاحة
     <span class="count" id="visibleCount">0</span>
   </div>
@@ -718,7 +822,7 @@ function updateAllLocalCounts() {
   var total = 0;
   FORM_IDS.forEach(function(id) { total += getLocalData(id).length; });
   document.getElementById('localTotal').textContent = total;
-  document.getElementById('localTotalBadge').textContent = total;
+  document.getElementById('localTotalBadge').content = total;
 }
 
 document.getElementById('localTopBtn').addEventListener('click', function(e) {
