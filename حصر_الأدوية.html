@@ -7,39 +7,43 @@
 <title>حصر أدوية صيدلية صناع الحياة — المنوفية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg: #0b0f17;
-  --bg2: #111827;
-  --bg3: #1a2332;
-  --bg4: #243044;
-  --card: #141d2b;
-  --card-hover: #1a2537;
-  --border: rgba(59,130,246,0.12);
-  --border-hover: rgba(59,130,246,0.25);
-  --border-focus: #3b82f6;
-  --text: #e8edf5;
-  --text2: #94a3b8;
-  --text3: #62748c;
-  --primary: #3b82f6;
-  --primary-hover: #2563eb;
-  --primary-glow: rgba(59,130,246,0.15);
+  --primary: #0f766e;
+  --primary-dim: rgba(15,118,110,0.12);
+  --primary-glow: rgba(15,118,110,0.08);
+  --primary-hover: #0d5e5e;
+  --secondary: #b8944a;
+  --secondary-dim: rgba(184,148,74,0.12);
   --accent: #10b981;
   --accent-hover: #059669;
   --accent-glow: rgba(16,185,129,0.12);
+  --alert: #ef4444;
   --danger: #ef4444;
   --danger-bg: rgba(239,68,68,0.08);
   --warn: #f59e0b;
   --warn-bg: rgba(245,158,11,0.08);
   --success: #10b981;
   --success-bg: rgba(16,185,129,0.08);
+  --bg: #070b18;
+  --bg2: #0e1628;
+  --bg3: #141e36;
+  --bg4: #1a2645;
+  --card: #141e36;
+  --card-hover: #1a2645;
+  --border: rgba(184,148,74,0.1);
+  --border-hover: rgba(15,118,110,0.3);
+  --border-focus: #0f766e;
+  --text: #e8e2d6;
+  --text2: #9a8e7a;
+  --text3: #6a5f50;
   --radius: 14px;
-  --radius-sm: 10px;
+  --radius-sm: 8px;
   --radius-full: 999px;
-  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --shadow: 0 4px 20px rgba(0,0,0,0.25);
   --shadow-lg: 0 24px 64px rgba(0,0,0,0.5);
-  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
@@ -48,11 +52,11 @@
 ::-webkit-scrollbar-thumb:hover { background: var(--text3); }
 ::selection { background: var(--primary); color: #fff; }
 body {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   background: var(--bg);
   background-image:
-    radial-gradient(ellipse at 20% 80%, rgba(59,130,246,0.04) 0%, transparent 50%),
-    radial-gradient(ellipse at 80% 20%, rgba(16,185,129,0.03) 0%, transparent 50%);
+    radial-gradient(ellipse at 20% 80%, rgba(15,118,110,0.04) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(16,185,129,0.04) 0%, transparent 50%);
   color: var(--text);
   min-height: 100vh;
   line-height: 1.6;
@@ -72,7 +76,7 @@ body { animation: fadeInPage 0.4s ease; }
   position: absolute;
   top: -150px; left: -150px;
   width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(59,130,246,0.08) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(15,118,110,0.08) 0%, transparent 70%);
   pointer-events: none;
 }
 .header::after {
@@ -131,8 +135,8 @@ body { animation: fadeInPage 0.4s ease; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: rgba(59,130,246,0.08);
-  border: 1px solid rgba(59,130,246,0.15);
+  background: rgba(15,118,110,0.08);
+  border: 1px solid rgba(15,118,110,0.15);
   color: var(--primary);
   font-size: 0.72rem;
   font-weight: 700;
@@ -142,6 +146,7 @@ body { animation: fadeInPage 0.4s ease; }
   letter-spacing: 0.5px;
 }
 .header h1 {
+  font-family: 'Cairo', sans-serif;
   font-size: clamp(1.25rem, 3.5vw, 1.75rem);
   font-weight: 900;
   color: #fff;
@@ -211,6 +216,7 @@ body { animation: fadeInPage 0.4s ease; }
   padding: 14px 18px;
   background: rgba(26, 35, 50, 0.6);
   border-bottom: 1px solid var(--border);
+  font-family: 'Cairo', sans-serif;
   font-size: 0.86rem;
   font-weight: 700;
   color: #fff;
@@ -247,7 +253,7 @@ body { animation: fadeInPage 0.4s ease; }
 }
 .field label .req { color: var(--danger); }
 .field input, .field select, .field textarea {
-  font-family: 'Cairo', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-size: 0.85rem;
   padding: 12px 14px;
   border: 1.5px solid var(--border);
@@ -263,7 +269,7 @@ body { animation: fadeInPage 0.4s ease; }
 .field input:hover, .field select:hover, .field textarea:hover { border-color: var(--border-hover); }
 .field input:focus, .field select:focus, .field textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-glow), 0 0 20px rgba(59,130,246,0.05);
+  box-shadow: 0 0 0 3px var(--primary-glow), 0 0 20px rgba(15,118,110,0.05);
   background: rgba(17, 24, 39, 0.8);
   transform: translateY(-1px);
 }
@@ -306,7 +312,7 @@ body { animation: fadeInPage 0.4s ease; }
   color: var(--danger);
   border: 1px solid rgba(239,68,68,0.12);
   cursor: pointer;
-  font-family: 'Cairo', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-size: 0.73rem;
   font-weight: 700;
   padding: 4px 12px;
@@ -323,7 +329,7 @@ body { animation: fadeInPage 0.4s ease; }
   border: 1.5px dashed var(--border);
   color: var(--primary);
   cursor: pointer;
-  font-family: 'Cairo', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-size: 0.82rem;
   font-weight: 700;
   padding: 11px;
@@ -335,19 +341,19 @@ body { animation: fadeInPage 0.4s ease; }
   gap: 6px;
   margin-top: 4px;
 }
-.btn-add:hover { border-color: var(--primary); background: rgba(59,130,246,0.06); color: #60a5fa; }
+.btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.06); color: var(--primary); }
 .btn-submit {
   width: 100%;
-  background: linear-gradient(135deg, var(--primary) 0%, #1d4ed8 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, #0d5e5e 100%);
   color: #fff;
   border: none;
   cursor: pointer;
-  font-family: 'Cairo', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-size: 0.93rem;
   font-weight: 900;
   padding: 15px 24px;
   border-radius: var(--radius);
-  box-shadow: 0 4px 20px rgba(59,130,246,0.2);
+  box-shadow: 0 4px 20px rgba(15,118,110,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -359,7 +365,7 @@ body { animation: fadeInPage 0.4s ease; }
 }
 .btn-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(59,130,246,0.3);
+  box-shadow: 0 8px 32px rgba(15,118,110,0.3);
 }
 .btn-submit:active:not(:disabled) { transform: translateY(0); }
 .btn-submit:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
@@ -397,7 +403,7 @@ body { animation: fadeInPage 0.4s ease; }
 }
 @keyframes popIn { from { opacity: 0; transform: scale(0.85) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 .overlay-card .ov-icon { font-size: 3rem; margin-bottom: 12px; }
-.overlay-card h2 { font-size: 1.15rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
+.overlay-card h2 { font-family: 'Cairo', sans-serif; font-size: 1.15rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
 .overlay-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.75; margin-bottom: 18px; }
 .overlay-card.success .ov-icon ~ h2 { color: var(--accent); }
 .overlay-card.danger .ov-icon ~ h2 { color: var(--danger); }
@@ -406,15 +412,15 @@ body { animation: fadeInPage 0.4s ease; }
 .btn-overlay {
   border: none;
   cursor: pointer;
-  font-family: 'Cairo', sans-serif;
+  font-family: 'IBM Plex Sans Arabic', sans-serif;
   font-size: 0.84rem;
   font-weight: 700;
   padding: 10px 24px;
   border-radius: var(--radius-sm);
   transition: all var(--transition);
 }
-.btn-overlay.primary { background: linear-gradient(135deg, var(--primary), #1d4ed8); color: #fff; box-shadow: 0 4px 16px rgba(59,130,246,0.3); }
-.btn-overlay.primary:hover { background: linear-gradient(135deg, #2563eb, #1e40af); box-shadow: 0 6px 24px rgba(59,130,246,0.4); }
+.btn-overlay.primary { background: linear-gradient(135deg, var(--primary), #0d5e5e); color: #fff; box-shadow: 0 4px 16px rgba(15,118,110,0.3); }
+.btn-overlay.primary:hover { background: linear-gradient(135deg, #0d5e5e, #0a4a4a); box-shadow: 0 6px 24px rgba(15,118,110,0.4); }
 .btn-overlay.danger { background: linear-gradient(135deg, var(--danger), #dc2626); color: #fff; box-shadow: 0 4px 16px rgba(239,68,68,0.3); }
 .btn-overlay.danger:hover { background: linear-gradient(135deg, #dc2626, #b91c1c); box-shadow: 0 6px 24px rgba(239,68,68,0.4); }
 .footer {
@@ -437,8 +443,8 @@ body { animation: fadeInPage 0.4s ease; }
 }
 .status-msg.info {
   display: block;
-  background: rgba(59,130,246,0.06);
-  border: 1px solid rgba(59,130,246,0.15);
+  background: rgba(15,118,110,0.06);
+  border: 1px solid rgba(15,118,110,0.15);
   color: var(--primary);
   backdrop-filter: blur(4px);
 }
@@ -449,12 +455,51 @@ body { animation: fadeInPage 0.4s ease; }
   color: var(--danger);
   backdrop-filter: blur(4px);
 }
+.premium-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 300;
+  height: 32px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, var(--primary), #0d5e5e);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.premium-bar .bar-icon { font-size: 0.75rem; opacity: 0.9; }
+body { padding-top: 32px; }
+.geo-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; opacity: 0.2;
+}
+.geo-bg::before {
+  content: ''; position: absolute; inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0l14.6 44.7L120 60l-45.4 15.3L60 120 45.4 75.3 0 60l45.4-15.3z' fill='none' stroke='rgba(184,148,74,0.04)' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: geoDrift 80s linear infinite;
+  opacity: 0.4;
+}
+@keyframes geoDrift { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+.page { position: relative; z-index: 2; }
 </style>
 </head>
 <body>
 
+<div class="premium-bar">
+  <span class="bar-icon">◈</span>
+  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+</div>
+<div class="geo-bg"></div>
+<div class="grain"></div>
+<div class="page">
+
 <div class="header">
-  <img src="logo.jpg" alt="صناع الحياة" style="height:90px;width:auto;border-radius:12px;margin-bottom:14px;display:block;margin-left:auto;margin-right:auto">
+  <div class="logo-frame" style="display:inline-block;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
+  <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
+</div>
   <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
   <div class="header-badge">🏥 الملف الصحي — التحول الرقمي</div>
   <h1>حصر أدوية صيدلية صناع الحياة</h1>
@@ -897,5 +942,6 @@ window.exportFormCSV = function(fid, flabel, fields, headers) {
 };
 window.downloadCSVTemplate = function(flabel) { _downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>
+</div>
 </body>
 </html>

@@ -15,7 +15,40 @@
 
     <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{--primary-50:#f0fdfa;--primary-100:#ccfbf1;--primary-200:#99f6e4;--primary-300:#5eead4;--primary-400:#2dd4bf;--primary-500:#14b8a6;--primary-600:#0d9488;--primary-700:#0f766e;--primary-800:#115e59;--primary-900:#134e4a;--slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;--slate-300:#cbd5e1;--slate-400:#94a3b8;--slate-500:#64748b;--slate-600:#475569;--slate-700:#334155;--slate-800:#1e293b;--slate-900:#0f172a;--accent-amber:#f59e0b;--accent-amber-light:#fffbeb;--accent-blue:#3b82f6;--accent-blue-light:#eff6ff;--accent-emerald:#10b981;--accent-emerald-light:#ecfdf5;--accent-red:#ef4444;--accent-red-light:#fef2f2;--bg-body:#fff;--bg-surface:#f8fafc;--bg-sidebar:#fff;--bg-card:#fff;--bg-hero:linear-gradient(180deg,#f0fdfa 0%,#fff 100%);--text-primary:#1e293b;--text-secondary:#334155;--text-muted:#64748b;--text-inverse:#fff;--border-light:#e2e8f0;--border-medium:#cbd5e1;--shadow-sm:0 1px 2px rgba(0,0,0,0.04);--shadow-md:0 4px 6px -1px rgba(0,0,0,0.05),0 2px 4px -2px rgba(0,0,0,0.03);--shadow-lg:0 10px 15px -3px rgba(0,0,0,0.06),0 4px 6px -4px rgba(0,0,0,0.03);--shadow-xl:0 20px 25px -5px rgba(0,0,0,0.07),0 8px 10px -6px rgba(0,0,0,0.03);--font-heading:Tajawal,sans-serif;--font-body:IBM Plex Sans Arabic,sans-serif;--space-xs:0.25rem;--space-sm:0.5rem;--space-md:1rem;--space-lg:1.5rem;--space-xl:2rem;--space-2xl:3rem;--space-3xl:4rem;--space-4xl:5rem;--transition-fast:150ms ease;--transition-base:250ms ease;--transition-slow:350ms ease;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:20px;--radius-full:9999px;--sidebar-width:280px}
+:root{--primary-50:#f0fdfa;--primary-100:#ccfbf1;--primary-200:#99f6e4;--primary-300:#5eead4;--primary-400:#2dd4bf;--primary-500:#14b8a6;--primary-600:#0d9488;--primary-700:#0f766e;--primary-800:#115e59;--primary-900:#134e4a;--slate-50:#f8fafc;--slate-100:#f1f5f9;--slate-200:#e2e8f0;--slate-300:#cbd5e1;--slate-400:#94a3b8;--slate-500:#64748b;--slate-600:#475569;--slate-700:#334155;--slate-800:#1e293b;--slate-900:#0f172a;--accent-amber:#f59e0b;--accent-amber-light:#fffbeb;--accent-blue:#3b82f6;--accent-blue-light:#eff6ff;--accent-emerald:#10b981;--accent-emerald-light:#ecfdf5;--accent-red:#ef4444;--accent-red-light:#fef2f2;--bg-body:#fff;--bg-surface:#f8fafc;--bg-sidebar:#fff;--bg-card:#fff;--bg-hero:linear-gradient(180deg,#f0fdfa 0%,#fff 100%);--text-primary:#1e293b;--text-secondary:#334155;--text-muted:#64748b;--text-inverse:#fff;--border-light:#e2e8f0;--border-medium:#cbd5e1;--shadow-sm:0 1px 2px rgba(0,0,0,0.04);--shadow-md:0 4px 6px -1px rgba(0,0,0,0.05),0 2px 4px -2px rgba(0,0,0,0.03);--shadow-lg:0 10px 15px -3px rgba(0,0,0,0.06),0 4px 6px -4px rgba(0,0,0,0.03);--shadow-xl:0 20px 25px -5px rgba(0,0,0,0.07),0 8px 10px -6px rgba(0,0,0,0.03);--font-heading:Tajawal,sans-serif;--font-body:IBM Plex Sans Arabic,sans-serif;--space-xs:0.25rem;--space-sm:0.5rem;--space-md:1rem;--space-lg:1.5rem;--space-xl:2rem;--space-2xl:3rem;--space-3xl:4rem;--space-4xl:5rem;--transition-fast:150ms ease;--transition-base:250ms ease;--transition-slow:350ms ease;--radius-sm:6px;--radius-md:10px;--radius-lg:14px;--radius-xl:20px;--radius-full:9999px;--radius:14px;--sidebar-width:280px}
+
+/* ── Premium Bar ── */
+.premium-bar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 2000;
+  height: 32px;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  background: linear-gradient(135deg, var(--primary-700), #0d5e5e);
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+.premium-bar .bar-icon { font-size: 0.75rem; opacity: 0.9; }
+body { padding-top: 32px; }
+
+/* ── Geometric Background ── */
+.geo-bg {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; opacity: 0.08;
+}
+.geo-bg::before {
+  content: ''; position: absolute; inset: -50%;
+  background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M60 0l14.6 44.7L120 60l-45.4 15.3L60 120 45.4 75.3 0 60l45.4-15.3z' fill='none' stroke='rgba(15,118,110,0.08)' stroke-width='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+  animation: geoDrift 80s linear infinite;
+  opacity: 0.4;
+}
+@keyframes geoDrift { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+.grain {
+  position: fixed; inset: 0; pointer-events: none; z-index: 1; opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+.page { position: relative; z-index: 2; }
 [data-theme=dark]{--bg-body:#0f172a;--bg-surface:#1e293b;--bg-sidebar:#1e293b;--bg-card:#1e293b;--bg-hero:linear-gradient(180deg,#134e4a 0%,#0f172a 100%);--text-primary:#f1f5f9;--text-secondary:#cbd5e1;--text-muted:#94a3b8;--text-inverse:#0f172a;--border-light:#334155;--border-medium:#475569;--shadow-sm:0 1px 2px rgba(0,0,0,0.3);--shadow-md:0 4px 6px -1px rgba(0,0,0,0.4),0 2px 4px -2px rgba(0,0,0,0.3);--shadow-lg:0 10px 15px -3px rgba(0,0,0,0.5),0 4px 6px -4px rgba(0,0,0,0.4);--shadow-xl:0 20px 25px -5px rgba(0,0,0,0.6),0 8px 10px -6px rgba(0,0,0,0.5)}
 html{scroll-behavior:smooth;font-size:16px;-webkit-font-smoothing:antialiased}
 body{font-family:var(--font-body);font-weight:400;line-height:1.8;color:var(--text-secondary);background:var(--bg-body);direction:rtl;text-align:right;overflow-x:hidden;transition:background var(--transition-base),color var(--transition-base)}
@@ -176,6 +209,15 @@ button:focus-visible,a:focus-visible{outline:2px solid var(--primary-500);outlin
 </style>
 </head>
 <body>
+
+<div class="premium-bar">
+  <span class="bar-icon">◈</span>
+  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+</div>
+<div class="geo-bg"></div>
+<div class="grain"></div>
+
+<div class="page">
 
 <div class="overlay" id="overlay"></div>
 
@@ -874,5 +916,6 @@ window.addEventListener('scroll',function(){if(st)window.cancelAnimationFrame(st
 console.log('%c الدليل التشغيلي للقوافل الطبية ','background:linear-gradient(135deg,#0d9488,#14b8a6);color:#fff;font-size:18px;font-weight:bold;padding:10px 20px;border-radius:8px');
 console.log('%cجمعية صناع الحياة - محافظة المنوفية','color:#64748b;font-size:14px')});
 </script>
+</div>
 </body>
 </html>
