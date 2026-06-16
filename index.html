@@ -201,15 +201,14 @@ body {
   display: flex; flex-direction: column;
   transition: all var(--transition);
   position: relative;
-  cursor: pointer;
 }
 .card:hover {
   border-color: var(--border-hover);
   background: var(--card-hover);
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  cursor: pointer;
 }
-.card:active { transform: translateY(0); }
 .card-cat {
   font-size: 0.62rem; font-weight: 700;
   color: var(--accent); text-transform: uppercase;
@@ -230,18 +229,23 @@ body {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.card-meta {
-  display: flex; gap: 6px; flex-wrap: wrap;
-  margin-bottom: 12px;
+.card-desc.expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
 }
-.card-tag {
-  font-size: 0.62rem; font-weight: 600;
-  padding: 2px 8px; border-radius: var(--radius-full);
-  background: var(--bg3); color: var(--text2);
-  border: 1px solid var(--border);
-  display: flex; align-items: center; gap: 3px;
+.btn-read-more {
+  background: none; border: none;
+  color: var(--primary); cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 0; margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: color var(--transition);
+  align-self: flex-start;
 }
-.card-tag.live { color: var(--success); border-color: rgba(16,185,129,0.2); background: var(--success-bg); }
+.btn-read-more:hover { color: var(--accent); }
+.btn-read-more.open .arrow { transform: rotate(180deg); }
+.arrow { display: inline-block; transition: transform .25s ease; }
 .card-actions {
   display: flex; gap: 8px;
   margin-top: auto;
@@ -523,21 +527,39 @@ function setFilter(cat, btn) {
   filterForms();
 }
 
+function toggleDesc(i) {
+  var desc = document.getElementById('desc-' + i);
+  var btn = document.getElementById('rm-' + i);
+  if (!desc || !btn) return;
+  var expanded = desc.classList.toggle('expanded');
+  btn.classList.toggle('open', expanded);
+  btn.innerHTML = expanded
+    ? '<span class="arrow">▼</span> أخفِ الوصف'
+    : '<span class="arrow">▼</span> اقرأ المزيد';
+}
+
 // Render cards
 countEl.textContent = forms.length;
 forms.forEach(function(f, i) {
-  var card = document.createElement('a');
-  card.href = f.file;
+  var card = document.createElement('div');
   card.className = 'card';
   card.dataset.cat = f.cat;
-  card.dataset.title = f.title + ' ' + f.desc + ' ' + (f.tags || []).join(' ');
+  card.dataset.title = f.title + ' ' + f.desc;
+  card.dataset.href = f.file;
+  var descId = 'desc-' + i;
   card.innerHTML =
     '<div class="card-cat">' + (CAT_LABELS[f.cat] || f.cat) + '</div>' +
     '<div class="card-title">' + f.title + '</div>' +
-    '<div class="card-desc">' + f.desc + '</div>' +
+    '<div class="card-desc" id="' + descId + '">' + f.desc + '</div>' +
+    '<button class="btn-read-more" id="rm-' + i + '" onclick="event.stopPropagation();toggleDesc(' + i + ')"><span class="arrow">▼</span> اقرأ المزيد</button>' +
     '<div class="card-actions">' +
-      '<span class="btn btn-primary">فتح الاستمارة</span>' +
+      '<a class="btn btn-primary" href="' + f.file + '" onclick="event.stopPropagation()">فتح الاستمارة</a>' +
     '</div>';
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+      window.location.href = this.dataset.href;
+    }
+  });
   grid.appendChild(card);
 });
 visibleCount.textContent = forms.length;
