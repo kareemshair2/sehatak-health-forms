@@ -93,8 +93,9 @@ body { padding-top: 32px; }
 }
 .top-inner {
   max-width: 1200px; margin: 0 auto;
-  display: flex; align-items: center; gap: 14px;
+  display: flex; align-items: center; justify-content: center;
   padding: 10px 24px;
+  position: relative;
 }
 .top-logo {
   display: flex; align-items: center; gap: 12px;
@@ -125,7 +126,8 @@ body { padding-top: 32px; }
 }
 .top-logo-text span { color: var(--text-muted); font-weight: 500; font-size: 0.68rem; }
 .top-left {
-  margin-right: auto;
+  position: absolute;
+  left: 24px;
   display: flex; align-items: center; gap: 10px;
 }
 .top-stat {
