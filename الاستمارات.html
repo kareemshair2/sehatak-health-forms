@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="expires" content="0">
+<title>الاستمارات — الملف الصحي | صناع الحياة المنوفية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #080c14;
+  --bg2: #0e1525;
+  --bg3: #162033;
+  --bg4: #1e2b42;
+  --card: #111b2e;
+  --card-hover: #162238;
+  --border: rgba(59,130,246,0.1);
+  --border-hover: rgba(59,130,246,0.2);
+  --text: #e2e8f0;
+  --text2: #94a3b8;
+  --text3: #5a6d88;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-glow: rgba(37,99,235,0.12);
+  --accent: #0ea5e9;
+  --success: #10b981;
+  --success-bg: rgba(16,185,129,0.08);
+  --warn: #f59e0b;
+  --warn-bg: rgba(245,158,11,0.08);
+  --danger: #ef4444;
+  --danger-bg: rgba(239,68,68,0.08);
+  --radius: 16px;
+  --radius-sm: 10px;
+  --radius-full: 999px;
+  --shadow: 0 8px 32px rgba(0,0,0,0.4);
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+::selection { background: var(--primary); color: #fff; }
+body {
+  font-family: 'Cairo', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  line-height: 1.6;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* ── Header ── */
+.top-bar {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(8,12,20,0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+}
+.top-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 20px;
+}
+.top-bar-logo {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: #fff;
+}
+.top-bar-logo .org-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; font-weight: 900; color: #fff;
+}
+.top-bar-logo .org-name {
+  font-size: 0.85rem; font-weight: 800; line-height: 1.2;
+}
+.top-bar-logo .org-name span { color: var(--text3); font-weight: 500; font-size: 0.7rem; }
+.top-bar-left {
+  margin-right: auto;
+  display: flex; align-items: center; gap: 10px;
+}
+.top-stat {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.72rem; font-weight: 600; color: var(--text2);
+  padding: 5px 12px; border-radius: var(--radius-full);
+  background: var(--bg3); border: 1px solid var(--border);
+}
+.top-stat .num { color: var(--accent); font-weight: 800; }
+.top-stat .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--success);
+}
+
+/* ── Hero ── */
+.hero {
+  text-align: center;
+  padding: 32px 20px 20px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -200px; left: -200px;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(37,99,235,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero .badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 0.68rem; font-weight: 700;
+  color: var(--accent); background: rgba(14,165,233,0.08);
+  border: 1px solid rgba(14,165,233,0.15);
+  padding: 4px 14px; border-radius: var(--radius-full);
+  margin-bottom: 12px;
+}
+.hero h1 {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 900; color: #fff;
+  line-height: 1.3; margin-bottom: 6px;
+}
+.hero h1 .hl { color: var(--accent); }
+.hero p {
+  font-size: 0.85rem; color: var(--text3);
+  max-width: 500px; margin: 0 auto;
+}
+
+/* ── Search & Filters ── */
+.toolbar {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 20px 16px;
+  display: flex; gap: 10px; flex-wrap: wrap;
+  align-items: center;
+}
+.search-wrap {
+  flex: 1; min-width: 200px; position: relative;
+}
+.search-wrap input {
+  width: 100%; font-family: 'Cairo', sans-serif;
+  font-size: 0.82rem; padding: 10px 38px 10px 14px;
+  border: 1px solid var(--border); border-radius: var(--radius-sm);
+  background: var(--bg3); color: var(--text);
+  outline: none; transition: all var(--transition);
+}
+.search-wrap input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-glow);
+}
+.search-wrap .s-icon {
+  position: absolute; right: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--text3); font-size: 0.85rem;
+}
+.filter-group {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.filter-btn {
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem; font-weight: 600;
+  padding: 6px 14px; border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--bg3); color: var(--text2);
+  cursor: pointer; transition: all var(--transition);
+  white-space: nowrap;
+}
+.filter-btn:hover { border-color: var(--border-hover); color: var(--text); }
+.filter-btn.active {
+  background: rgba(37,99,235,0.12);
+  border-color: rgba(37,99,235,0.3);
+  color: var(--primary);
+}
+
+/* ── Forms Grid ── */
+.main { max-width: 1200px; margin: 0 auto; padding: 8px 20px 60px; }
+.section-title {
+  font-size: 1rem; font-weight: 800; color: #fff;
+  margin: 28px 0 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-title .count {
+  font-size: 0.7rem; font-weight: 600;
+  color: var(--text3); background: var(--bg3);
+  padding: 1px 10px; border-radius: var(--radius-full);
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: flex; flex-direction: column;
+  transition: all var(--transition);
+  position: relative;
+}
+.card:hover {
+  border-color: var(--border-hover);
+  background: var(--card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+.card-cat {
+  font-size: 0.62rem; font-weight: 700;
+  color: var(--accent); text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: flex; align-items: center; gap: 5px;
+}
+.card-title {
+  font-size: 0.88rem; font-weight: 800; color: #fff;
+  margin-bottom: 6px; line-height: 1.35;
+}
+.card-desc {
+  font-size: 0.75rem; color: var(--text3);
+  line-height: 1.7; flex: 1;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-desc.expanded {
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
+.btn-read-more {
+  background: none; border: none;
+  color: var(--primary); cursor: pointer;
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  padding: 0; margin-bottom: 10px;
+  display: inline-flex; align-items: center; gap: 4px;
+  transition: color var(--transition);
+  align-self: flex-start;
+}
+.btn-read-more:hover { color: var(--accent); }
+.btn-read-more.open .arrow { transform: rotate(180deg); }
+.arrow { display: inline-block; transition: transform .25s ease; }
+.card-actions {
+  display: flex; gap: 8px;
+  margin-top: auto;
+}
+.btn {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 5px; padding: 9px 14px;
+  border-radius: var(--radius-sm);
+  font-family: 'Cairo', sans-serif;
+  font-size: 0.78rem; font-weight: 700;
+  cursor: pointer; text-decoration: none;
+  border: none; transition: all var(--transition);
+}
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; box-shadow: 0 4px 14px rgba(37,99,235,0.15);
+}
+.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(37,99,235,0.25); }
+.btn-ghost {
+  background: transparent; color: var(--text2);
+  border: 1px solid var(--border);
+}
+.btn-ghost:hover { background: var(--bg4); color: var(--text); border-color: var(--border-hover); }
+.btn-sm { flex: none; padding: 5px 12px; font-size: 0.72rem; }
+
+/* ── Local Data Panel ── */
+.data-panel {
+  margin-top: 32px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.data-panel-header {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 18px;
+  background: var(--bg3);
+  border-bottom: 1px solid var(--border);
+  cursor: pointer;
+  user-select: none;
+}
+.data-panel-header:hover { background: var(--bg4); }
+.data-panel-header .chevron {
+  transition: transform 0.3s ease;
+  color: var(--text3); font-size: 0.75rem;
+}
+.data-panel-header.open .chevron { transform: rotate(180deg); }
+.data-panel-header h3 {
+  font-size: 0.85rem; font-weight: 700; color: #fff;
+  display: flex; align-items: center; gap: 6px;
+}
+.data-panel-header .total-badge {
+  font-size: 0.68rem; font-weight: 700;
+  color: var(--accent); background: rgba(14,165,233,0.1);
+  padding: 1px 10px; border-radius: var(--radius-full);
+}
+.data-panel-body { display: none; padding: 16px 18px; }
+.data-panel-body.open { display: block; }
+.data-empty {
+  text-align: center; padding: 32px 0;
+  color: var(--text3); font-size: 0.82rem;
+}
+.data-empty .icon { font-size: 2rem; margin-bottom: 8px; opacity: 0.5; }
+.data-table {
+  width: 100%; border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.data-table th {
+  text-align: right; padding: 10px 12px;
+  font-weight: 700; color: var(--text2);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.72rem;
+}
+.data-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tr:last-child td { border-bottom: none; }
+.data-table tr:hover td { background: var(--bg3); }
+.data-actions {
+  display: flex; gap: 6px; justify-content: center;
+}
+
+/* ── Footer ── */
+.footer {
+  text-align: center; padding: 24px 16px 20px;
+  color: var(--text3); font-size: 0.72rem;
+  border-top: 1px solid var(--border);
+}
+.footer strong { color: var(--text2); }
+
+/* ── Mobile Bottom Nav ── */
+.bottom-nav {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: rgba(8,12,20,0.95);
+  backdrop-filter: blur(12px);
+  border-top: 1px solid var(--border);
+  z-index: 200;
+  padding: 6px 8px;
+  justify-content: space-around;
+}
+.bottom-nav a {
+  display: flex; flex-direction: column; align-items: center;
+  gap: 2px; text-decoration: none; color: var(--text3);
+  font-size: 0.6rem; font-weight: 600;
+  padding: 6px 12px; border-radius: var(--radius-sm);
+  transition: all var(--transition);
+}
+.bottom-nav a .nav-icon { font-size: 1.1rem; }
+.bottom-nav a.active { color: var(--primary); background: var(--primary-glow); }
+
+/* ── Responsive ── */
+@media (max-width: 640px) {
+  .top-bar-inner { padding: 8px 14px; }
+  .top-bar-logo .org-name { font-size: 0.75rem; }
+  .top-stat { font-size: 0.65rem; padding: 3px 10px; }
+  .hero { padding: 28px 14px 24px; }
+  .hero h1 { font-size: 1.2rem; }
+  .toolbar { padding: 0 14px 12px; }
+  .grid { grid-template-columns: 1fr; }
+  .main { padding: 8px 14px 80px; }
+  .filter-btn { font-size: 0.65rem; padding: 5px 10px; }
+  .bottom-nav { display: flex; }
+  .data-table { font-size: 0.72rem; }
+  .data-table th, .data-table td { padding: 8px 8px; }
+}
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="top-bar-inner">
+    <a href="index.html" class="top-bar-logo">
+      <img src="logo.jpg?v=2" alt="صناع الحياة" style="height:45px;width:auto;border-radius:10px">
+      <div class="org-name">
+        صناع الحياة<br><span>محافظة المنوفية</span>
+      </div>
+    </a>
+    <div class="top-bar-left">
+      <div class="top-stat">
+        <span class="dot"></span>
+        <span id="count">0</span> استمارة
+      </div>
+      <div class="top-stat" id="localTopBtn" style="cursor:pointer">
+        <span id="localTotal">0</span> سجل محلي
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="hero">
+  <img src="logo.jpg?v=3" alt="صناع الحياة" style="height:100px;width:auto;border-radius:16px;margin-bottom:8px;display:block;margin-left:auto;margin-right:auto">
+  <div class="badge">الملف الصحي — المنوفية</div>
+  <h1>استمارات <span class="hl">الملف الصحي</span></h1>
+  <p>جميع استمارات الملف الصحي في مكانٍ واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام في أي وقت.</p>
+</div>
+
+<!-- Toolbar -->
+<div class="toolbar">
+  <div class="search-wrap">
+    <span class="s-icon">&#128269;</span>
+    <input type="text" id="searchInput" placeholder="ابحث عن استمارة..." oninput="filterForms()">
+  </div>
+  <div class="filter-group" id="filterGroup">
+    <button class="filter-btn active" data-cat="all" onclick="setFilter('all',this)">الكل</button>
+    <button class="filter-btn" data-cat="beneficiary" onclick="setFilter('beneficiary',this)">المستفيدين</button>
+    <button class="filter-btn" data-cat="caravan" onclick="setFilter('caravan',this)">القوافل</button>
+    <button class="filter-btn" data-cat="pharmacy" onclick="setFilter('pharmacy',this)">الأدوية</button>
+    <button class="filter-btn" data-cat="finance" onclick="setFilter('finance',this)">المالية</button>
+  </div>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+  <div class="section-title">
+    الاستمارات المتاحة
+    <span class="count" id="visibleCount">0</span>
+  </div>
+  <div class="grid" id="grid"></div>
+
+  <!-- Local Data Panel -->
+  <div class="data-panel">
+    <div class="data-panel-header" onclick="toggleLocalPanel()">
+      <span class="chevron">&#9660;</span>
+      <h3>البيانات المحفوظة محلياً</h3>
+      <span class="total-badge" id="localTotalBadge">0</span>
+      <div style="margin-right:auto;display:flex;gap:6px">
+        <button class="btn btn-sm btn-primary" onclick="event.stopPropagation();exportAllCSV()">تصدير CSV</button>
+        <button class="btn btn-sm btn-ghost" onclick="event.stopPropagation();clearAllData()">حذف الكل</button>
+      </div>
+    </div>
+    <div class="data-panel-body" id="localPanelBody">
+      <div id="localEmpty" class="data-empty">
+        <div class="icon">&#128451;</div>
+        لا توجد بيانات محفوظة محلياً بعد. قم بتسجيل استمارة أولاً.
+      </div>
+      <div id="localTableWrap" style="overflow-x:auto;display:none">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>الاستمارة</th>
+              <th style="text-align:center">السجلات</th>
+              <th style="text-align:center">آخر تحديث</th>
+              <th style="text-align:center">إجراء</th>
+            </tr>
+          </thead>
+          <tbody id="localTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <strong>الملف الصحي</strong> — صناع الحياة المنوفية &nbsp;|&nbsp; التحول الرقمي © 2026<br>
+  <span style="font-size:0.65rem;color:var(--text3)">OP_IT_MLM | كريم شعير</span>
+</div>
+
+<!-- Bottom Navigation (mobile) -->
+<div class="bottom-nav">
+  <a href="index.html"><span class="nav-icon">&#127968;</span> الرئيسية</a>
+  <a href="#" class="active"><span class="nav-icon">&#128203;</span> الاستمارات</a>
+  <a href="#" onclick="toggleLocalPanel();return false"><span class="nav-icon">&#128451;</span> البيانات</a>
+</div>
+
+<script src="offline-utils.js"></script>
+<script>
+const FORM_IDS = ['مساعدات_طبية','تحويلات_طبية','hser_edwia','adwyt_alqawafel','sarf_alqawafel','nata2_alqawafel','taaqodat','masroufat'];
+const FORM_LABELS = ['المساعدات الطبية','التحويلات الطبية','حصر الأدوية','أدوية القوافل','صرف أدوية القوافل','نتائج القوافل','التعاقدات الطبية','مصروفات الحالات'];
+
+const forms = [
+  { title:"الدليل التشغيلي للقوافل الطبية", desc:"دليل تنظيمي وتشغيلي شامل لإدارة القوافل الطبية، يوضح خطوات التخطيط والتنفيذ والمتابعة لضمان تقديم خدمة صحية منظمة وآمنة وفعالة للأسر الأكثر احتياجاً.", file:"الدليل_التشغيلي.html", cat:"caravan" },
+  { title:"استمارة التعاقدات والشراكات الطبية", desc:"تهدف هذه الاستمارة إلى تسجيل بيانات التعاقدات والشراكات الطبية الخاصة بالملف الصحي في جمعية صناع الحياة – محافظة المنوفية، وذلك لحصر الجهات الطبية المتعاقدة وتوثيق تفاصيل الخدمات والتخفيضات المقدمة للأسر المستفيدة.", file:"التعاقدات_الطبية.html", cat:"finance" },
+  { title:"استمارة نتائج القوافل الطبية", desc:"تهدف هذه الاستمارة إلى توثيق ومتابعة نتائج القوافل الطبية التابعة للملف الصحي، من خلال تسجيل بيانات القافلة والخدمات الطبية المقدمة داخل كل مركز. تساعد في قياس أثر القوافل وإعداد التقارير والإحصائيات.", file:"نتائج_القوافل.html", cat:"caravan" },
+  { title:"استمارة التحويلات الطبية", desc:"تهدف إلى تسجيل ومتابعة التحويلات الطبية للحالات المستفيدة، وذلك لضمان توثيق بيانات المرضى وجهات التحويل والخدمات المطلوبة بدقة. تُستخدم في تنظيم التحويلات ومتابعة الحالات وإعداد التقارير.", file:"التحويلات_الطبية.html", cat:"beneficiary" },
+  { title:"استمارة مصروفات الحالات الطبية الشهرية", desc:"توثيق ومتابعة مصروفات الحالات الطبية الشهرية، من خلال تسجيل قيمة الأدوية والخدمات العلاجية مع إرفاق صورة الروشتة. تساعد في متابعة الدعم الطبي وإعداد التقارير المالية والإحصائية.", file:"مصروفات_الحالات.html", cat:"finance" },
+  { title:"استمارة حصر أدوية صيدلية صناع الحياة", desc:"تهدف إلى تسجيل وحصر الأدوية المتوفرة داخل صيدلية صناع الحياة، لتنظيم المخزون الدوائي ومتابعة الكميات وتواريخ الصلاحية وتقليل الهدر الناتج عن انتهاء الصلاحية.", file:"حصر_الأدوية.html", cat:"pharmacy" },
+  { title:"استمارة أدوية القوافل الطبية", desc:"تهدف إلى تسجيل وحصر الأدوية المستخدمة أو المتوفرة بالقوافل الطبية، وذلك لتحديد الأدوية التي يتم النزول بها إلى القوافل الطبية وضمان توفرها.", file:"أدوية_القوافل.html", cat:"caravan" },
+  { title:"استمارة صرف أدوية القوافل الطبية", desc:"توثيق صرف الأدوية خلال القوافل الطبية، وذلك لضمان متابعة الأدوية المصروفة للحالات وربطها بالروشتات الطبية المعتمدة. تساعد في متابعة حركة الأدوية وإعداد التقارير.", file:"صرف_أدوية_القوافل.html", cat:"caravan" },
+  { title:"استمارة المساعدات الطبية وصرف الأدوية", desc:"تسجيل المساعدات الطبية وصرف الأدوية لأي حالة بشكل عام، مع التحقق التلقائي من عدم وجود تكرار في الرقم القومي. في حال وجود تسجيل سابق يتم تحويل الحالة لإدارة الحالات للمراجعة قبل إتمام الصرف.", file:"المساعدات_الطبية.html", cat:"beneficiary" },
+  { title:"نظام استعلامات الدواء", desc:"يسهّل البحث عن الأدوية المتوفرة داخل مقرات صناع الحياة من خلال قاعدة بيانات محدثة. يساعد في تسريع عملية صرف العلاج، تنظيم المخزون الدوائي، وتقليل وقت البحث اليدوي.", file:"استعلامات_الأدوية.html", cat:"pharmacy" },
+  { title:"غرفة استعلامات أدوية القوافل الطبية", desc:"تُتيح للمرضى والأهالي الاطلاع الفوري على الأدوية المتوفرة في القافلة الطبية، سواء قبل الحضور أو أثناء التواجد في الموقع. ما عليك إلا البحث عن اسم الدواء ومعرفة هل هو متاح في القافلة دي أم لا، توفيراً للوقت وتنظيماً لعملية الصرف.", file:"استعلامات_القوافل.html", cat:"caravan" }
+];
+
+const CAT_LABELS = { beneficiary:"المستفيدين", caravan:"القوافل", pharmacy:"الأدوية", finance:"المالية" };
+
+var grid = document.getElementById('grid');
+var countEl = document.getElementById('count');
+var visibleCount = document.getElementById('visibleCount');
+var currentFilter = 'all';
+
+function filterForms() {
+  var query = (document.getElementById('searchInput').value || '').trim().toLowerCase();
+  var cards = grid.querySelectorAll('.card');
+  var visible = 0;
+  cards.forEach(function(card) {
+    var cat = card.dataset.cat;
+    var title = (card.dataset.title || '').toLowerCase();
+    var matchCat = currentFilter === 'all' || cat === currentFilter;
+    var matchSearch = !query || title.includes(query);
+    var show = matchCat && matchSearch;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  visibleCount.textContent = visible;
+}
+
+function setFilter(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('#filterGroup .filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  if (btn) btn.classList.add('active');
+  else document.querySelector('#filterGroup .filter-btn[data-cat="' + cat + '"]')?.classList.add('active');
+  filterForms();
+}
+
+function toggleDesc(i) {
+  var desc = document.getElementById('desc-' + i);
+  var btn = document.getElementById('rm-' + i);
+  if (!desc || !btn) return;
+  var expanded = desc.classList.toggle('expanded');
+  btn.classList.toggle('open', expanded);
+  btn.innerHTML = expanded
+    ? '<span class="arrow">▼</span> أخفِ الوصف'
+    : '<span class="arrow">▼</span> اقرأ المزيد';
+}
+
+countEl.textContent = forms.length;
+forms.forEach(function(f, i) {
+  var card = document.createElement('div');
+  card.className = 'card';
+  card.dataset.cat = f.cat;
+  card.dataset.title = f.title + ' ' + f.desc;
+  card.dataset.href = f.file;
+  var descId = 'desc-' + i;
+  card.innerHTML =
+    '<div class="card-cat">' + (CAT_LABELS[f.cat] || f.cat) + '</div>' +
+    '<div class="card-title">' + f.title + '</div>' +
+    '<div class="card-desc" id="' + descId + '">' + f.desc + '</div>' +
+    '<button class="btn-read-more" id="rm-' + i + '" onclick="event.stopPropagation();toggleDesc(' + i + ')"><span class="arrow">▼</span> اقرأ المزيد</button>' +
+    '<div class="card-actions">' +
+      '<a class="btn btn-primary" href="' + f.file + '" onclick="event.stopPropagation()">فتح الاستمارة</a>' +
+    '</div>';
+  card.addEventListener('click', function(e) {
+    if (e.target.tagName !== 'A' && e.target.tagName !== 'BUTTON') {
+      window.location.href = this.dataset.href;
+    }
+  });
+  grid.appendChild(card);
+});
+visibleCount.textContent = forms.length;
+
+function toggleLocalPanel() {
+  var body = document.getElementById('localPanelBody');
+  var header = body.previousElementSibling;
+  body.classList.toggle('open');
+  header.classList.toggle('open');
+  if (body.classList.contains('open')) refreshLocalTable();
+}
+
+function refreshLocalTable() {
+  var tbody = document.getElementById('localTableBody');
+  var wrap = document.getElementById('localTableWrap');
+  var empty = document.getElementById('localEmpty');
+  var total = 0;
+  var rows = '';
+  FORM_IDS.forEach(function(id, i) {
+    var data = getLocalData(id);
+    if (data.length) {
+      total += data.length;
+      var lastDate = data[data.length - 1]?._savedAt || '';
+      if (lastDate) lastDate = new Date(lastDate).toLocaleString('ar-EG');
+      rows += '<tr>' +
+        '<td style="font-weight:600;">' + FORM_LABELS[i] + '</td>' +
+        '<td style="text-align:center;color:var(--accent);font-weight:700;">' + data.length + '</td>' +
+        '<td style="text-align:center;color:var(--text3);font-size:0.72rem;">' + lastDate + '</td>' +
+        '<td style="text-align:center;"><div class="data-actions">' +
+        '<button onclick="exportOneCSV(\'' + id + '\',\'' + FORM_LABELS[i] + '\')" class="btn btn-sm btn-ghost" style="font-size:0.68rem;">CSV</button>' +
+        '</div></td></tr>';
+    }
+  });
+  tbody.innerHTML = rows;
+  document.getElementById('localTotal').textContent = total;
+  document.getElementById('localTotalBadge').textContent = total;
+  if (rows) { wrap.style.display = ''; empty.style.display = 'none'; }
+  else { wrap.style.display = 'none'; empty.style.display = ''; }
+}
+
+function exportOneCSV(fid, flabel) {
+  var fields = ['dummy']; var headers = ['حقل'];
+  if (fid === 'hser_edwia') { fields = ['date','sec','med_name','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص']; }
+  else if (fid === 'adwyt_alqawafel') { fields = ['date','center','name','conc','exp','active','type','unit','qty','spec']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','تاريخ الانتهاء','المادة الفعالة','النوع','شريط/علبة','الكمية','التخصص']; }
+  else if (fid === 'sarf_alqawafel') { fields = ['center','caravan_date','doctor_name','doctor_specialty','medicine_name','quantity']; headers = ['المركز','تاريخ القافلة','اسم الدكتور','التخصص','اسم الدواء','الكمية']; }
+  else if (fid === 'nata2_alqawafel') { fields = ['center','total_checkups','total_labs','other_interventions','other_interventions_count','specialty','doctor_name','spec_checkups','time_spent']; headers = ['المركز','عدد الكشوفات الإجمالي','عدد التحاليل','التدخلات الصحية الأخرى','عدد التدخلات','التخصص','اسم الدكتور','عدد الكشوفات للدكتور','الوقت المستغرق']; }
+  else if (fid === 'taaqodat') { fields = ['entity_type','facility_name','contract_text','contractor_name','volunteer_number','name_contractor','job_title','facility_phone','detailed_address','location','center','notes']; headers = ['نوع الجهة','اسم المكان','نص التعاقد','المتطوع','رقم المتطوع','ممثل المكان','صفة الشخص','الهاتف','العنوان','الموقع الجغرافي','المركز','ملاحظات']; }
+  else if (fid === 'masroufat') { fields = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source']; headers = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء']; }
+  else { alert('غير مدعوم'); return; }
+  var data = getLocalData(fid);
+  if (!data.length) { alert('لا توجد بيانات محفوظة'); return; }
+  var csv = headers.join(',') + '\n';
+  data.forEach(function(d) { csv += fields.map(function(f) { return escapeCSV(d[f] || ''); }).join(',') + '\n'; });
+  downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
+}
+
+function exportAllCSV() {
+  var any = false;
+  FORM_IDS.forEach(function(id) { if (getLocalData(id).length) any = true; });
+  if (!any) { alert('لا توجد بيانات محفوظة للتصدير'); return; }
+  FORM_IDS.forEach(function(id, i) { exportOneCSV(id, FORM_LABELS[i]); });
+}
+
+function clearAllData() {
+  if (!confirm('هل أنت متأكد من حذف جميع البيانات المحفوظة محلياً؟')) return;
+  FORM_IDS.forEach(function(id) { localStorage.removeItem('opencode_' + id); });
+  refreshLocalTable();
+  updateAllLocalCounts();
+}
+
+function updateAllLocalCounts() {
+  var total = 0;
+  FORM_IDS.forEach(function(id) { total += getLocalData(id).length; });
+  document.getElementById('localTotal').textContent = total;
+  document.getElementById('localTotalBadge').textContent = total;
+}
+
+document.getElementById('localTopBtn').addEventListener('click', function(e) {
+  e.stopPropagation();
+  toggleLocalPanel();
+});
+
+setTimeout(updateAllLocalCounts, 100);
+</script>
+</body>
+</html>
