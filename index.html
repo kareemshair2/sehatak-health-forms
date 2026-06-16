@@ -131,6 +131,57 @@ body {
   max-width: 500px; margin: 0 auto;
 }
 
+/* ── About Section ── */
+.about-section {
+  max-width: 800px; margin: 0 auto;
+  padding: 12px 20px 24px;
+}
+.about-container {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px 28px;
+}
+.about-title {
+  font-size: 1rem; font-weight: 800; color: #fff;
+  margin-bottom: 6px;
+}
+.about-line {
+  width: 40px; height: 3px;
+  background: var(--accent);
+  border-radius: 3px;
+  margin-bottom: 16px;
+}
+.about-text {
+  font-size: 0.82rem; color: var(--text2);
+  line-height: 1.9; margin-bottom: 12px;
+}
+.about-text strong { color: #fff; font-weight: 700; }
+.about-text.about-closing {
+  margin-bottom: 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border);
+}
+.about-subtitle {
+  font-size: 0.85rem; font-weight: 700; color: var(--text);
+  margin: 14px 0 10px;
+}
+.about-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 16px;
+  margin-bottom: 16px;
+}
+.about-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 0.8rem; color: var(--text2);
+  padding: 4px 0;
+}
+.about-item-icon {
+  color: var(--accent); font-size: 0.5rem;
+  flex-shrink: 0;
+}
+
 /* ── Search & Filters ── */
 .toolbar {
   max-width: 1200px; margin: 0 auto;
@@ -373,6 +424,9 @@ body {
   .bottom-nav { display: flex; }
   .data-table { font-size: 0.72rem; }
   .data-table th, .data-table td { padding: 8px 8px; }
+  .about-section { padding: 8px 14px 16px; }
+  .about-container { padding: 18px 20px; }
+  .about-grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 641px) and (max-width: 1024px) {
   .grid { grid-template-columns: repeat(2, 1fr); }
@@ -408,6 +462,53 @@ body {
   <div class="badge">الملف الصحي — المنوفية</div>
   <h1>حقيبة <span class="hl">الملف الصحي</span><br>صناع الحياة المنوفية</h1>
   <p>جميع استمارات الملف الصحي في مكانٍ واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام في أي وقت.</p>
+</div>
+
+<!-- About -->
+<div class="about-section">
+  <div class="about-container">
+    <h2 class="about-title">نبذة عن الملف الطبي</h2>
+    <div class="about-line"></div>
+    <p class="about-text">
+      يُعد الملف الطبي أحد الملفات الخدمية التابعة لـ <strong>جمعية صناع الحياة بمحافظة المنوفية</strong>، ويهدف إلى تقديم الدعم والخدمات الصحية للأسر الأكثر احتياجًا، من خلال تنفيذ مجموعة متنوعة من الأنشطة والمبادرات الطبية داخل القرى والمراكز المختلفة بالمحافظة.
+    </p>
+    <p class="about-text">
+      يعمل الملف الطبي على تحسين جودة الرعاية الصحية المقدمة للمستفيدين، من خلال توفير خدمات الكشف والعلاج والتحويلات الطبية، بالإضافة إلى تنظيم القوافل الطبية، ودعم الحالات المرضية، وتوفير الأدوية والمستلزمات الطبية وفقًا للاحتياج.
+    </p>
+    <p class="about-text">
+      كما يعتمد الملف الطبي على العمل المؤسسي والتنظيمي من خلال فرق متخصصة من المتطوعين والأطباء والشركاء الطبيين، مع الاهتمام بتوثيق الخدمات والمتابعة المستمرة للحالات لضمان تحقيق أفضل أثر صحي ومجتمعي.
+    </p>
+    <h3 class="about-subtitle">وتشمل أبرز أنشطة الملف الطبي:</h3>
+    <div class="about-grid">
+      <div class="about-item">
+        <div class="about-item-icon">■</div>
+        <span>تنظيم القوافل الطبية متعددة التخصصات</span>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">■</div>
+        <span>تقديم المساعدات الطبية والعلاجية</span>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">■</div>
+        <span>إدارة التحويلات الطبية للحالات</span>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">■</div>
+        <span>توفير الأدوية من خلال الصيدلية الطبية</span>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">■</div>
+        <span>بناء شراكات وتعاقدات مع الجهات الطبية المختلفة</span>
+      </div>
+      <div class="about-item">
+        <div class="about-item-icon">■</div>
+        <span>متابعة الحالات المرضية وتقديم الدعم الصحي اللازم</span>
+      </div>
+    </div>
+    <p class="about-text about-closing">
+      ويعمل الملف الطبي وفق رؤية تهدف إلى الوصول لخدمة صحية أكثر تنظيمًا واستدامة للفئات المستحقة داخل المجتمع.
+    </p>
+  </div>
 </div>
 
 <!-- Toolbar -->
