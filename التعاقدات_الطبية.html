@@ -793,11 +793,8 @@ $('mainForm').addEventListener('submit', async function(e) {
       try {
         showStatus(`جارٍ الإرسال... المحاولة ${attempt}/3`);
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
