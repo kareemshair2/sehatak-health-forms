@@ -729,11 +729,15 @@ body { padding-top: 32px; }
             <textarea id="notes" rows="2" placeholder="أي معلومات إضافية تخص هذا التحويل..."></textarea>
           </div>
         </div>
-        <div class="field-row single">
+        <div class="field-row">
           <div class="field">
-            <label>اسم الموظف المسؤول <span class="req">*</span></label>
-            <input type="text" id="staff_name" placeholder="اسم الموظف المسؤول عن التحويل">
-            <span class="field-error" id="e19">يرجى إدخال اسم الموظف المسؤول</span>
+            <label>اسم المتطوع <span class="req">*</span></label>
+            <input type="text" id="staff_name" placeholder="اسم المتطوع المسؤول عن التحويل">
+            <span class="field-error" id="e19">يرجى إدخال اسم المتطوع</span>
+          </div>
+          <div class="field">
+            <label>رقم المتطوع</label>
+            <input type="text" id="volunteer_number" placeholder="رقم هاتف المتطوع">
           </div>
         </div>
       </div>
@@ -900,6 +904,7 @@ $('mainForm').addEventListener('submit', async function(e) {
   const referral_type    = $('referral_type').value;
   const notes            = $('notes').value.trim();
   const staff_name       = $('staff_name').value.trim();
+  const volunteer_number = $('volunteer_number').value.trim();
 
   if (!patient_name) { showErr('e1'); valid = false; }
   if (!patient_age || patient_age < 1 || patient_age > 120) { showErr('e2'); valid = false; }
@@ -958,7 +963,7 @@ $('mainForm').addEventListener('submit', async function(e) {
       national_id, patient_center, patient_address,
       referral_date, referral_type,
       referral_image: imgB64,
-      notes, staff_name
+      notes, staff_name, volunteer_number
     };
 
     // Add sub-fields based on referral type

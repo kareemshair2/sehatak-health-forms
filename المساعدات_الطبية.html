@@ -580,7 +580,7 @@ body { padding-top: 32px; }
               <option>الشهداء</option>
               <option>تلا</option>
               <option>الباجور</option>
-              <option>سرس الليان</option>
+
               <option>السادات</option>
             </select>
             <span class="field-error" id="e4">يرجى اختيار المركز</span>
@@ -632,6 +632,20 @@ body { padding-top: 32px; }
       <div class="section-body">
         <div id="medicineList"></div>
         <button type="button" class="btn-add" onclick="addMedicine()">＋ إضافة دواء آخر</button>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="icon">📝</span> ملاحظات
+        <span class="badge">اختياري</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row single">
+          <div class="field">
+            <textarea id="notes" rows="3" placeholder="أي ملاحظات إضافية..."></textarea>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -918,6 +932,7 @@ $('mainForm').addEventListener('submit', async function(e) {
     params.append('phone_number', phone_number);
     params.append('center', center);
     params.append('medicines', JSON.stringify(medNames.map((n, i) => ({ name: n, qty: medQtys[i] }))));
+    params.append('notes', $('notes').value.trim());
     params.append('prescription_photo', prescB64);
     params.append('id_photo', idB64);
 
