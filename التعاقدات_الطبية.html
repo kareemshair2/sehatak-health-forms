@@ -644,7 +644,7 @@ const hideAllErrs = () => document.querySelectorAll('.field-error').forEach(e =>
 function updateProgress() {
   const fields = ['entity_type','facility_name','facility_phone','center','contract_text','contractor_name','volunteer_number','name_contractor','job_title','detailed_address'];
   const filled = fields.filter(id => $(id)?.value?.trim()).length;
-  $('#progressBar').style.width = Math.round(filled / fields.length * 100) + '%';
+  $('progressBar').style.width = Math.round(filled / fields.length * 100) + '%';
 }
 document.querySelectorAll('input,select,textarea').forEach(el => el.addEventListener('input', updateProgress));
 
@@ -733,19 +733,19 @@ $('mainForm').addEventListener('submit', async function(e) {
   hideAllErrs();
   let valid = true;
 
-  const entity_type       = $('#entity_type').value;
-  const facility_name     = $('#facility_name').value.trim();
-  const facility_phone    = $('#facility_phone').value.trim();
-  const center            = $('#center').value;
-  const contract_text     = $('#contract_text').value.trim();
-  const contractor_name   = $('#contractor_name').value.trim();
-  const volunteer_number  = $('#volunteer_number').value.trim();
-  const name_contractor   = $('#name_contractor').value.trim();
-  const job_title         = $('#job_title').value.trim();
-  const detailed_address  = $('#detailed_address').value.trim();
-  const location          = $('#location').value.trim();
-  const notes             = $('#notes').value.trim();
-  const contractFile      = $('#contractFile')._compressed || $('#contractFile').files[0];
+  const entity_type       = $('entity_type').value;
+  const facility_name     = $('facility_name').value.trim();
+  const facility_phone    = $('facility_phone').value.trim();
+  const center            = $('center').value;
+  const contract_text     = $('contract_text').value.trim();
+  const contractor_name   = $('contractor_name').value.trim();
+  const volunteer_number  = $('volunteer_number').value.trim();
+  const name_contractor   = $('name_contractor').value.trim();
+  const job_title         = $('job_title').value.trim();
+  const detailed_address  = $('detailed_address').value.trim();
+  const location          = $('location').value.trim();
+  const notes             = $('notes').value.trim();
+  const contractFile      = $('contractFile')._compressed || $('contractFile').files[0];
 
   if (!entity_type) { showErr('e_entity_type'); valid = false; }
   if (!facility_name) { showErr('e_facility_name'); valid = false; }
