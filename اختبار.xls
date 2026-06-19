@@ -306,9 +306,16 @@
    <Row>
     <Cell ss:StyleID="normal"><Data ss:Type="Number">6</Data></Cell>
     <Cell ss:StyleID="normal"><Data ss:Type="String">19/06/2026</Data></Cell>
-    <Cell ss:StyleID="wrap"><Data ss:Type="String">إخفاء صرف الأدوية: headers معقدة (mode:cors, cache, charset) قد تسبب CORS preflight failure</Data></Cell>
-    <Cell ss:StyleID="wrap"><Data ss:Type="String">تبسيط headers إلى `{'Content-Type': 'application/json'}` + إضافة console.log للتصحيح</Data></Cell>
+    <Cell ss:StyleID="wrap"><Data ss:Type="String">صرف الأدوية: headers معقدة قد تسبب CORS preflight failure</Data></Cell>
+    <Cell ss:StyleID="wrap"><Data ss:Type="String">إضافة console.log + تبسيط headers إلى `{'Content-Type': 'application/json'}`</Data></Cell>
     <Cell ss:StyleID="normal"><Data ss:Type="String">a2a471c</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="normal"><Data ss:Type="Number">7</Data></Cell>
+    <Cell ss:StyleID="normal"><Data ss:Type="String">19/06/2026</Data></Cell>
+    <Cell ss:StyleID="wrap"><Data ss:Type="String">CORS Preflight: 5 استمارات JSON ترسل Content-Type: application/json مما يستدعي OPTIONS preflight. Apps Script لا يعالج OPTIONS.</Data></Cell>
+    <Cell ss:StyleID="wrap"><Data ss:Type="String">تغيير Content-Type من application/json إلى text/plain لـ 5 استمارات JSON (التحويلات، التعاقدات، صرف أدوية، نتائج القوافل، مصروفات) + تبسيط headers لـ 3 استمارات urlencoded (إزالة mode:cors, cache, charset, Accept)</Data></Cell>
+    <Cell ss:StyleID="normal"><Data ss:Type="String">e318727</Data></Cell>
    </Row>
   </Table>
  </Worksheet>
