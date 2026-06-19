@@ -891,7 +891,7 @@ function importCSVData(headers, rows) {
       if (row['تاريخ التسجيل']) $('date').value = row['تاريخ التسجيل'];
       if (row['المركز']) $('center').value = row['المركز'];
     }
-    addTab();
+    addTabItem();
     if (row['اسم الدواء']) $('name_' + tabCount).value = row['اسم الدواء'];
     if (row['التركيز']) $('conc_' + tabCount).value = row['التركيز'];
     if (row['تاريخ الانتهاء']) $('exp_' + tabCount).value = row['تاريخ الانتهاء'];

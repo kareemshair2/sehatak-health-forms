@@ -905,7 +905,7 @@ function importCSVData(headers, rows) {
       if (row['المبلغ الكلي']) $('integer_wa4xt75').value = row['المبلغ الكلي'];
       if (row['المركز']) $('center').value = row['المركز'];
     }
-    if (ri > 0) addExpense();
+    if (ri > 0) addMedication();
     var items = document.querySelectorAll('.medicine-item');
     var item = items[items.length - 1];
     if (item) {

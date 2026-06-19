@@ -769,7 +769,7 @@ $('mainForm').addEventListener('submit', async function(e) {
   showStatus('جارٍ رفع الصورة والبيانات... برجاء الانتظار');
 
   try {
-    const contractB64 = await toBase64(contractFile);
+    const contractB64 = contractFile ? await toBase64(contractFile) : null;
 
     const payload = {
       action: 'taaqodat',
