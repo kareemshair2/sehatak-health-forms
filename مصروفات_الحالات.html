@@ -765,7 +765,7 @@ $('mainForm').addEventListener('submit', async function(e) {
   const integer_wa4xt75 = $('integer_wa4xt75').value.trim();
   const center = $('center').value;
 
-  if (!patient_name) { showErr('e_patient_name'); valid = false; }
+  if (!patient_name || !/^\S+(\s+\S+){2,}$/.test(patient_name)) { showErr('e_patient_name', 'الاسم يجب أن يكون ثلاثيًا فأكثر (مثال: أحمد محمد علي)'); valid = false; }
   if (!integer_wa4xt75) { showErr('e_integer_wa4xt75'); valid = false; }
   if (!center) { showErr('e_center'); valid = false; }
 

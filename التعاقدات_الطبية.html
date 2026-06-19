@@ -715,6 +715,11 @@ const toBase64 = file => new Promise((res, rej) => {
   r.onerror = rej;
 });
 
+// ─── دوال التحقق ───
+function validatePhone(p) {
+  return /^(010|011|012|015)\d{8}$/.test(p);
+}
+
 function resetForm() {
   closeOverlay('successOverlay');
   closeOverlay('errorOverlay');
@@ -749,12 +754,12 @@ $('mainForm').addEventListener('submit', async function(e) {
 
   if (!entity_type) { showErr('e_entity_type'); valid = false; }
   if (!facility_name) { showErr('e_facility_name'); valid = false; }
-  if (!facility_phone || facility_phone.length < 10) { showErr('e_facility_phone'); valid = false; }
+  if (!validatePhone(facility_phone)) { showErr('e_facility_phone', 'رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015'); valid = false; }
   if (!center) { showErr('e_center'); valid = false; }
   if (!contract_text) { showErr('e_contract_text'); valid = false; }
-  if (!contractor_name) { showErr('e_contractor_name'); valid = false; }
+  if (!contractor_name || !/^\S+(\s+\S+){2,}$/.test(contractor_name)) { showErr('e_contractor_name', 'اسم المتطوع يجب أن يكون ثلاثيًا فأكثر'); valid = false; }
   if (!volunteer_number) { showErr('e_volunteer_number'); valid = false; }
-  if (!name_contractor) { showErr('e_name_contractor'); valid = false; }
+  if (!name_contractor || !/^\S+(\s+\S+){2,}$/.test(name_contractor)) { showErr('e_name_contractor', 'اسم ممثل المكان يجب أن يكون ثلاثيًا فأكثر'); valid = false; }
   if (!job_title) { showErr('e_job_title'); valid = false; }
   if (!detailed_address) { showErr('e_detailed_address'); valid = false; }
 
