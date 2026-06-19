@@ -882,6 +882,7 @@ function resetForm() {
 
 $('mainForm').addEventListener('submit', async function(e) {
   e.preventDefault();
+  console.log('🚀 submit');
   hideStatus();
   hideAllErrs();
   let valid = true;
@@ -961,16 +962,14 @@ $('mainForm').addEventListener('submit', async function(e) {
       prescription_group: prescData
     };
 
+    console.log('sending...');
     let lastErr = null;
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
         showStatus('جارٍ الإرسال... المحاولة ' + attempt + '/3');
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
