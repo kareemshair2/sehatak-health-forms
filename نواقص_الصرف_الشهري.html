@@ -876,6 +876,26 @@ showOverlay = function(id) {
   _origSho(id);
 };
 
+window.fillFormFromLocal = function(row) {
+  if (row.date) $('date').value = row.date;
+  if (row.center) $('center').value = row.center;
+  $('tabList').innerHTML = '';
+  tabCount = 0;
+  if (row.medications && row.medications.length) {
+    row.medications.forEach(function(m) {
+      addTabItem();
+      if (m.name) $('name_' + tabCount).value = m.name;
+      if (m.form) $('form_' + tabCount).value = m.form;
+      if (m.conc) $('conc_' + tabCount).value = m.conc;
+      if (m.qty) $('qty_' + tabCount).value = m.qty;
+      if (m.price) $('price_' + tabCount).value = m.price;
+      if (m.sample) $('sample_' + tabCount).value = m.sample;
+    });
+  }
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
+
 initOffline('nawa2es_serf', 'نواقص الصرف الشهري', CSV_FIELDS, CSV_HEADERS);
 
 window.exportFormCSV = function(fid, flabel, fields, headers) {

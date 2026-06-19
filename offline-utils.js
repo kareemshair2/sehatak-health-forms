@@ -182,6 +182,14 @@ function buildToolbar(formName, backLink) {
     " onmouseover="this.style.background='var(--bg4)';this.style.color='#fff'" onmouseout="this.style.background='var(--bg3)';this.style.color='var(--text2)'">↩ الرجوع للرئيسية</a>
     <span style="flex:1;min-width:10px"></span>
     <span id="localCount" style="font-size:0.78rem;color:var(--text3);font-weight:600"></span>
+    <button onclick="openSavedRecords()" style="
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 7px 14px; border-radius: var(--radius-sm);
+      background: rgba(168,85,247,0.1); border: 1px solid rgba(168,85,247,0.2);
+      color: #a855f7; cursor: pointer;
+      font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 700;
+      transition: all 0.2s;
+    " onmouseover="this.style.background='rgba(168,85,247,0.2)'" onmouseout="this.style.background='rgba(168,85,247,0.1)'">📂 السجلات المحفوظة</button>
     <button onclick="saveCurrentForm()" style="
       display: inline-flex; align-items: center; gap: 4px;
       padding: 7px 14px; border-radius: var(--radius-sm);
@@ -324,10 +332,34 @@ function openSavedRecords() {
         html += '<div><span style="color:var(--text3)">' + label + ':</span> ' + val + '</div>';
       }
     });
+    html += '<div style="margin-top:8px;display:flex;gap:6px">';
+    html += '<button onclick="loadSavedRecord(' + i + ')" style="flex:1;padding:6px 12px;border-radius:6px;background:rgba(15,118,110,0.1);border:1px solid rgba(15,118,110,0.2);color:var(--primary);cursor:pointer;font-family:\'Cairo\',sans-serif;font-size:0.75rem;font-weight:700;transition:all 0.2s">📥 تحميل إلى الاستمارة</button>';
+    html += '<button onclick="deleteSavedRecord(' + i + ',\'' + row._id + '\')" style="padding:6px 10px;border-radius:6px;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--danger);cursor:pointer;font-family:\'Cairo\',sans-serif;font-size:0.75rem;font-weight:700;transition:all 0.2s">🗑️ حذف</button>';
+    html += '</div>';
     html += '</div>';
   });
   html += '</div></div>';
   const div = document.createElement('div');
   div.innerHTML = html;
   document.body.appendChild(div);
+}
+
+function loadSavedRecord(index) {
+  const records = getLocalData(currentFormId);
+  if (index >= 0 && index < records.length && typeof fillFormFromLocal === 'function') {
+    fillFormFromLocal(records[index]);
+    const modal = document.querySelector('[onclick="this.remove()"]');
+    if (modal) modal.remove();
+  } else if (typeof fillFormFromLocal !== 'function') {
+    showTooltip('⚠️ وظيفة تحميل البيانات غير متوفرة لهذه الاستمارة', true);
+  }
+}
+
+function deleteSavedRecord(index, id) {
+  if (!confirm('هل أنت متأكد من حذف هذا السجل؟')) return;
+  deleteLocalRecord(currentFormId, id);
+  updateLocalCount(currentFormId);
+  const modal = document.querySelector('[onclick="this.remove()"]');
+  if (modal) modal.remove();
+  openSavedRecords();
 }
