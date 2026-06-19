@@ -942,7 +942,7 @@ window.exportFormCSV = function(fid, flabel, fields, headers) {
   flat.forEach(function(r) { csv += CSV_FIELDS.map(function(f) { return escapeCSV(r[f]); }).join(',') + '\n'; });
   downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
 };
-window.downloadCSVTemplate = function(flabel) { _downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
+window.downloadCSVTemplate = function(flabel) { downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>
 </div>
 </body>

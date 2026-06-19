@@ -41,6 +41,18 @@ function downloadBlob(content, filename, type) {
   setTimeout(() => URL.revokeObjectURL(a.href), 10000);
 }
 
+function downloadXLS(content, filename) {
+  const html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><meta charset="UTF-8"><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Sheet1</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body>' + content + '</body></html>';
+  const blob = new Blob(['\ufeff' + html], { type: 'application/vnd.ms-excel;charset=utf-8' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename.replace(/\.csv$/, '.xls');
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(a.href), 10000);
+}
+
 function escapeCSV(val) {
   if (val === null || val === undefined) return '';
   const s = String(val);
@@ -65,6 +77,29 @@ function exportFormCSV(formId, formLabel, fields, headers) {
     }).join(',') + '\n';
   });
   downloadBlob(csv, formLabel + '_' + new Date().toISOString().slice(0, 10) + '.csv', 'text/csv');
+}
+
+function exportFormXLS(formId, formLabel, fields, headers) {
+  const data = getLocalData(formId);
+  if (!data.length) {
+    alert('⚠️ لا توجد بيانات محفوظة لـ "' + formLabel + '".');
+    return;
+  }
+  let table = '<table dir="rtl" style="font-family:sans-serif;font-size:12px;border-collapse:collapse;width:100%;direction:rtl">';
+  table += '<thead><tr style="background:#0f766e;color:#fff">';
+  headers.forEach(h => { table += '<th style="padding:8px 10px;border:1px solid #ddd;text-align:right">' + h + '</th>'; });
+  table += '</tr></thead><tbody>';
+  data.forEach((row, ri) => {
+    table += '<tr' + (ri % 2 ? ' style="background:#f5f5f5"' : '') + '>';
+    fields.forEach(f => {
+      let val = row[f];
+      if (typeof val === 'object' && val !== null) val = JSON.stringify(val);
+      table += '<td style="padding:6px 10px;border:1px solid #ddd;text-align:right">' + (val !== undefined && val !== null ? val : '') + '</td>';
+    });
+    table += '</tr>';
+  });
+  table += '</tbody></table>';
+  downloadXLS(table, formLabel + '_' + new Date().toISOString().slice(0, 10) + '.csv');
 }
 
 function downloadCSVTemplate(formLabel, fields, headers) {
@@ -162,7 +197,15 @@ function buildToolbar(formName, backLink) {
       color: var(--primary); cursor: pointer;
       font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 700;
       transition: all 0.2s;
-    " onmouseover="this.style.background='rgba(59,130,246,0.2)'" onmouseout="this.style.background='rgba(59,130,246,0.1)'">📥 تصدير CSV</button>
+    " onmouseover="this.style.background='rgba(59,130,246,0.2)'" onmouseout="this.style.background='rgba(59,130,246,0.1)'">📥 CSV</button>
+    <button onclick="exportFormXLS(currentFormId, currentFormLabel, currentFields, currentHeaders)" style="
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 7px 14px; border-radius: var(--radius-sm);
+      background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2);
+      color: var(--accent); cursor: pointer;
+      font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 700;
+      transition: all 0.2s;
+    " onmouseover="this.style.background='rgba(16,185,129,0.2)'" onmouseout="this.style.background='rgba(16,185,129,0.1)'">📊 Excel</button>
     <button onclick="downloadCSVTemplate(currentFormLabel, currentFields, currentHeaders)" style="
       display: inline-flex; align-items: center; gap: 4px;
       padding: 7px 14px; border-radius: var(--radius-sm);
@@ -170,7 +213,7 @@ function buildToolbar(formName, backLink) {
       color: var(--warn); cursor: pointer;
       font-family: 'Cairo', sans-serif; font-size: 0.82rem; font-weight: 700;
       transition: all 0.2s;
-    " onmouseover="this.style.background='rgba(245,158,11,0.2)'" onmouseout="this.style.background='rgba(245,158,11,0.1)'">📄 نموذج CSV</button>
+    " onmouseover="this.style.background='rgba(245,158,11,0.2)'" onmouseout="this.style.background='rgba(245,158,11,0.1)'">📄 نموذج</button>
     <button onclick="document.getElementById('csvImportInput').click()" style="
       display: inline-flex; align-items: center; gap: 4px;
       padding: 7px 14px; border-radius: var(--radius-sm);
