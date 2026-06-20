@@ -551,15 +551,15 @@ body { padding-top: 32px; }
             <label>المركز <span class="req">*</span></label>
             <select id="center">
               <option value="">— اختر المركز —</option>
-              <option value="shebin">شبين الكوم</option>
-              <option value="menouf">منوف</option>
-              <option value="quesna">قويسنا</option>
-              <option value="berket_saba">بركة السبع</option>
-              <option value="tala">تلا</option>
-              <option value="shohada">الشهداء</option>
-              <option value="ashmoun">أشمون</option>
-              <option value="bagour">الباجور</option>
-              <option value="sadat">السادات</option>
+              <option>شبين الكوم</option>
+              <option>منوف</option>
+              <option>قويسنا</option>
+              <option>بركة السبع</option>
+              <option>تلا</option>
+              <option>الشهداء</option>
+              <option>أشمون</option>
+              <option>الباجور</option>
+              <option>السادات</option>
             </select>
             <span class="field-error" id="e_center">يرجى اختيار المركز</span>
           </div>
@@ -626,21 +626,21 @@ const hideErr = id => { const e = $(id); if(e) e.style.display = 'none'; };
 const hideAllErrs = () => document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
 
 const specialties = [
-  ['internal_medicine', 'باطنة عامة'],
-  ['pediatrics', 'أطفال'],
-  ['orthopedics', 'عظام'],
-  ['ophthalmology', 'رمد (عيون)'],
-  ['dermatology', 'جلدية'],
-  ['ent', 'أنف وأذن وحنجرة'],
-  ['gynecology', 'نساء وتوليد'],
-  ['cardiology', 'قلب وأوعية دموية'],
-  ['urology', 'مسالك بولية'],
-  ['neurology', 'مخ وأعصاب'],
-  ['dentistry', 'أسنان'],
-  ['general_surgery', 'جراحة عامة'],
-  ['chest', 'صدر وجهاز تنفسي'],
-  ['psychiatry', 'نفسية وعصبية'],
-  ['endocrinology', 'غدد صماء وسكر']
+  ['باطنة عامة', 'باطنة عامة'],
+  ['أطفال', 'أطفال'],
+  ['عظام', 'عظام'],
+  ['رمد (عيون)', 'رمد (عيون)'],
+  ['جلدية', 'جلدية'],
+  ['أنف وأذن وحنجرة', 'أنف وأذن وحنجرة'],
+  ['نساء وتوليد', 'نساء وتوليد'],
+  ['قلب وأوعية دموية', 'قلب وأوعية دموية'],
+  ['مسالك بولية', 'مسالك بولية'],
+  ['مخ وأعصاب', 'مخ وأعصاب'],
+  ['أسنان', 'أسنان'],
+  ['جراحة عامة', 'جراحة عامة'],
+  ['صدر وجهاز تنفسي', 'صدر وجهاز تنفسي'],
+  ['نفسية وعصبية', 'نفسية وعصبية'],
+  ['غدد صماء وسكر', 'غدد صماء وسكر']
 ];
 
 function updateProgress() {
