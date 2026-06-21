@@ -800,16 +800,16 @@ document.querySelectorAll('input,select,textarea').forEach(el => el.addEventList
 function onReferralTypeChange() {
   const val = $('referral_type').value;
   ['grp_doctor','grp_lab','grp_radiology','grp_glasses','grp_physio'].forEach(id => hide(id));
-  if (val === 'doctor') show('grp_doctor');
-  else if (val === 'lab') show('grp_lab');
-  else if (val === 'radiology') show('grp_radiology');
-  else if (val === 'glasses') show('grp_glasses');
-  else if (val === 'physio') show('grp_physio');
+  if (val === 'دكتور') show('grp_doctor');
+  else if (val === 'معمل تحاليل') show('grp_lab');
+  else if (val === 'مركز أشعة') show('grp_radiology');
+  else if (val === 'مركز نظارات') show('grp_glasses');
+  else if (val === 'علاج طبيعي') show('grp_physio');
 }
 
 function onSpecialtyChange() {
   const val = $('doctor_specialty').value;
-  $('doctor_specialty_other').style.display = val === 'other' ? 'block' : 'none';
+  $('doctor_specialty_other').style.display = val === 'تخصص آخر' ? 'block' : 'none';
 }
 
 // ─── File handling ───
@@ -938,27 +938,27 @@ $('mainForm').addEventListener('submit', async function(e) {
   const imgFile = $('referral_image')._compressed || $('referral_image').files[0];
   if (!imgFile) { showErr('e18'); valid = false; }
 
-  if (referral_type === 'doctor') {
+  if (referral_type === 'دكتور') {
     const dn = $('doctor_name').value.trim();
     const ds = $('doctor_specialty').value;
     const pt = $('partnership_type').value;
     if (!dn) { showErr('e9'); valid = false; }
     if (!ds) { showErr('e10'); valid = false; }
     if (!pt) { showErr('e11'); valid = false; }
-  } else if (referral_type === 'lab') {
+  } else if (referral_type === 'معمل تحاليل') {
     const ln = $('lab_name').value.trim();
     const lt = $('lab_tests').value.trim();
     if (!ln) { showErr('e12'); valid = false; }
     if (!lt) { showErr('e13'); valid = false; }
-  } else if (referral_type === 'radiology') {
+  } else if (referral_type === 'مركز أشعة') {
     const rc = $('radiology_center').value.trim();
     const rt = $('radiology_type').value.trim();
     if (!rc) { showErr('e14'); valid = false; }
     if (!rt) { showErr('e15'); valid = false; }
-  } else if (referral_type === 'glasses') {
+  } else if (referral_type === 'مركز نظارات') {
     const gc = $('glasses_center').value.trim();
     if (!gc) { showErr('e16'); valid = false; }
-  } else if (referral_type === 'physio') {
+  } else if (referral_type === 'علاج طبيعي') {
     const pc = $('physio_center').value.trim();
     if (!pc) { showErr('e17'); valid = false; }
   }
@@ -985,7 +985,7 @@ $('mainForm').addEventListener('submit', async function(e) {
     };
 
     // Add sub-fields based on referral type
-    if (referral_type === 'doctor') {
+    if (referral_type === 'دكتور') {
       payload.doctor_name = $('doctor_name').value.trim();
       payload.doctor_specialty = $('doctor_specialty').value;
       payload.doctor_specialty_other = $('doctor_specialty_other').value.trim();
@@ -993,19 +993,19 @@ $('mainForm').addEventListener('submit', async function(e) {
       payload.partnership_benefits = $('partnership_benefits').value.trim();
       payload.doctor_address = $('doctor_address').value.trim();
       payload.doctor_phone = $('doctor_phone').value.trim();
-    } else if (referral_type === 'lab') {
+    } else if (referral_type === 'معمل تحاليل') {
       payload.lab_name = $('lab_name').value.trim();
       payload.lab_tests = $('lab_tests').value.trim();
       payload.lab_address = $('lab_address').value.trim();
-    } else if (referral_type === 'radiology') {
+    } else if (referral_type === 'مركز أشعة') {
       payload.radiology_center = $('radiology_center').value.trim();
       payload.radiology_type = $('radiology_type').value.trim();
       payload.radiology_address = $('radiology_address').value.trim();
-    } else if (referral_type === 'glasses') {
+    } else if (referral_type === 'مركز نظارات') {
       payload.glasses_center = $('glasses_center').value.trim();
       payload.glasses_prescription = $('glasses_prescription').value.trim();
       payload.glasses_address = $('glasses_address').value.trim();
-    } else if (referral_type === 'physio') {
+    } else if (referral_type === 'علاج طبيعي') {
       payload.physio_center = $('physio_center').value.trim();
       payload.physio_sessions = $('physio_sessions').value.trim();
       payload.physio_address = $('physio_address').value.trim();
