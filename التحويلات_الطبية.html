@@ -572,8 +572,7 @@ body { padding-top: 32px; }
                 <option>خصم على الكشف</option>
                 <option>خصم كامل</option>
                 <option>أولوية في الحجز</option>
-                <option>عمولة تحويل</option>
-                <option>باقة شاملة</option>
+
                 <option>أخرى</option>
               </select>
               <span class="field-error" id="e11">يرجى اختيار نوع الشراكة</span>
@@ -589,14 +588,16 @@ body { padding-top: 32px; }
               <input type="text" id="partnership_benefits" placeholder="مثال: خصم 20% - أولوية الحجز">
             </div>
             <div class="field">
-              <label>هاتف الدكتور / العيادة</label>
+              <label>هاتف الدكتور / العيادة <span class="req">*</span></label>
               <input type="tel" id="doctor_phone" placeholder="رقم هاتف العيادة">
+              <span class="field-error" id="e20">يرجى إدخال رقم هاتف العيادة</span>
             </div>
           </div>
           <div class="field-row single">
             <div class="field">
-              <label>عنوان العيادة</label>
+              <label>عنوان العيادة <span class="req">*</span></label>
               <input type="text" id="doctor_address" placeholder="عنوان العيادة">
+              <span class="field-error" id="e21">يرجى إدخال عنوان العيادة</span>
             </div>
           </div>
         </div>
@@ -942,9 +943,13 @@ $('mainForm').addEventListener('submit', async function(e) {
     const dn = $('doctor_name').value.trim();
     const ds = $('doctor_specialty').value;
     const pt = $('partnership_type').value;
+    const dp = $('doctor_phone').value.trim();
+    const da = $('doctor_address').value.trim();
     if (!dn) { showErr('e9'); valid = false; }
     if (!ds) { showErr('e10'); valid = false; }
     if (!pt) { showErr('e11'); valid = false; }
+    if (!dp) { showErr('e20'); valid = false; }
+    if (!da) { showErr('e21'); valid = false; }
   } else if (referral_type === 'معمل تحاليل') {
     const ln = $('lab_name').value.trim();
     const lt = $('lab_tests').value.trim();
