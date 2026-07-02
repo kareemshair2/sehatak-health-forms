@@ -241,7 +241,9 @@ body { animation: fadeInPage 0.4s ease; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
 .field-row:last-child { margin-bottom: 0; }
 .field-row.single { grid-template-columns: 1fr; }
-@media (max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+.field-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 640px) { .field-row.triple { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .field-row, .field-row.triple { grid-template-columns: 1fr; } }
 .field { display: flex; flex-direction: column; gap: 5px; }
 .field label {
   font-size: 0.76rem;
@@ -276,6 +278,9 @@ body { animation: fadeInPage 0.4s ease; }
 .field input::placeholder, .field textarea::placeholder { color: var(--text3); }
 .field input.error { border-color: var(--danger) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.08) !important; background: rgba(239,68,68,0.03) !important; }
 .field input.valid { border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-glow) !important; }
+.field input[type="number"] { direction: ltr; text-align: left; font-family: 'Cairo', monospace; font-weight: 600; }
+.field input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
+.field input[type="number"]:focus::-webkit-inner-spin-button { opacity: 1; }
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2362748c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -288,11 +293,23 @@ body { animation: fadeInPage 0.4s ease; }
   background: rgba(17, 24, 39, 0.4);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 14px;
-  margin-bottom: 10px;
-  animation: slideIn 0.25s ease;
+  padding: 16px;
+  margin-bottom: 12px;
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--transition);
 }
-@keyframes slideIn { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.medicine-item:hover {
+  border-color: rgba(15,118,110,0.2);
+  box-shadow: 0 2px 12px rgba(15,118,110,0.04);
+}
+.medicine-item:not(:last-child)::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 14px -16px -16px;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .medicine-header {
   display: flex;
   justify-content: space-between;
@@ -325,23 +342,24 @@ body { animation: fadeInPage 0.4s ease; }
 .btn-remove:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.25); }
 .btn-add {
   width: 100%;
-  background: transparent;
+  background: linear-gradient(135deg, rgba(15,118,110,0.06), rgba(16,185,129,0.03));
   border: 1.5px dashed var(--border);
   color: var(--primary);
   cursor: pointer;
   font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 11px;
+  padding: 12px;
   border-radius: var(--radius-sm);
   transition: all var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
 }
-.btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.06); color: var(--primary); }
+.btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.1); color: var(--accent); box-shadow: 0 0 20px rgba(15,118,110,0.06); }
 .btn-submit {
   width: 100%;
   background: linear-gradient(135deg, var(--primary) 0%, #0d5e5e 100%);
@@ -399,9 +417,19 @@ body { animation: fadeInPage 0.4s ease; }
   width: 100%;
   text-align: center;
   box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-@keyframes popIn { from { opacity: 0; transform: scale(0.85) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.88) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.overlay .overlay-card .ov-icon {
+  display: inline-flex;
+  width: 64px; height: 64px;
+  align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+.overlay-card.success .ov-icon { background: rgba(16,185,129,0.1); }
+.overlay-card.danger .ov-icon { background: rgba(239,68,68,0.1); }
 .overlay-card .ov-icon { font-size: 3rem; margin-bottom: 12px; }
 .overlay-card h2 { font-family: 'Cairo', sans-serif; font-size: 1.15rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
 .overlay-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.75; margin-bottom: 18px; }
@@ -497,8 +525,8 @@ body { padding-top: 32px; }
 <div class="page">
 
 <div class="header">
-  <div class="logo-frame" style="display:flex;justify-content:center;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
-    <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
+  <div style="display:flex;justify-content:center;margin-bottom:16px;">
+    <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:10px;display:block;box-shadow:0 0 30px rgba(15,118,110,0.08);border:1px solid var(--border);">
   </div>
   <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
   <div class="header-badge">🏥 الملف الطبي — التحول الرقمي</div>
@@ -560,7 +588,7 @@ body { padding-top: 32px; }
     <div class="section">
       <div class="section-header">
         <span class="icon">💊</span> الأدوية
-        <span class="badge">إلزامي — يمكن إضافة أكثر من دواء</span>
+        <span class="badge" id="medBadge">0 دواء</span>
       </div>
       <div class="section-body">
         <div id="medicineList"></div>
@@ -623,6 +651,12 @@ document.querySelectorAll('input,select,textarea').forEach(el => el.addEventList
 
 let medCount = 0;
 
+function updateMedBadge() {
+  const count = document.querySelectorAll('.medicine-item').length;
+  const b = $('medBadge');
+  if (b) b.textContent = (count === 1 ? 'دواء واحد' : count + ' أدوية');
+}
+
 function addMedicine() {
   medCount++;
   const div = document.createElement('div');
@@ -633,7 +667,7 @@ function addMedicine() {
       <span class="medicine-num">💊 دواء #${medCount}</span>
       ${medCount > 1 ? `<button type="button" class="btn-remove" onclick="removeMedicine('med_${medCount}')">🗑 حذف</button>` : ''}
     </div>
-    <div class="field-row">
+    <div class="field-row triple">
       <div class="field">
         <label>اسم الدواء <span class="req">*</span></label>
         <input type="text" name="med_name" placeholder="اسم الدواء التجاري" oninput="this.value=this.value.replace(/[0-9]/g,'')">
@@ -644,14 +678,13 @@ function addMedicine() {
         <input type="number" name="med_focus" placeholder="مثلاً 500" min="0" step="any" oninput="this.value=this.value.replace(/[^0-9.]/g,'')">
         <span class="field-hint">أرقام فقط — مثال: 500 مجم</span>
       </div>
-    </div>
-    <div class="field-row">
       <div class="field">
         <label>المادة الفعالة <span class="req">*</span></label>
         <input type="text" name="med_ava" placeholder="المادة الفعالة">
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال المادة الفعالة</span>
       </div>
-    <div class="field-row">
+    </div>
+    <div class="field-row triple">
       <div class="field">
         <label>النوع <span class="req">*</span></label>
         <select name="med_typ">
@@ -718,11 +751,13 @@ function addMedicine() {
     el.addEventListener('change', updateProgress);
   });
   updateProgress();
+  updateMedBadge();
 }
 
 function removeMedicine(id) {
   $(id)?.remove();
   updateProgress();
+  updateMedBadge();
 }
 
 function showOverlay(id) { $(id).classList.add('show'); }
@@ -744,6 +779,7 @@ function resetForm() {
   hideStatus();
   updateProgress();
   addMedicine();
+  updateMedBadge();
 }
 
 $('mainForm').addEventListener('submit', async function(e) {
