@@ -636,15 +636,21 @@ function addMedicine() {
     <div class="field-row">
       <div class="field">
         <label>اسم الدواء <span class="req">*</span></label>
-        <input type="text" name="med_name" placeholder="اسم الدواء التجاري">
+        <input type="text" name="med_name" placeholder="اسم الدواء التجاري" oninput="this.value=this.value.replace(/[0-9]/g,'')">
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال اسم الدواء</span>
       </div>
+      <div class="field">
+        <label>التركيز</label>
+        <input type="number" name="med_focus" placeholder="مثلاً 500" min="0" step="any" oninput="this.value=this.value.replace(/[^0-9.]/g,'')">
+        <span class="field-hint">أرقام فقط — مثال: 500 مجم</span>
+      </div>
+    </div>
+    <div class="field-row">
       <div class="field">
         <label>المادة الفعالة <span class="req">*</span></label>
         <input type="text" name="med_ava" placeholder="المادة الفعالة">
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال المادة الفعالة</span>
       </div>
-    </div>
     <div class="field-row">
       <div class="field">
         <label>النوع <span class="req">*</span></label>
@@ -758,6 +764,7 @@ $('mainForm').addEventListener('submit', async function(e) {
   const tab = [];
   medItems.forEach((item, idx) => {
     const name = item.querySelector('[name="med_name"]')?.value?.trim();
+    const focus = item.querySelector('[name="med_focus"]')?.value?.trim();
     const ava  = item.querySelector('[name="med_ava"]')?.value?.trim();
     const typ  = item.querySelector('[name="med_typ"]')?.value;
     const dUnit= item.querySelector('[name="med_do"]')?.value;
@@ -774,13 +781,15 @@ $('mainForm').addEventListener('submit', async function(e) {
     const expErr  = errs[5];
 
     if (!name) { nameErr.style.display = 'block'; valid = false; }
+    else if (/[0-9]/.test(name)) { nameErr.textContent = 'اسم الدواء لا يقبل أرقاماً'; nameErr.style.display = 'block'; valid = false; }
+    else { nameErr.textContent = 'يرجى إدخال اسم الدواء'; }
     if (!ava)  { avaErr.style.display = 'block';  valid = false; }
     if (!typ)  { typErr.style.display = 'block';  valid = false; }
     if (!dUnit){ doErr.style.display = 'block';   valid = false; }
     if (!quan) { quanErr.style.display = 'block'; valid = false; }
     if (!exp)  { expErr.style.display = 'block';  valid = false; }
 
-    tab.push({ name, ava, typ, do: dUnit, quan, date_kw6pm91: exp, takhassos });
+    tab.push({ name, focus, ava, typ, do: dUnit, quan, date_kw6pm91: exp, takhassos });
   });
 
   if (!valid) return;
@@ -844,8 +853,8 @@ addMedicine();
 updateProgress();
 
 // ---- offline utils ----
-var CSV_FIELDS = ['date','sec','med_name','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos'];
-var CSV_HEADERS = ['تاريخ التسجيل','المركز','اسم الدواء','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص'];
+var CSV_FIELDS = ['date','sec','med_name','med_focus','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos'];
+var CSV_HEADERS = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص'];
 
 function collectFormData() {
   var date = $('date')?.value;
@@ -856,6 +865,7 @@ function collectFormData() {
   items.forEach(function(item) {
     meds.push({
       med_name: item.querySelector('[name="med_name"]')?.value?.trim() || '',
+      med_focus: item.querySelector('[name="med_focus"]')?.value?.trim() || '',
       med_ava: item.querySelector('[name="med_ava"]')?.value?.trim() || '',
       med_typ: item.querySelector('[name="med_typ"]')?.value || '',
       med_do: item.querySelector('[name="med_do"]')?.value || '',
@@ -870,10 +880,10 @@ function collectFormData() {
 function flattenData(d) {
   var rows = [];
   if (!d.medications || !d.medications.length) {
-    rows.push({date:d.date,sec:d.sec,med_name:'',med_ava:'',med_typ:'',med_do:'',med_quan:'',med_date:'',med_takhassos:''});
+    rows.push({date:d.date,sec:d.sec,med_name:'',med_focus:'',med_ava:'',med_typ:'',med_do:'',med_quan:'',med_date:'',med_takhassos:''});
   } else {
     d.medications.forEach(function(m) {
-      rows.push({date:d.date,sec:d.sec,med_name:m.med_name,med_ava:m.med_ava,med_typ:m.med_typ,med_do:m.med_do,med_quan:m.med_quan,med_date:m.med_date,med_takhassos:m.med_takhassos});
+      rows.push({date:d.date,sec:d.sec,med_name:m.med_name,med_focus:m.med_focus||'',med_ava:m.med_ava,med_typ:m.med_typ,med_do:m.med_do,med_quan:m.med_quan,med_date:m.med_date,med_takhassos:m.med_takhassos});
     });
   }
   return rows;
@@ -899,14 +909,15 @@ function importCSVData(headers, rows) {
     var items = document.querySelectorAll('.medicine-item');
     var item = items[items.length - 1];
     if (item) {
-      var inp = item.querySelectorAll('[name="med_name"],[name="med_ava"],[name="med_typ"],[name="med_do"],[name="med_quan"],[name="med_date_kw6pm91"],[name="med_takhassos"]');
+      var inp = item.querySelectorAll('[name="med_name"],[name="med_focus"],[name="med_ava"],[name="med_typ"],[name="med_do"],[name="med_quan"],[name="med_date_kw6pm91"],[name="med_takhassos"]');
       if (inp[0]) inp[0].value = row['اسم الدواء'] || '';
-      if (inp[1]) inp[1].value = row['المادة الفعالة'] || '';
-      if (inp[2]) inp[2].value = row['النوع'] || '';
-      if (inp[3]) inp[3].value = row['شريط/علبة'] || '';
-      if (inp[4]) inp[4].value = row['الكمية'] || '';
-      if (inp[5]) inp[5].value = row['تاريخ الانتهاء'] || '';
-      if (inp[6]) inp[6].value = row['التخصص'] || '';
+      if (inp[1]) inp[1].value = row['التركيز'] || '';
+      if (inp[2]) inp[2].value = row['المادة الفعالة'] || '';
+      if (inp[3]) inp[3].value = row['النوع'] || '';
+      if (inp[4]) inp[4].value = row['شريط/علبة'] || '';
+      if (inp[5]) inp[5].value = row['الكمية'] || '';
+      if (inp[6]) inp[6].value = row['تاريخ الانتهاء'] || '';
+      if (inp[7]) inp[7].value = row['التخصص'] || '';
     }
   });
   updateProgress();
