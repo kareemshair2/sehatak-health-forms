@@ -367,6 +367,11 @@ body {
   margin-top: 4px;
 }
 .btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.08); }
+.cascade-view { border-top: 1px dashed var(--border); padding-top: 14px; margin-top: 6px; }
+.cascade-view .field-row { animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.cascade-view select option { direction: rtl; }
+.cascade-view input[readonly] { background: rgba(15,118,110,0.04); border-color: rgba(15,118,110,0.1); cursor: default; }
 .btn-submit {
   width: 100%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
@@ -631,6 +636,7 @@ function updateProgress() {
   $('progressBar').style.width = Math.round(done / 5 * 100) + '%';
 }
 document.querySelectorAll('input,select,textarea').forEach(el => el.addEventListener('input', updateProgress));
+$('center').addEventListener('change', function() { drugCache = {}; document.querySelectorAll('.cascade-view').forEach(v => v.style.display = 'none'); });
 
 function compressImage(file, quality) {
   return new Promise((resolve, reject) => {
@@ -693,29 +699,222 @@ function addMedication() {
       <span class="medicine-num">💊 دواء #${medCount}</span>
       ${medCount > 1 ? `<button type="button" class="btn-remove" onclick="removeMedication('med_${medCount}')">🗑 حذف</button>` : ''}
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>اسم الدواء <span class="req">*</span></label>
-        <input type="text" name="med_name_${medCount}" placeholder="اسم الدواء">
-      </div>
-      <div class="field">
-        <label>كمية الدواء <span class="req">*</span></label>
-        <input type="number" name="med_qty_${medCount}" min="1" placeholder="الكمية">
-      </div>
-    </div>
     <div class="field-row single">
       <div class="field">
         <label>مصدر الدواء <span class="req">*</span></label>
-        <select name="med_source_${medCount}">
+        <select name="med_source_${medCount}" onchange="onSourceChange(this, '${medCount}')">
           <option value="">— اختر المصدر —</option>
           <option value="تبرعات عينية من المقر">تبرعات عينية من المقر</option>
           <option value="تبرعات عينية من الشراكات">تبرعات عينية من الشراكات</option>
           <option value="شراء">شراء</option>
         </select>
       </div>
+    </div>
+    <div class="simple-fields" id="simple_${medCount}" style="display:none">
+      <div class="field-row">
+        <div class="field">
+          <label>اسم الدواء <span class="req">*</span></label>
+          <input type="text" name="med_name_${medCount}" placeholder="اسم الدواء">
+        </div>
+        <div class="field">
+          <label>كمية الدواء <span class="req">*</span></label>
+          <input type="number" name="med_qty_${medCount}" min="1" placeholder="الكمية">
+        </div>
+      </div>
+    </div>
+    <div class="cascade-view" id="cascade_${medCount}" style="display:none">
+      <div class="field-row single">
+        <div class="field">
+          <label>اسم الدواء <span class="req">*</span></label>
+          <select name="cs_name_${medCount}" id="cs_name_${medCount}" onchange="onCSC('${medCount}','name')">
+            <option value="">— اختر اسم الدواء —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_form_${medCount}" style="display:none">
+        <div class="field">
+          <label>شريط / علبة <span class="req">*</span></label>
+          <select name="cs_form_${medCount}" id="cs_form_${medCount}" onchange="onCSC('${medCount}','form')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_conc_${medCount}" style="display:none">
+        <div class="field">
+          <label>التركيز <span class="req">*</span></label>
+          <select name="cs_conc_${medCount}" id="cs_conc_${medCount}" onchange="onCSC('${medCount}','conc')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_type_${medCount}" style="display:none">
+        <div class="field">
+          <label>النوع <span class="req">*</span></label>
+          <select name="cs_type_${medCount}" id="cs_type_${medCount}" onchange="onCSC('${medCount}','type')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_exp_${medCount}" style="display:none">
+        <div class="field">
+          <label>تاريخ الانتهاء <span class="req">*</span></label>
+          <select name="cs_exp_${medCount}" id="cs_exp_${medCount}" onchange="onCSC('${medCount}','exp')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_qty_${medCount}" style="display:none">
+        <div class="field">
+          <label>الكمية المصروفة <span class="req">*</span></label>
+          <input type="number" name="cs_qty_${medCount}" id="cs_qty_${medCount}" min="1" placeholder="أدخل الكمية المصروفة يدوياً">
+        </div>
+        <div class="field">
+          <label>المخزون المتاح</label>
+          <input type="text" id="cs_stock_${medCount}" readonly style="color:var(--text2);font-weight:600;">
+        </div>
+      </div>
+      <input type="hidden" name="med_cs_name_${medCount}" id="med_cs_name_${medCount}" value="">
+      <input type="hidden" name="med_cs_form_${medCount}" id="med_cs_form_${medCount}" value="">
+      <input type="hidden" name="med_cs_conc_${medCount}" id="med_cs_conc_${medCount}" value="">
+      <input type="hidden" name="med_cs_type_${medCount}" id="med_cs_type_${medCount}" value="">
+      <input type="hidden" name="med_cs_exp_${medCount}" id="med_cs_exp_${medCount}" value="">
     </div>`;
   $('medicationsList').appendChild(div);
   div.querySelectorAll('input,select').forEach(el => el.addEventListener('input', updateProgress));
+  updateProgress();
+}
+
+function onSourceChange(sel, idx) {
+  const val = sel.value;
+  const simple = $('simple_' + idx);
+  const cascade = $('cascade_' + idx);
+  if (val === 'تبرعات عينية من المقر') {
+    simple.style.display = 'none';
+    cascade.style.display = 'block';
+    fetchDrugSummary(idx);
+  } else if (val) {
+    cascade.style.display = 'none';
+    simple.style.display = 'block';
+  } else {
+    simple.style.display = 'none';
+    cascade.style.display = 'none';
+  }
+}
+
+var drugCache = {};
+
+function fetchDrugSummary(idx) {
+  const center = $('center').value;
+  if (!center) { alert('⚠️ يرجى اختيار المركز أولاً'); return; }
+  const cacheKey = 'drugs_' + center;
+  if (drugCache[cacheKey]) {
+    setupCascade(idx, drugCache[cacheKey]);
+    return;
+  }
+  const el = $('cs_name_' + idx);
+  el.innerHTML = '<option value="">⏳ جارٍ التحميل...</option>';
+  fetch(API_URL + '?action=getDrugSummary&center=' + encodeURIComponent(center))
+    .then(r => r.json())
+    .then(res => {
+      if (res.status !== 'success' || !res.data.length) {
+        el.innerHTML = '<option value="">❌ لا توجد أدوية لهذا المركز</option>';
+        return;
+      }
+      drugCache[cacheKey] = res.data;
+      setupCascade(idx, res.data);
+    })
+    .catch(() => {
+      el.innerHTML = '<option value="">❌ فشل التحميل</option>';
+    });
+}
+
+function setupCascade(idx, data) {
+  var names = [...new Set(data.map(d => d.name).filter(Boolean))];
+  var sel = $('cs_name_' + idx);
+  sel.innerHTML = '<option value="">— اختر اسم الدواء —</option>' + names.map(n => '<option value="' + escHtml(n) + '">' + escHtml(n) + '</option>').join('');
+  sel.parentElement.closest('.field').querySelector('.field-error')?.remove();
+  // Store data on the select for cascading
+  sel._drugData = data;
+  // Reset all cascade rows below
+  resetCascadeAfter(idx, 'name');
+}
+
+function escHtml(s) { return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function resetCascadeAfter(idx, afterField) {
+  var fields = ['form','conc','type','exp','qty'];
+  var start = fields.indexOf(afterField) + 1;
+  for (var i = start; i < fields.length; i++) {
+    var row = $('cs_row_' + fields[i] + '_' + idx);
+    if (row) row.style.display = 'none';
+    var sel = $('cs_' + fields[i] + '_' + idx);
+    if (sel) sel.innerHTML = '<option value="">— اختر —</option>';
+  }
+  $('cs_stock_' + idx).value = '';
+  $('med_cs_name_' + idx).value = '';
+  $('med_cs_form_' + idx).value = '';
+  $('med_cs_conc_' + idx).value = '';
+  $('med_cs_type_' + idx).value = '';
+  $('med_cs_exp_' + idx).value = '';
+}
+
+function onCSC(idx, field) {
+  var sel = $('cs_' + field + '_' + idx);
+  var val = sel.value;
+  if (!val) { resetCascadeAfter(idx, field); return; }
+
+  // Store the selected value in hidden input
+  var hidden = $('med_cs_' + (field === 'name' ? 'name' : field) + '_' + idx);
+  if (hidden) hidden.value = val;
+
+  // Get current filters
+  var data = $('cs_name_' + idx)._drugData || [];
+  var filters = {};
+  var fields = ['name','form','conc','type','exp'];
+  for (var i = 0; i < fields.length; i++) {
+    var f = fields[i];
+    var s = $('cs_' + f + '_' + idx);
+    if (s && s.value) filters[f] = s.value;
+    else break;
+  }
+  if (!Object.keys(filters).length) return;
+
+  var filtered = data.filter(function(d) {
+    for (var k in filters) {
+      if (String(d[k] || '').trim() !== String(filters[k]).trim()) return false;
+    }
+    return true;
+  });
+
+  // What's the next field?
+  var nextMap = { name: 'form', form: 'conc', conc: 'type', type: 'exp', exp: 'qty' };
+  var next = nextMap[field];
+
+  if (!next) {
+    var stock = $('cs_stock_' + idx);
+    if (filtered.length > 0) stock.value = 'المخزون: ' + filtered[0].qty;
+    else stock.value = '';
+    return;
+  }
+
+  resetCascadeAfter(idx, field);
+
+  if (next === 'qty') {
+    // Show qty row
+    $('cs_row_qty_' + idx).style.display = 'block';
+    var stock = $('cs_stock_' + idx);
+    if (filtered.length > 0) stock.value = 'المخزون المتاح: ' + filtered[0].qty;
+    return;
+  }
+
+  // Populate next dropdown
+  var nextVals = [...new Set(filtered.map(function(d) { return d[next]; }).filter(Boolean))];
+  if (!nextVals.length) { resetCascadeAfter(idx, field); return; }
+
+  var nextRow = $('cs_row_' + next + '_' + idx);
+  var nextSel = $('cs_' + next + '_' + idx);
+  nextRow.style.display = 'block';
+  nextSel.innerHTML = '<option value="">— اختر —</option>' + nextVals.map(function(v) { return '<option value="' + escHtml(v) + '">' + escHtml(v) + '</option>'; }).join('');
   updateProgress();
 }
 
@@ -778,11 +977,24 @@ $('mainForm').addEventListener('submit', async function(e) {
   const medications = [];
   let medErrors = false;
   medItems.forEach(item => {
-    const med_name = item.querySelector('[name^="med_name_"]').value.trim();
-    const med_qty = item.querySelector('[name^="med_qty_"]').value.trim();
     const med_source = item.querySelector('[name^="med_source_"]').value;
-    if (!med_name || !med_qty || !med_source) { medErrors = true; return; }
-    medications.push({ med_name, med_qty: parseInt(med_qty), med_source });
+    if (!med_source) { medErrors = true; return; }
+
+    if (med_source === 'تبرعات عينية من المقر') {
+      const med_name = item.querySelector('[name^="med_cs_name_"]')?.value?.trim();
+      const med_form = item.querySelector('[name^="med_cs_form_"]')?.value?.trim();
+      const med_conc = item.querySelector('[name^="med_cs_conc_"]')?.value?.trim();
+      const med_type = item.querySelector('[name^="med_cs_type_"]')?.value?.trim();
+      const med_exp = item.querySelector('[name^="med_cs_exp_"]')?.value?.trim();
+      const med_qty = item.querySelector('[name^="cs_qty_"]')?.value?.trim();
+      if (!med_name || !med_form || !med_conc || !med_type || !med_exp || !med_qty) { medErrors = true; return; }
+      medications.push({ med_name, med_form, med_conc, med_type, med_exp, med_qty: parseInt(med_qty), med_source });
+    } else {
+      const med_name = item.querySelector('[name^="med_name_"]')?.value?.trim();
+      const med_qty = item.querySelector('[name^="med_qty_"]')?.value?.trim();
+      if (!med_name || !med_qty) { medErrors = true; return; }
+      medications.push({ med_name, med_qty: parseInt(med_qty), med_source });
+    }
   });
 
   if (medErrors) { alert('⚠️ يرجى إكمال بيانات جميع الأدوية'); valid = false; }
@@ -853,8 +1065,8 @@ addMedication();
 updateProgress();
 
 // ---- offline utils ----
-var CSV_FIELDS = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source'];
-var CSV_HEADERS = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء'];
+var CSV_FIELDS = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source','med_form','med_conc','med_type','med_exp'];
+var CSV_HEADERS = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء','شريط/علبة','التركيز','النوع','تاريخ الانتهاء'];
 
 function collectFormData() {
   var patient_name = $('patient_name')?.value?.trim();
@@ -864,11 +1076,24 @@ function collectFormData() {
   if (!patient_name && !integer_wa4xt75 && !document.querySelectorAll('.medicine-item').length) return null;
   var meds = [];
   document.querySelectorAll('.medicine-item').forEach(function(item) {
-    meds.push({
-      med_name: item.querySelector('[name^="med_name_"]')?.value?.trim() || '',
-      med_qty: item.querySelector('[name^="med_qty_"]')?.value?.trim() || '',
-      med_source: item.querySelector('[name^="med_source_"]')?.value || ''
-    });
+    var source = item.querySelector('[name^="med_source_"]')?.value || '';
+    if (source === 'تبرعات عينية من المقر') {
+      meds.push({
+        med_name: item.querySelector('[name^="med_cs_name_"]')?.value?.trim() || '',
+        med_qty: item.querySelector('[name^="cs_qty_"]')?.value?.trim() || '',
+        med_form: item.querySelector('[name^="med_cs_form_"]')?.value?.trim() || '',
+        med_conc: item.querySelector('[name^="med_cs_conc_"]')?.value?.trim() || '',
+        med_type: item.querySelector('[name^="med_cs_type_"]')?.value?.trim() || '',
+        med_exp: item.querySelector('[name^="med_cs_exp_"]')?.value?.trim() || '',
+        med_source: source
+      });
+    } else {
+      meds.push({
+        med_name: item.querySelector('[name^="med_name_"]')?.value?.trim() || '',
+        med_qty: item.querySelector('[name^="med_qty_"]')?.value?.trim() || '',
+        med_source: source
+      });
+    }
   });
   return { patient_name:patient_name, patient_code:patient_code, integer_wa4xt75:integer_wa4xt75, center:center, medications:meds };
 }
@@ -877,10 +1102,10 @@ function flattenData(d) {
   var rows = [];
   var base = { patient_name:d.patient_name, patient_code:d.patient_code, integer_wa4xt75:d.integer_wa4xt75, center:d.center };
   if (!d.medications || !d.medications.length) {
-    rows.push(Object.assign({}, base, {med_name:'',med_qty:'',med_source:''}));
+    rows.push(Object.assign({}, base, {med_name:'',med_qty:'',med_source:'',med_form:'',med_conc:'',med_type:'',med_exp:''}));
   } else {
     d.medications.forEach(function(m) {
-      rows.push(Object.assign({}, base, {med_name:m.med_name,med_qty:m.med_qty,med_source:m.med_source}));
+      rows.push(Object.assign({}, base, {med_name:m.med_name,med_qty:m.med_qty,med_source:m.med_source,med_form:m.med_form||'',med_conc:m.med_conc||'',med_type:m.med_type||'',med_exp:m.med_exp||''}));
     });
   }
   return rows;
@@ -908,12 +1133,29 @@ function importCSVData(headers, rows) {
     var items = document.querySelectorAll('.medicine-item');
     var item = items[items.length - 1];
     if (item) {
-      // Find inputs by name pattern
-      var allInputs = item.querySelectorAll('input, select');
       var inputs = item.querySelectorAll('[name^="med_name_"], [name^="med_qty_"], [name^="med_source_"]');
       if (inputs[0]) inputs[0].value = row['اسم الدواء'] || '';
       if (inputs[1]) inputs[1].value = row['كمية الدواء'] || '';
       if (inputs[2]) inputs[2].value = row['مصدر الدواء'] || '';
+      // Trigger source change if cascade source
+      if (inputs[2] && row['مصدر الدواء'] === 'تبرعات عينية من المقر') {
+        var idx = inputs[2].name.split('_').pop();
+        inputs[2].dispatchEvent(new Event('change'));
+        setTimeout(function() {
+          var csName = item.querySelector('[name^="med_cs_name_"]');
+          if (csName && row['اسم الدواء']) csName.value = row['اسم الدواء'];
+          var csForm = item.querySelector('[name^="med_cs_form_"]');
+          if (csForm && row['شريط/علبة']) csForm.value = row['شريط/علبة'];
+          var csConc = item.querySelector('[name^="med_cs_conc_"]');
+          if (csConc && row['التركيز']) csConc.value = row['التركيز'];
+          var csType = item.querySelector('[name^="med_cs_type_"]');
+          if (csType && row['النوع']) csType.value = row['النوع'];
+          var csExp = item.querySelector('[name^="med_cs_exp_"]');
+          if (csExp && row['تاريخ الانتهاء']) csExp.value = row['تاريخ الانتهاء'];
+          var csQty = item.querySelector('[name^="cs_qty_"]');
+          if (csQty && row['كمية الدواء']) csQty.value = row['كمية الدواء'];
+        }, 500);
+      }
     }
   });
   updateProgress();
