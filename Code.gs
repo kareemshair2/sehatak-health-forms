@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Google Apps Script — الملف الطبي | صناع الحياة المنوفية
  * توحيد 9 استمارات في شيت واحد + توزيع لحظي لمجلدات المراكز
  */
@@ -6,7 +6,6 @@
 const SHEET_ID = '13nnScC6w3e0AxdreNmXCfDW2gz6c0I1-2zzBCnjwig8';
 const ROOT_FOLDER_ID = '1uot-zEvwR8tI_4COhGz0dM3SxPEkZu8E';
 const DATA_ROOT_FOLDER_ID = '1opDIaRsM4BJ8oqTVDP6PshcaI5xq3HUY';
-const MASTER_SHEET_ID = SHEET_ID;
 const CENTERS = ['أشمون','الباجور','السادات','الشهداء','بركة السبع','تلا','شبين الكوم','قويسنا','منوف'];
 
 const TAB_FOLDER_MAP = [
@@ -24,8 +23,8 @@ const TAB_FOLDER_MAP = [
 const FORMS = {
   submit: {
     tab: 'المساعدات الطبية',
-    headers: ['معرف','تاريخ التسجيل','اسم الحالة','الرقم القومي','الهاتف','المركز','الأدوية','صورة الروشتة','صورة البطاقة'],
-    fields: ['_id','_timestamp','patient_name','national_id','phone_number','center','medicines','prescription_photo_url','id_photo_url'],
+    headers: ['معرف','تاريخ التسجيل','اسم الحالة','الرقم القومي','الهاتف','المركز','اسم الدواء','الكمية','صورة الروشتة','صورة البطاقة'],
+    fields: ['_id','_timestamp','patient_name','national_id','phone_number','center','med_name','med_qty','prescription_photo_url','id_photo_url'],
     hasImages: true,
     imageFields: ['prescription_photo','id_photo'],
     subfolder: 'المساعدات الطبية'
@@ -54,8 +53,8 @@ const FORMS = {
   },
   sarf_alqawafel: {
     tab: 'صرف أدوية القوافل',
-    headers: ['معرف','تاريخ التسجيل','المركز','تاريخ القافلة','الدكتور','التخصص','الأدوية','صورة الروشتة'],
-    fields: ['_id','_timestamp','center','caravan_date','doctor_name','doctor_specialty','medicines','prescription_photo_url'],
+    headers: ['معرف','تاريخ التسجيل','المركز','تاريخ القافلة','الدكتور','التخصص','اسم الدواء','شريط/علبة','التركيز','النوع','تاريخ الانتهاء','الكمية','صورة الروشتة'],
+    fields: ['_id','_timestamp','center','caravan_date','doctor_name','doctor_specialty','med_name','med_form','med_conc','med_type','med_exp','med_qty','prescription_photo_url'],
     hasImages: true,
     imageFields: ['prescription_photo'],
     subfolder: 'صرف أدوية القوافل'
@@ -77,8 +76,8 @@ const FORMS = {
   },
   masroufat: {
     tab: 'مصروفات الحالات',
-    headers: ['معرف','تاريخ التسجيل','اسم الحالة','كود الحالة','المبلغ','المركز','الأدوية','صورة الروشتة'],
-    fields: ['_id','_timestamp','patient_name','patient_code','amount','center','medications','prescription_photo_url'],
+    headers: ['معرف','تاريخ التسجيل','اسم الحالة','الرقم القومي','المبلغ','المركز','اسم الدواء','شريط/علبة','التركيز','النوع','تاريخ الانتهاء','الكمية','مصدر الدواء','صورة الروشتة'],
+    fields: ['_id','_timestamp','patient_name','national_id','amount','center','med_name','med_form','med_conc','med_type','med_exp','med_qty','med_source','prescription_photo_url'],
     hasImages: true,
     imageFields: ['prescription_photo'],
     subfolder: 'مصروفات الحالات'
@@ -97,6 +96,7 @@ function doGet(e) {
   const action = e?.parameter?.action || '';
   if (action === 'checkNID') return handleCheckNID(e.parameter.nid);
   if (action === 'getDrugSummary') return handleGetDrugSummary(e.parameter.center);
+  if (action === 'getAllDrugSummary') return handleGetAllDrugSummary();
   return respondJson({ status: 'error', message: 'إجراء غير معروف' });
 }
 
@@ -155,6 +155,25 @@ function handleGetDrugSummary(center) {
   }
 }
 
+function handleGetAllDrugSummary() {
+  try {
+    const ss = SpreadsheetApp.openById(SHEET_ID);
+    const sheet = ss.getSheetByName('ملخص حصر');
+    if (!sheet) return respondJson({ status: 'error', message: 'تاب ملخص حصر غير موجود', data: [] });
+    const lastRow = sheet.getLastRow();
+    if (lastRow < 2) return respondJson({ status: 'error', message: 'لا توجد بيانات', data: [] });
+    const data = sheet.getRange(1, 14, lastRow, 7).getValues();
+    const rows = data.slice(1).map(function(r) { return {
+      center: r[0]||'', name: r[1]||'', form: r[2]||'',
+      conc: r[3]||'', type: r[4]||'',
+      exp: r[5]||'', qty: r[6]||''
+    }; }).filter(function(r) { return r.name.toString().trim(); });
+    return respondJson({ status: 'success', data: rows });
+  } catch (e) {
+    return respondJson({ status: 'error', message: e.toString(), data: [] });
+  }
+}
+
 // ─── doPost ───
 function doPost(e) {
   try {
@@ -199,7 +218,7 @@ function doPost(e) {
     else if (action === 'nawa2es_serf') result = handleNawa2esSerf(data, sheet, formConfig, recordId, timestamp);
     else return respondJson({ status: 'error', message: 'لم يتم معالجة الإجراء' });
 
-    // Distribut实时e after successful save
+    // توزيع لحظي بعد الحفظ الناجح
     try { distributeSingleRow(formConfig, data, recordId, timestamp); } catch (e) { console.error('Distribute error: ' + e); }
 
     return result;
@@ -212,8 +231,16 @@ function doPost(e) {
 function handleSubmit(data, sheet, config, recordId, timestamp, folder) {
   const prescUrl = data.prescription_photo ? saveBase64Image(data.prescription_photo, 'روشتة_' + recordId, folder) : '';
   const idUrl = data.id_photo ? saveBase64Image(data.id_photo, 'بطاقة_' + recordId, folder) : '';
-  sheet.appendRow([recordId, timestamp, data.patient_name||'', data.national_id||'', data.phone_number||'', data.center||'', data.medicines||'[]', prescUrl, idUrl]);
-  return respondJson({ status: 'success', message: 'تم تسجيل الحالة بنجاح', id: recordId });
+  var meds = [];
+  try { meds = typeof data.medicines === 'string' ? JSON.parse(data.medicines) : (data.medicines || []); } catch(e) { meds = []; }
+  if (meds.length === 0) {
+    sheet.appendRow([recordId, timestamp, data.patient_name||'', data.national_id||'', data.phone_number||'', data.center||'', '', '', '', '', '', '', prescUrl, idUrl]);
+  } else {
+    meds.forEach(function(m, i) {
+      sheet.appendRow([recordId + '-' + (i + 1), timestamp, data.patient_name||'', data.national_id||'', data.phone_number||'', data.center||'', m.med_name||m.name||'', m.med_form||'', m.med_conc||'', m.med_type||'', m.med_exp||'', (m.med_qty||m.qty||''), prescUrl, idUrl]);
+    });
+  }
+  return respondJson({ status: 'success', message: 'تم تسجيل ' + meds.length + ' دواء', id: recordId, count: meds.length });
 }
 
 // ─── التحويلات الطبية ───
@@ -287,15 +314,24 @@ function handleAdwytAlqawafel(data, sheet, config, recordId, timestamp) {
 function handleSarfAlqawafel(data, sheet, config, recordId, timestamp, folder) {
   const prescriptions = data.prescription_group || [];
   if (prescriptions.length === 0) {
-    sheet.appendRow([recordId, timestamp, data.center||'', data.caravan_date||'', '', '', '', '']);
+    sheet.appendRow([recordId, timestamp, data.center||'', data.caravan_date||'', '', '', '', '', '', '', '', '', '']);
     return respondJson({ status: 'success', message: 'تم التسجيل (بدون أدوية)' });
   }
-  prescriptions.forEach((p, i) => {
-    const subId = recordId + '-' + (i + 1);
-    const imgUrl = p.prescription_photo ? saveBase64Image(p.prescription_photo, 'صرف_' + subId, folder) : '';
-    sheet.appendRow([subId, timestamp, data.center||'', data.caravan_date||'', p.doctor_name||'', p.doctor_specialty||'', JSON.stringify(p.medicine_group||[]), imgUrl]);
+  var rowIdx = 0;
+  prescriptions.forEach(function(p) {
+    var imgUrl = p.prescription_photo ? saveBase64Image(p.prescription_photo, 'صرف_' + recordId + '-' + (rowIdx + 1), folder) : '';
+    var meds = p.medicine_group || [];
+    if (meds.length === 0) {
+      rowIdx++;
+      sheet.appendRow([recordId + '-' + rowIdx, timestamp, data.center||'', data.caravan_date||'', p.doctor_name||'', p.doctor_specialty||'', '', '', '', '', '', '', imgUrl]);
+    } else {
+      meds.forEach(function(m) {
+        rowIdx++;
+        sheet.appendRow([recordId + '-' + rowIdx, timestamp, data.center||'', data.caravan_date||'', p.doctor_name||'', p.doctor_specialty||'', m.medicine_name||'', m.med_form||'', m.med_conc||'', m.med_type||'', m.med_exp||'', (m.quantity||m.qty||''), imgUrl]);
+      });
+    }
   });
-  return respondJson({ status: 'success', message: 'تم تسجيل ' + prescriptions.length + ' روشتة', count: prescriptions.length });
+  return respondJson({ status: 'success', message: 'تم تسجيل ' + rowIdx + ' دواء', count: rowIdx });
 }
 
 // ─── نتائج القوافل ───
@@ -314,8 +350,15 @@ function handleTaaqodat(data, sheet, config, recordId, timestamp, folder) {
 // ─── مصروفات الحالات ───
 function handleMasroufat(data, sheet, config, recordId, timestamp, folder) {
   const imgUrl = data.prescription_photo ? saveBase64Image(data.prescription_photo, 'مصروفات_' + recordId, folder) : '';
-  sheet.appendRow([recordId, timestamp, data.patient_name||'', data.patient_code||'', data.integer_wa4xt75||'', data.center||'', JSON.stringify(data.medications_group||[]), imgUrl]);
-  return respondJson({ status: 'success', message: 'تم تسجيل المصروفات بنجاح' });
+  const meds = data.medications_group || [];
+  if (meds.length === 0) {
+    sheet.appendRow([recordId, timestamp, data.patient_name||'', data.national_id||'', data.integer_wa4xt75||'', data.center||'', '', '', '', '', '', '', '', imgUrl]);
+  } else {
+    meds.forEach(function(m, i) {
+      sheet.appendRow([recordId + '-' + (i + 1), timestamp, data.patient_name||'', data.national_id||'', data.integer_wa4xt75||'', data.center||'', m.med_name||'', m.med_form||'', m.med_conc||'', m.med_type||'', m.med_exp||'', (m.med_qty||m.qty||''), m.med_source||'', imgUrl]);
+    });
+  }
+  return respondJson({ status: 'success', message: 'تم تسجيل ' + meds.length + ' دواء', count: meds.length });
 }
 
 // ─── نواقص الصرف الشهري ───
@@ -372,7 +415,7 @@ function setupFolders() {
 }
 
 function distributeAllData() {
-  var ss = SpreadsheetApp.openById(MASTER_SHEET_ID);
+  var ss = SpreadsheetApp.openById(SHEET_ID);
   var root = DriveApp.getFolderById(DATA_ROOT_FOLDER_ID);
   TAB_FOLDER_MAP.forEach(function(cfg) {
     var sheet = ss.getSheetByName(cfg.tab);
@@ -417,7 +460,7 @@ function distributeSingleRow(formConfig, data, recordId, timestamp) {
     if (TAB_FOLDER_MAP[idx].tab === formConfig.tab) { cfg = TAB_FOLDER_MAP[idx]; break; }
   }
   if (!cfg) return;
-  var ss = SpreadsheetApp.openById(MASTER_SHEET_ID);
+  var ss = SpreadsheetApp.openById(SHEET_ID);
   var sheet = ss.getSheetByName(formConfig.tab);
   if (!sheet) return;
   var allData = sheet.getDataRange().getValues();
