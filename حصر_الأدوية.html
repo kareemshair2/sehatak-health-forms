@@ -940,7 +940,7 @@ function importCSVData(headers, rows) {
       if (row['تاريخ التسجيل']) document.getElementById('date').value = row['تاريخ التسجيل'];
       if (row['المركز']) document.getElementById('sec').value = row['المركز'];
     }
-    if (ri > 0) addMedicine();
+    addMedicine();
     var items = document.querySelectorAll('.medicine-item');
     var item = items[items.length - 1];
     if (item) {

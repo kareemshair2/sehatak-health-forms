@@ -1249,25 +1249,65 @@ function importCSVData(headers, rows) {
   });
   if (Object.keys(colMap).length < 2) { showTooltip('❌ تنسيق CSV غير متطابق', true); return; }
   resetForm();
+  if (rows.length > 0) {
+    var first = {}; CSV_HEADERS.forEach(function(h) { first[h] = rows[0][colMap[h]] || ''; });
+    if (first['المركز']) $('center').value = first['المركز'];
+    if (first['تاريخ القافلة']) $('caravan_date').value = first['تاريخ القافلة'];
+  }
+  var prevDoc = '';
   rows.forEach(function(vals, ri) {
-    var row = {};
-    CSV_HEADERS.forEach(function(h) { row[h] = vals[colMap[h]] || ''; });
-    if (ri === 0) {
-      if (row['المركز']) $('center').value = row['المركز'];
-      if (row['تاريخ القافلة']) $('caravan_date').value = row['تاريخ القافلة'];
+    var row = {}; CSV_HEADERS.forEach(function(h) { row[h] = vals[colMap[h]] || ''; });
+    var docKey = (row['اسم الدكتور']||'') + '|' + (row['التخصص']||'');
+    if (docKey !== prevDoc) {
+      addPrescription();
+      prevDoc = docKey;
+      setTimeout(function() {
+        var blocks = document.querySelectorAll('.presc-block');
+        var block = blocks[blocks.length - 1];
+        if (block) {
+          var dn = block.querySelector('.doc-name-input');
+          var ds = block.querySelector('.doc-spec-select');
+          if (dn) dn.value = row['اسم الدكتور'] || '';
+          if (ds) ds.value = row['التخصص'] || '';
+        }
+      }, 100);
     }
-    addPrescription();
-    var blocks = document.querySelectorAll('.presc-block');
-    var block = blocks[blocks.length - 1];
-    if (block) {
-      var dn = block.querySelector('.doc-name-input');
-      var ds = block.querySelector('.doc-spec-select');
-      if (dn) dn.value = row['اسم الدكتور'] || '';
-      if (ds) ds.value = row['التخصص'] || '';
-    }
+    setTimeout(function() {
+      var blocks = document.querySelectorAll('.presc-block');
+      var block = blocks[blocks.length - 1];
+      if (!block) return;
+      var medList = block.querySelector('.med-list');
+      if (!medList) return;
+      addMedicine(blocks.length);
+      setTimeout(function() {
+        var medItem = medList.querySelector('.med-item:last-child');
+        if (!medItem) return;
+        var firstSel = medItem.querySelector('[id^="cs_name_"]');
+        if (!firstSel) return;
+        var idx = firstSel.id.replace('cs_name_', '');
+        if (row['اسم الدواء']) { $('med_cs_name_' + idx).value = row['اسم الدواء']; $('cs_name_' + idx).value = row['اسم الدواء']; }
+        if (row['شريط/علبة'] || row['اسم الدواء']) {
+          setTimeout(function() {
+            if (row['شريط/علبة']) { $('med_cs_form_' + idx).value = row['شريط/علبة']; }
+            if (row['التركيز']) {
+              setTimeout(function() {
+                $('med_cs_conc_' + idx).value = row['التركيز'];
+                if (row['النوع']) {
+                  setTimeout(function() {
+                    $('med_cs_type_' + idx).value = row['النوع'];
+                    if (row['تاريخ الانتهاء']) {
+                      setTimeout(function() { $('med_cs_exp_' + idx).value = row['تاريخ الانتهاء']; if (row['الكمية']) $('cs_qty_' + idx).value = row['الكمية']; }, 200);
+                    } else { if (row['الكمية']) $('cs_qty_' + idx).value = row['الكمية']; }
+                  }, 200);
+                } else { if (row['الكمية']) $('cs_qty_' + idx).value = row['الكمية']; }
+              }, 200);
+            } else { if (row['الكمية']) $('cs_qty_' + idx).value = row['الكمية']; }
+          }, 300);
+        }
+      }, 300);
+    }, ri * 200);
   });
-  updateProgress();
-  showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
+  setTimeout(function() { updateProgress(); showTooltip('✅ تم استيراد ' + rows.length + ' سجل'); }, rows.length * 200 + 2000);
 }
 
 var _origSho = showOverlay;
@@ -1294,7 +1334,7 @@ window.fillFormFromLocal = function(row) {
     if (p.medicines) p.medicines.forEach(function(m) {
       var medList = block.querySelector('.med-list');
       if (!medList) return;
-      addMedToPresc(medList, block);
+      addMedicine(prescCount);
       var medItem = medList.querySelector('.med-item:last-child');
       if (!medItem) return;
       var firstSel = medItem.querySelector('[id^="cs_name_"]');
