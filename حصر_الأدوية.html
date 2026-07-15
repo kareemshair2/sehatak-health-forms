@@ -959,6 +959,27 @@ function importCSVData(headers, rows) {
   showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
 }
 
+window.fillFormFromLocal = function(row) {
+  if (row.date) $('date').value = row.date;
+  if (row.sec) $('sec').value = row.sec;
+  document.getElementById('medicineList').innerHTML = ''; medCount = 0;
+  if (row.medications) row.medications.forEach(function(m) {
+    addMedicine();
+    var item = document.querySelector('.medicine-item:last-child');
+    if (!item) return;
+    var inp = item.querySelectorAll('[name="med_name"],[name="med_focus"],[name="med_ava"],[name="med_typ"],[name="med_do"],[name="med_quan"],[name="med_date_kw6pm91"],[name="med_takhassos"]');
+    if (inp[0]) inp[0].value = m.med_name || '';
+    if (inp[1]) inp[1].value = m.med_focus || '';
+    if (inp[2]) inp[2].value = m.med_ava || '';
+    if (inp[3]) inp[3].value = m.med_typ || '';
+    if (inp[4]) inp[4].value = m.med_do || '';
+    if (inp[5]) inp[5].value = m.med_quan || '';
+    if (inp[6]) inp[6].value = m.med_date || '';
+    if (inp[7]) inp[7].value = m.med_takhassos || '';
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 // Hook into success overlay to save locally
 var _origSho = showOverlay;
 showOverlay = function(id) {

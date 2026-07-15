@@ -831,6 +831,26 @@ function importCSVData(headers, rows) {
   showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
 }
 
+window.fillFormFromLocal = function(row) {
+  if (row.center) $('center').value = row.center;
+  if (row.total_checkups) $('total_checkups').value = row.total_checkups;
+  if (row.total_labs) $('total_labs').value = row.total_labs;
+  if (row.other_interventions) $('other_interventions').value = row.other_interventions;
+  if (row.other_interventions_count) $('other_interventions_count').value = row.other_interventions_count;
+  $('specialtiesList').innerHTML = ''; specCount = 0;
+  if (row.specialties) row.specialties.forEach(function(s) {
+    addSpecialty();
+    var item = document.querySelector('.specialty-item:last-child');
+    if (!item) return;
+    var inp = item.querySelectorAll('[name="specialty"],[name="doctor_name"],[name="spec_checkups"],[name="time_spent"]');
+    if (inp[0]) inp[0].value = s.specialty || '';
+    if (inp[1]) inp[1].value = s.doctor_name || '';
+    if (inp[2]) inp[2].value = s.spec_checkups || '';
+    if (inp[3]) inp[3].value = s.time_spent || '';
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 var _origSho = showOverlay;
 showOverlay = function(id) {
   if (id === 'successOverlay') {

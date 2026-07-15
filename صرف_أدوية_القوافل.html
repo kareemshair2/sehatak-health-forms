@@ -1279,6 +1279,47 @@ showOverlay = function(id) {
   _origSho(id);
 };
 
+window.fillFormFromLocal = function(row) {
+  if (row.center) $('center').value = row.center;
+  if (row.caravan_date) $('caravan_date').value = row.caravan_date;
+  document.querySelectorAll('.presc-block').forEach(function(b) { b.remove(); }); prescCount = 0;
+  if (row.prescriptions) row.prescriptions.forEach(function(p) {
+    addPrescription();
+    var block = document.querySelector('.presc-block:last-child');
+    if (!block) return;
+    var dn = block.querySelector('.doc-name-input');
+    var ds = block.querySelector('.doc-spec-select');
+    if (dn) dn.value = p.doctor_name || '';
+    if (ds) ds.value = p.doctor_specialty || '';
+    if (p.medicines) p.medicines.forEach(function(m) {
+      var medList = block.querySelector('.med-list');
+      if (!medList) return;
+      addMedToPresc(medList, block);
+      var medItem = medList.querySelector('.med-item:last-child');
+      if (!medItem) return;
+      var firstSel = medItem.querySelector('[id^="cs_name_"]');
+      if (!firstSel) return;
+      var idx = firstSel.id.replace('cs_name_', '');
+      if (m.medicine_name) $('med_cs_name_' + idx).value = m.medicine_name;
+      if (m.medicine_name) { $('med_cs_name_' + idx).dispatchEvent(new Event('change')); }
+      setTimeout(function() {
+        if (m.med_form) { $('med_cs_form_' + idx).value = m.med_form; $('med_cs_form_' + idx).dispatchEvent(new Event('change')); }
+        setTimeout(function() {
+          if (m.med_conc) { $('med_cs_conc_' + idx).value = m.med_conc; $('med_cs_conc_' + idx).dispatchEvent(new Event('change')); }
+          setTimeout(function() {
+            if (m.med_type) { $('med_cs_type_' + idx).value = m.med_type; $('med_cs_type_' + idx).dispatchEvent(new Event('change')); }
+            setTimeout(function() {
+              if (m.med_exp) { $('med_cs_exp_' + idx).value = m.med_exp; }
+              if (m.quantity) $('cs_qty_' + idx).value = m.quantity;
+            }, 200);
+          }, 200);
+        }, 200);
+      }, 500);
+    });
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 initOffline('sarf_alqawafel', 'صرف أدوية القوافل', CSV_FIELDS, CSV_HEADERS);
 
 window.exportFormCSV = function(fid, flabel, fields, headers) {

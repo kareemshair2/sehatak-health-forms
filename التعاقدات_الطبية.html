@@ -878,6 +878,11 @@ showOverlay = function(id) {
   _origSho(id);
 };
 
+window.fillFormFromLocal = function(row) {
+  CSV_FIELDS.forEach(function(f) { if (row[f]) $(f).value = row[f]; });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 initOffline('taaqodat', 'التعاقدات الطبية', CSV_FIELDS, CSV_HEADERS);
 </script>
 </div>

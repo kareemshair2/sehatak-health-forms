@@ -925,6 +925,24 @@ window.exportFormCSV = function(fid, flabel, fields, headers) {
   flat.forEach(function(r) { csv += CSV_FIELDS.map(function(f) { return escapeCSV(r[f]); }).join(',') + '\n'; });
   downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
 };
+window.fillFormFromLocal = function(row) {
+  if (row.date) $('date').value = row.date;
+  if (row.center) $('center').value = row.center;
+  $('tabList').innerHTML = ''; tabCount = 0;
+  if (row.medications) row.medications.forEach(function(m) {
+    addTabItem();
+    if (m.name) $('name_' + tabCount).value = m.name;
+    if (m.conc) $('conc_' + tabCount).value = m.conc;
+    if (m.exp) $('exp_' + tabCount).value = m.exp;
+    if (m.active) $('active_' + tabCount).value = m.active;
+    if (m.type) $('type_' + tabCount).value = m.type;
+    if (m.unit) $('unit_' + tabCount).value = m.unit;
+    if (m.qty) $('qty_' + tabCount).value = m.qty;
+    if (m.spec) $('spec_' + tabCount).value = m.spec;
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 window.downloadCSVTemplate = function(flabel) { downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>
 </div>
