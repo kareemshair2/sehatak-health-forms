@@ -674,8 +674,8 @@ function addMedicine() {
       </div>
       <div class="field">
         <label>التركيز</label>
-        <input type="number" name="med_focus" placeholder="مثلاً 500" min="0" step="any" oninput="this.value=this.value.replace(/[^0-9.]/g,'')">
-        <span class="field-hint">أرقام فقط — مثال: 500 مجم</span>
+        <input type="text" name="med_focus" placeholder="مثلاً 500 أو 12.5/5/1000" oninput="this.value=this.value.replace(/[^0-9./]/g,'')">
+        <span class="field-hint">أرقام و / فقط، بدون وحدات — مثال: 500 أو 12.5/5/1000</span>
       </div>
       <div class="field">
         <label>المادة الفعالة <span class="req">*</span></label>
@@ -708,6 +708,7 @@ function addMedicine() {
           <option value="">— اختر —</option>
           <option>شريط</option>
           <option>علبة</option>
+          <option>عينة مجانية</option>
         </select>
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى الاختيار</span>
       </div>
@@ -715,8 +716,10 @@ function addMedicine() {
         <label>التخصص</label>
         <select name="med_takhassos">
           <option value="">— اختر التخصص —</option>
-          <option>قلب وضغط</option>
-          <option>باطنة و سكر</option>
+          <option>ضغط</option>
+          <option>سكر</option>
+          <option>قلب وأوعية دموية</option>
+          <option>باطنة</option>
           <option>اطفال</option>
           <option>مسكنات</option>
           <option>مضادات حيوية</option>
@@ -740,7 +743,7 @@ function addMedicine() {
       </div>
       <div class="field">
         <label>تاريخ الانتهاء <span class="req">*</span></label>
-        <input type="date" name="med_date_kw6pm91">
+        <input type="month" name="med_date_kw6pm91">
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال تاريخ الانتهاء</span>
       </div>
     </div>`;
