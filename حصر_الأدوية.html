@@ -669,7 +669,7 @@ function addMedicine() {
     <div class="field-row triple">
       <div class="field">
         <label>اسم الدواء <span class="req">*</span></label>
-        <input type="text" name="med_name" placeholder="اسم الدواء التجاري" oninput="this.value=this.value.replace(/[0-9]/g,'')">
+        <input type="text" name="med_name" placeholder="اسم الدواء التجاري" oninput="this.value=this.value.replace(/[^a-zA-Z ]/g,'')">
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال اسم الدواء</span>
       </div>
       <div class="field">
@@ -689,16 +689,17 @@ function addMedicine() {
         <select name="med_typ">
           <option value="">— اختر —</option>
           <option>أقراص</option>
-          <option>محلول</option>
           <option>كبسول</option>
           <option>شراب</option>
-          <option>مرهم</option>
-          <option>بخاخ</option>
           <option>فوار</option>
-          <option>مضمضة</option>
+          <option>محلول</option>
+          <option>مرهم</option>
           <option>كريم</option>
+          <option>جل</option>
           <option>أمبول</option>
+          <option>بخاخ</option>
           <option>نقط</option>
+          <option>مضمضة</option>
         </select>
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى اختيار النوع</span>
       </div>
@@ -819,7 +820,7 @@ $('mainForm').addEventListener('submit', async function(e) {
     const expErr  = errs[5];
 
     if (!name) { nameErr.style.display = 'block'; valid = false; }
-    else if (/[0-9]/.test(name)) { nameErr.textContent = 'اسم الدواء لا يقبل أرقاماً'; nameErr.style.display = 'block'; valid = false; }
+    else if (!/^[a-zA-Z ]+$/.test(name)) { nameErr.textContent = 'اسم الدواء يجب أن يكون حروف إنجليزية فقط'; nameErr.style.display = 'block'; valid = false; }
     else { nameErr.textContent = 'يرجى إدخال اسم الدواء'; }
     if (!ava)  { avaErr.style.display = 'block';  valid = false; }
     if (!typ)  { typErr.style.display = 'block';  valid = false; }
