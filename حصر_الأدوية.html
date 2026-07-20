@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+﻿?<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <script src="offline-utils.js"></script>
@@ -241,7 +241,9 @@ body { animation: fadeInPage 0.4s ease; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
 .field-row:last-child { margin-bottom: 0; }
 .field-row.single { grid-template-columns: 1fr; }
-@media (max-width: 540px) { .field-row { grid-template-columns: 1fr; } }
+.field-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+@media (max-width: 640px) { .field-row.triple { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 540px) { .field-row, .field-row.triple { grid-template-columns: 1fr; } }
 .field { display: flex; flex-direction: column; gap: 5px; }
 .field label {
   font-size: 0.76rem;
@@ -276,6 +278,9 @@ body { animation: fadeInPage 0.4s ease; }
 .field input::placeholder, .field textarea::placeholder { color: var(--text3); }
 .field input.error { border-color: var(--danger) !important; box-shadow: 0 0 0 3px rgba(239,68,68,0.08) !important; background: rgba(239,68,68,0.03) !important; }
 .field input.valid { border-color: var(--accent) !important; box-shadow: 0 0 0 3px var(--accent-glow) !important; }
+.field input[type="number"] { direction: ltr; text-align: left; font-family: 'Cairo', monospace; font-weight: 600; }
+.field input[type="number"]::-webkit-inner-spin-button { opacity: 0.5; }
+.field input[type="number"]:focus::-webkit-inner-spin-button { opacity: 1; }
 .field select {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2362748c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -288,11 +293,23 @@ body { animation: fadeInPage 0.4s ease; }
   background: rgba(17, 24, 39, 0.4);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  padding: 14px;
-  margin-bottom: 10px;
-  animation: slideIn 0.25s ease;
+  padding: 16px;
+  margin-bottom: 12px;
+  animation: slideIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition: all var(--transition);
 }
-@keyframes slideIn { from { opacity: 0; transform: translateY(-8px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.medicine-item:hover {
+  border-color: rgba(15,118,110,0.2);
+  box-shadow: 0 2px 12px rgba(15,118,110,0.04);
+}
+.medicine-item:not(:last-child)::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 14px -16px -16px;
+}
+@keyframes slideIn { from { opacity: 0; transform: translateY(-10px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
 .medicine-header {
   display: flex;
   justify-content: space-between;
@@ -325,23 +342,24 @@ body { animation: fadeInPage 0.4s ease; }
 .btn-remove:hover { background: rgba(239,68,68,0.15); border-color: rgba(239,68,68,0.25); }
 .btn-add {
   width: 100%;
-  background: transparent;
+  background: linear-gradient(135deg, rgba(15,118,110,0.06), rgba(16,185,129,0.03));
   border: 1.5px dashed var(--border);
   color: var(--primary);
   cursor: pointer;
   font-family: 'IBM Plex Sans Arabic', sans-serif;
-  font-size: 0.82rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  padding: 11px;
+  padding: 12px;
   border-radius: var(--radius-sm);
   transition: all var(--transition);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  margin-top: 4px;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
 }
-.btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.06); color: var(--primary); }
+.btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.1); color: var(--accent); box-shadow: 0 0 20px rgba(15,118,110,0.06); }
 .btn-submit {
   width: 100%;
   background: linear-gradient(135deg, var(--primary) 0%, #0d5e5e 100%);
@@ -399,9 +417,19 @@ body { animation: fadeInPage 0.4s ease; }
   width: 100%;
   text-align: center;
   box-shadow: 0 24px 64px rgba(0,0,0,0.5);
-  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-@keyframes popIn { from { opacity: 0; transform: scale(0.85) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes popIn { from { opacity: 0; transform: scale(0.88) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.overlay .overlay-card .ov-icon {
+  display: inline-flex;
+  width: 64px; height: 64px;
+  align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+.overlay-card.success .ov-icon { background: rgba(16,185,129,0.1); }
+.overlay-card.danger .ov-icon { background: rgba(239,68,68,0.1); }
 .overlay-card .ov-icon { font-size: 3rem; margin-bottom: 12px; }
 .overlay-card h2 { font-family: 'Cairo', sans-serif; font-size: 1.15rem; font-weight: 900; margin-bottom: 8px; color: #fff; }
 .overlay-card p { font-size: 0.85rem; color: var(--text2); line-height: 1.75; margin-bottom: 18px; }
@@ -490,18 +518,17 @@ body { padding-top: 32px; }
 
 <div class="premium-bar">
   <span class="bar-icon">◈</span>
-  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+  <span>منظومة الملف الطبي — صناع الحياة المنوفية</span>
 </div>
 <div class="geo-bg"></div>
 <div class="grain"></div>
 <div class="page">
 
 <div class="header">
-  <div class="logo-frame" style="display:flex;justify-content:center;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
-    <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
+  <div style="display:flex;justify-content:center;margin-bottom:16px;">
+    <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:10px;display:block;box-shadow:0 0 30px rgba(15,118,110,0.08);border:1px solid var(--border);">
   </div>
-  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div class="header-badge">🏥 الملف الصحي — التحول الرقمي</div>
+  <div class="header-badge">🏥 الملف الطبي — التحول الرقمي</div>
   <h1>حصر أدوية صيدلية صناع الحياة</h1>
   <p>جمعية صناع الحياة — محافظة المنوفية</p>
   <div class="header-divider"></div>
@@ -540,8 +567,9 @@ body { padding-top: 32px; }
           <div class="field">
             <label>المركز <span class="req">*</span></label>
             <select id="sec">
-              <option value="">— اختر المركز —</option>
-              <option>شبين الكوم</option>
+<option value="">— اختر المركز —</option>
+<option>مركزي</option>
+<option>شبين الكوم</option>
               <option>قويسنا</option>
               <option>بركة السبع</option>
               <option>تلا</option>
@@ -549,7 +577,7 @@ body { padding-top: 32px; }
               <option>الباجور</option>
               <option>الشهداء</option>
               <option>السادات</option>
-              <option>اشمون</option>
+              <option>أشمون</option>
             </select>
             <span class="field-error" id="e2">يرجى اختيار المركز</span>
           </div>
@@ -560,7 +588,7 @@ body { padding-top: 32px; }
     <div class="section">
       <div class="section-header">
         <span class="icon">💊</span> الأدوية
-        <span class="badge">إلزامي — يمكن إضافة أكثر من دواء</span>
+        <span class="badge" id="medBadge">0 دواء</span>
       </div>
       <div class="section-body">
         <div id="medicineList"></div>
@@ -577,7 +605,7 @@ body { padding-top: 32px; }
 
   <div class="footer">
     <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-    <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية<br>
+    <div style="margin-top:8px"><strong>الملف الطبي</strong> — صناع الحياة المنوفية<br>
     التحول الرقمي © 2026</div>
   </div>
 </div>
@@ -601,7 +629,7 @@ body { padding-top: 32px; }
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxEOUNtBfCY6ld7TZV17frxjfM4zkvTnXD7wLKQfXTuBcWeXllEmGdayM1oYlLK1pfH5w/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzTkmFGEYZHEhQssU38zv65WZcQ4MqWMeIWI2vUmG8JpBIQjpwCnBUg846RSNMtTEFW/exec";
 
 const $ = id => document.getElementById(id);
 const show = (id, v) => $(id).style.display = v || 'block';
@@ -623,6 +651,12 @@ document.querySelectorAll('input,select,textarea').forEach(el => el.addEventList
 
 let medCount = 0;
 
+function updateMedBadge() {
+  const count = document.querySelectorAll('.medicine-item').length;
+  const b = $('medBadge');
+  if (b) b.textContent = (count === 1 ? 'دواء واحد' : count + ' أدوية');
+}
+
 function addMedicine() {
   medCount++;
   const div = document.createElement('div');
@@ -633,11 +667,16 @@ function addMedicine() {
       <span class="medicine-num">💊 دواء #${medCount}</span>
       ${medCount > 1 ? `<button type="button" class="btn-remove" onclick="removeMedicine('med_${medCount}')">🗑 حذف</button>` : ''}
     </div>
-    <div class="field-row">
+    <div class="field-row triple">
       <div class="field">
         <label>اسم الدواء <span class="req">*</span></label>
-        <input type="text" name="med_name" placeholder="اسم الدواء التجاري">
+        <input type="text" name="med_name" placeholder="اسم الدواء التجاري" oninput="this.value=this.value.replace(/[0-9]/g,'')">
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال اسم الدواء</span>
+      </div>
+      <div class="field">
+        <label>التركيز <span class="req">*</span></label>
+        <input type="number" name="med_focus" placeholder="مثلاً 500" min="0" step="any" oninput="this.value=this.value.replace(/[^0-9.]/g,'')">
+        <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال التركيز</span>
       </div>
       <div class="field">
         <label>المادة الفعالة <span class="req">*</span></label>
@@ -645,22 +684,22 @@ function addMedicine() {
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى إدخال المادة الفعالة</span>
       </div>
     </div>
-    <div class="field-row">
+    <div class="field-row triple">
       <div class="field">
         <label>النوع <span class="req">*</span></label>
         <select name="med_typ">
           <option value="">— اختر —</option>
-          <option>Tab</option>
-          <option>solution</option>
-          <option>Capsule</option>
-          <option>Syrup</option>
-          <option>ointimint</option>
-          <option>spray</option>
-          <option>Eff</option>
-          <option>mouth wash</option>
-          <option>cream</option>
-          <option>Ampules</option>
-          <option>Drop</option>
+          <option>أقراص</option>
+          <option>محلول</option>
+          <option>كبسول</option>
+          <option>شراب</option>
+          <option>مرهم</option>
+          <option>بخاخ</option>
+          <option>فوار</option>
+          <option>مضمضة</option>
+          <option>كريم</option>
+          <option>أمبول</option>
+          <option>نقط</option>
         </select>
         <span class="field-error" style="font-size:0.72rem;color:var(--danger);display:none">يرجى اختيار النوع</span>
       </div>
@@ -712,11 +751,13 @@ function addMedicine() {
     el.addEventListener('change', updateProgress);
   });
   updateProgress();
+  updateMedBadge();
 }
 
 function removeMedicine(id) {
   $(id)?.remove();
   updateProgress();
+  updateMedBadge();
 }
 
 function showOverlay(id) { $(id).classList.add('show'); }
@@ -738,6 +779,7 @@ function resetForm() {
   hideStatus();
   updateProgress();
   addMedicine();
+  updateMedBadge();
 }
 
 $('mainForm').addEventListener('submit', async function(e) {
@@ -758,6 +800,7 @@ $('mainForm').addEventListener('submit', async function(e) {
   const tab = [];
   medItems.forEach((item, idx) => {
     const name = item.querySelector('[name="med_name"]')?.value?.trim();
+    const focus = item.querySelector('[name="med_focus"]')?.value?.trim();
     const ava  = item.querySelector('[name="med_ava"]')?.value?.trim();
     const typ  = item.querySelector('[name="med_typ"]')?.value;
     const dUnit= item.querySelector('[name="med_do"]')?.value;
@@ -767,20 +810,24 @@ $('mainForm').addEventListener('submit', async function(e) {
 
     const errs = item.querySelectorAll('.field-error');
     const nameErr = errs[0];
-    const avaErr  = errs[1];
-    const typErr  = errs[2];
-    const doErr   = errs[3];
-    const quanErr = errs[4];
-    const expErr  = errs[5];
+    const focusErr = errs[1];
+    const avaErr  = errs[2];
+    const typErr  = errs[3];
+    const doErr   = errs[4];
+    const quanErr = errs[5];
+    const expErr  = errs[6];
 
     if (!name) { nameErr.style.display = 'block'; valid = false; }
+    else if (/[0-9]/.test(name)) { nameErr.textContent = 'اسم الدواء لا يقبل أرقاماً'; nameErr.style.display = 'block'; valid = false; }
+    else { nameErr.textContent = 'يرجى إدخال اسم الدواء'; }
+    if (!focus) { focusErr.style.display = 'block'; valid = false; }
     if (!ava)  { avaErr.style.display = 'block';  valid = false; }
     if (!typ)  { typErr.style.display = 'block';  valid = false; }
     if (!dUnit){ doErr.style.display = 'block';   valid = false; }
     if (!quan) { quanErr.style.display = 'block'; valid = false; }
     if (!exp)  { expErr.style.display = 'block';  valid = false; }
 
-    tab.push({ name, ava, typ, do: dUnit, quan, date_kw6pm91: exp, takhassos });
+    tab.push({ name, focus, ava, typ, do: dUnit, quan, date_kw6pm91: exp, takhassos });
   });
 
   if (!valid) return;
@@ -805,11 +852,8 @@ $('mainForm').addEventListener('submit', async function(e) {
       try {
         showStatus(`جارٍ الإرسال... المحاولة ${attempt}/3`);
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-            'Accept': 'application/json'
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
           body: params.toString()
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -847,8 +891,8 @@ addMedicine();
 updateProgress();
 
 // ---- offline utils ----
-var CSV_FIELDS = ['date','sec','med_name','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos'];
-var CSV_HEADERS = ['تاريخ التسجيل','المركز','اسم الدواء','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص'];
+var CSV_FIELDS = ['date','sec','med_name','med_focus','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos'];
+var CSV_HEADERS = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص'];
 
 function collectFormData() {
   var date = $('date')?.value;
@@ -859,6 +903,7 @@ function collectFormData() {
   items.forEach(function(item) {
     meds.push({
       med_name: item.querySelector('[name="med_name"]')?.value?.trim() || '',
+      med_focus: item.querySelector('[name="med_focus"]')?.value?.trim() || '',
       med_ava: item.querySelector('[name="med_ava"]')?.value?.trim() || '',
       med_typ: item.querySelector('[name="med_typ"]')?.value || '',
       med_do: item.querySelector('[name="med_do"]')?.value || '',
@@ -873,10 +918,10 @@ function collectFormData() {
 function flattenData(d) {
   var rows = [];
   if (!d.medications || !d.medications.length) {
-    rows.push({date:d.date,sec:d.sec,med_name:'',med_ava:'',med_typ:'',med_do:'',med_quan:'',med_date:'',med_takhassos:''});
+    rows.push({date:d.date,sec:d.sec,med_name:'',med_focus:'',med_ava:'',med_typ:'',med_do:'',med_quan:'',med_date:'',med_takhassos:''});
   } else {
     d.medications.forEach(function(m) {
-      rows.push({date:d.date,sec:d.sec,med_name:m.med_name,med_ava:m.med_ava,med_typ:m.med_typ,med_do:m.med_do,med_quan:m.med_quan,med_date:m.med_date,med_takhassos:m.med_takhassos});
+      rows.push({date:d.date,sec:d.sec,med_name:m.med_name,med_focus:m.med_focus||'',med_ava:m.med_ava,med_typ:m.med_typ,med_do:m.med_do,med_quan:m.med_quan,med_date:m.med_date,med_takhassos:m.med_takhassos});
     });
   }
   return rows;
@@ -898,24 +943,46 @@ function importCSVData(headers, rows) {
       if (row['تاريخ التسجيل']) document.getElementById('date').value = row['تاريخ التسجيل'];
       if (row['المركز']) document.getElementById('sec').value = row['المركز'];
     }
-    if (ri > 0) addMedicine();
+    addMedicine();
     var items = document.querySelectorAll('.medicine-item');
     var item = items[items.length - 1];
     if (item) {
-      var inp = item.querySelectorAll('[name="med_name"],[name="med_ava"],[name="med_typ"],[name="med_do"],[name="med_quan"],[name="med_date_kw6pm91"],[name="med_takhassos"]');
+      var inp = item.querySelectorAll('[name="med_name"],[name="med_focus"],[name="med_ava"],[name="med_typ"],[name="med_do"],[name="med_quan"],[name="med_date_kw6pm91"],[name="med_takhassos"]');
       if (inp[0]) inp[0].value = row['اسم الدواء'] || '';
-      if (inp[1]) inp[1].value = row['المادة الفعالة'] || '';
-      if (inp[2]) inp[2].value = row['النوع'] || '';
-      if (inp[3]) inp[3].value = row['شريط/علبة'] || '';
-      if (inp[4]) inp[4].value = row['الكمية'] || '';
-      if (inp[5]) inp[5].value = row['تاريخ الانتهاء'] || '';
-      if (inp[6]) inp[6].value = row['التخصص'] || '';
+      if (inp[1]) inp[1].value = row['التركيز'] || '';
+      if (inp[2]) inp[2].value = row['المادة الفعالة'] || '';
+      if (inp[3]) inp[3].value = row['النوع'] || '';
+      if (inp[4]) inp[4].value = row['شريط/علبة'] || '';
+      if (inp[5]) inp[5].value = row['التخصص'] || '';
+      if (inp[6]) inp[6].value = row['الكمية'] || '';
+      if (inp[7]) inp[7].value = row['تاريخ الانتهاء'] || '';
     }
   });
   updateProgress();
   showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
 }
 
+window.fillFormFromLocal = function(row) {
+  if (row.date) $('date').value = row.date;
+  if (row.sec) $('sec').value = row.sec;
+  document.getElementById('medicineList').innerHTML = ''; medCount = 0;
+  if (row.medications) row.medications.forEach(function(m) {
+    addMedicine();
+    var item = document.querySelector('.medicine-item:last-child');
+    if (!item) return;
+    var inp = item.querySelectorAll('[name="med_name"],[name="med_focus"],[name="med_ava"],[name="med_typ"],[name="med_do"],[name="med_quan"],[name="med_date_kw6pm91"],[name="med_takhassos"]');
+    if (inp[0]) inp[0].value = m.med_name || '';
+    if (inp[1]) inp[1].value = m.med_focus || '';
+    if (inp[2]) inp[2].value = m.med_ava || '';
+    if (inp[3]) inp[3].value = m.med_typ || '';
+    if (inp[4]) inp[4].value = m.med_do || '';
+    if (inp[5]) inp[5].value = m.med_takhassos || '';
+    if (inp[6]) inp[6].value = m.med_quan || '';
+    if (inp[7]) inp[7].value = m.med_date || '';
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 // Hook into success overlay to save locally
 var _origSho = showOverlay;
 showOverlay = function(id) {
@@ -939,6 +1006,23 @@ window.exportFormCSV = function(fid, flabel, fields, headers) {
   var csv = CSV_HEADERS.join(',') + '\n';
   flat.forEach(function(r) { csv += CSV_FIELDS.map(function(f) { return escapeCSV(r[f]); }).join(',') + '\n'; });
   downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
+};
+window.exportFormXLS = function(fid, flabel, fields, headers) {
+  var data = getLocalData(fid);
+  if (!data.length) { alert('⚠️ لا توجد بيانات محفوظة'); return; }
+  var flat = [];
+  data.forEach(function(d) { flat = flat.concat(flattenData(d)); });
+  if (!flat.length) { alert('⚠️ لا توجد بيانات'); return; }
+  var table = '<table dir="rtl" style="font-family:sans-serif;font-size:12px;border-collapse:collapse;width:100%;direction:rtl"><thead><tr style="background:#0f766e;color:#fff">';
+  headers.forEach(function(h) { table += '<th style="padding:8px 10px;border:1px solid #ddd;text-align:right">' + h + '</th>'; });
+  table += '</tr></thead><tbody>';
+  flat.forEach(function(r, ri) {
+    table += '<tr' + (ri % 2 ? ' style="background:#f5f5f5"' : '') + '>';
+    fields.forEach(function(f) { table += '<td style="padding:6px 10px;border:1px solid #ddd;text-align:right">' + (r[f] !== undefined && r[f] !== null ? r[f] : '') + '</td>'; });
+    table += '</tr>';
+  });
+  table += '</tbody></table>';
+  downloadXLS(table, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv');
 };
 window.downloadCSVTemplate = function(flabel) { downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>

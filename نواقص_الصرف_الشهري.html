@@ -1,10 +1,10 @@
-﻿?<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <script src="offline-utils.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>استمارة أدوية القوافل الطبية — صناع الحياة المنوفية</title>
+<title>نواقص الصرف الشهري لحالات الملف الطبي — صناع الحياة المنوفية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -472,8 +472,8 @@ body { padding-top: 32px; }
     <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
   </div>
   <div class="header-badge">🏥 الملف الطبي — التحول الرقمي</div>
-  <h1>استمارة أدوية القوافل الطبية</h1>
-  <p>جمعية صناع الحياة — محافظة المنوفية</p>
+  <h1>نواقص الصرف الشهري لحالات الملف الطبي</h1>
+  <p>تسجيل نواقص الصرف الشهري للأدوية الخاصة بحالات الملف الطبي</p>
   <div class="header-divider"></div>
 </div>
 
@@ -504,15 +504,15 @@ body { padding-top: 32px; }
             <select id="center" name="center">
 <option value="">— اختر المركز —</option>
 <option>مركزي</option>
-<option>شبين الكوم</option>
+<option>منوف</option>
+              <option>شبين الكوم</option>
+              <option>تلا</option>
+              <option>الباجور</option>
               <option>قويسنا</option>
               <option>بركة السبع</option>
-              <option>تلا</option>
-              <option>منوف</option>
-              <option>الباجور</option>
+              <option>أشمون</option>
               <option>الشهداء</option>
               <option>السادات</option>
-              <option>أشمون</option>
             </select>
             <span class="field-error" id="e_center">يرجى اختيار المركز</span>
           </div>
@@ -522,7 +522,7 @@ body { padding-top: 32px; }
 
     <div class="section">
       <div class="section-header">
-        <span class="icon">💊</span> أدوية القافلة
+        <span class="icon">💊</span> نواقص الصرف الشهري
         <span class="badge">إلزامي — يمكن إضافة أكثر من دواء</span>
       </div>
       <div class="repeat-section-toggle" id="tabToggle" onclick="toggleSection('tab')">
@@ -532,7 +532,7 @@ body { padding-top: 32px; }
       <div class="repeat-section-content" id="tabSection">
         <div class="section-body">
           <div id="tabList"></div>
-          <button type="button" class="btn-add" onclick="addTabItem()">＋ إضافة دواء آخر</button>
+          <button type="button" class="btn-add" onclick="addTabItem()">＋ إضافة دواء</button>
         </div>
       </div>
     </div>
@@ -555,7 +555,7 @@ body { padding-top: 32px; }
   <div class="overlay-card success">
     <div class="ov-icon">✅</div>
     <h2>تم الحفظ بنجاح</h2>
-    <p id="successMsg">تم تسجيل بيانات أدوية القافلة الطبية بنجاح.</p>
+    <p id="successMsg">تم تسجيل نواقص الصرف الشهري بنجاح.</p>
     <button class="btn-overlay primary" onclick="resetForm()">تسجيل بيانات جديدة</button>
   </div>
 </div>
@@ -617,76 +617,47 @@ function addTabItem() {
         <span class="field-error" id="e_name_${tabCount}">يرجى إدخال اسم الدواء</span>
       </div>
       <div class="field">
-        <label>التركيز <span class="opt">(اختياري)</span></label>
-        <input type="number" id="conc_${tabCount}" placeholder="التركيز" min="0">
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label>تاريخ الانتهاء <span class="req">*</span></label>
-        <input type="date" id="exp_${tabCount}">
-        <span class="field-error" id="e_exp_${tabCount}">يرجى إدخال تاريخ الانتهاء</span>
-      </div>
-      <div class="field">
-        <label>المادة الفعالة <span class="opt">(اختياري)</span></label>
-        <input type="text" id="active_${tabCount}" placeholder="المادة الفعالة">
+        <label>شكل الجرعة <span class="req">*</span></label>
+        <select id="form_${tabCount}">
+          <option value="">— Dosage Form —</option>
+          <option value="Tablet">Tablet</option>
+          <option value="Capsule">Capsule</option>
+          <option value="Ampoule">Ampoule</option>
+          <option value="Syrup">Syrup</option>
+          <option value="Drops">Drops</option>
+          <option value="Cream">Cream</option>
+          <option value="Ointment">Ointment</option>
+          <option value="Spray">Spray</option>
+          <option value="Suppository">Suppository</option>
+          <option value="Vial">Vial</option>
+        </select>
+        <span class="field-error" id="e_form_${tabCount}">يرجى اختيار شكل الجرعة</span>
       </div>
     </div>
     <div class="field-row triple">
       <div class="field">
-        <label>نوعه <span class="req">*</span></label>
-        <select id="type_${tabCount}">
-          <option value="">— اختر —</option>
-          <option>أقراص</option>
-          <option>كبسول</option>
-          <option>شراب</option>
-          <option>نقط</option>
-          <option>بخاخ</option>
-          <option>كريم</option>
-          <option>مرهم</option>
-          <option>فوار</option>
-          <option>أمبول</option>
-          <option>مضمضة</option>
-          <option>محلول</option>
-        </select>
-        <span class="field-error" id="e_type_${tabCount}">يرجى اختيار النوع</span>
-      </div>
-      <div class="field">
-        <label>شريط/علبة <span class="req">*</span></label>
-        <select id="unit_${tabCount}">
-          <option value="">— اختر —</option>
-          <option value="شريط">شريط</option>
-          <option value="علبة">علبة</option>
-        </select>
-        <span class="field-error" id="e_unit_${tabCount}">يرجى الاختيار</span>
+        <label>التركيز</label>
+        <input type="text" id="conc_${tabCount}" placeholder="التركيز">
       </div>
       <div class="field">
         <label>الكمية <span class="req">*</span></label>
         <input type="number" id="qty_${tabCount}" placeholder="الكمية" min="1">
         <span class="field-error" id="e_qty_${tabCount}">يرجى إدخال الكمية</span>
       </div>
+      <div class="field">
+        <label>السعر للوحدة</label>
+        <input type="number" id="price_${tabCount}" placeholder="السعر للوحدة" min="0" step="0.01">
+      </div>
     </div>
     <div class="field-row">
       <div class="field">
-        <label>تخصص <span class="opt">(اختياري)</span></label>
-        <select id="spec_${tabCount}">
-          <option value="">— اختر التخصص —</option>
-          <option value="قلب وضغط">قلب وضغط</option>
-          <option value="اطفال">اطفال</option>
-          <option value="اسنان">اسنان</option>
-          <option value="رمد">رمد</option>
-          <option value="جلدية">جلدية</option>
-          <option value="نساء وتوليد">نساء وتوليد</option>
-          <option value="انف واذن">انف واذن</option>
-          <option value="صدر">صدر</option>
-          <option value="مضاد حيوي">مضاد حيوي</option>
-          <option value="مسكن">مسكن</option>
-          <option value="مخ واعصاب">مخ واعصاب</option>
-          <option value="عظام">عظام</option>
-          <option value="باطنة وضغط وسكر">باطنة وضغط وسكر</option>
-          <option value="مسالك">مسالك</option>
-          <option value="فيتامينات">فيتامينات</option>
+        <label>العينة <span class="req">*</span></label>
+        <select id="sample_${tabCount}">
+          <option value="">— اختر —</option>
+          <option value="علبة">علبة</option>
+          <option value="شريط">شريط</option>
         </select>
+        <span class="field-error" id="e_sample_${tabCount}">يرجى اختيار العينة</span>
       </div>
     </div>`;
   $('tabList').appendChild(div);
@@ -745,31 +716,27 @@ $('mainForm').addEventListener('submit', async function(e) {
   tabItems.forEach((item) => {
     const idx = item.id.split('_')[1];
     const name = $('name_' + idx)?.value.trim();
+    const form = $('form_' + idx)?.value;
     const conc = $('conc_' + idx)?.value.trim();
-    const exp = $('exp_' + idx)?.value;
-    const active = $('active_' + idx)?.value.trim();
-    const type = $('type_' + idx)?.value;
-    const unit = $('unit_' + idx)?.value;
     const qty = $('qty_' + idx)?.value.trim();
-    const spec = $('spec_' + idx)?.value;
+    const price = $('price_' + idx)?.value.trim();
+    const sample = $('sample_' + idx)?.value;
 
     let itemValid = true;
     if (!name) { showErr('e_name_' + idx); itemValid = false; }
-    if (!exp) { showErr('e_exp_' + idx); itemValid = false; }
-    if (!type) { showErr('e_type_' + idx); itemValid = false; }
-    if (!unit) { showErr('e_unit_' + idx); itemValid = false; }
+    if (!form) { showErr('e_form_' + idx); itemValid = false; }
     if (!qty) { showErr('e_qty_' + idx); itemValid = false; }
+    if (!sample) { showErr('e_sample_' + idx); itemValid = false; }
     if (!itemValid) valid = false;
 
     tabData.push({
-      _: name || '',
-      __001: conc || '',
-      __002: exp || '',
-      __003: active || '',
-      __004: type || '',
-      __005: unit || '',
-      __006: qty || '',
-      __007: spec || ''
+      name: name || '',
+      form: form || '',
+      conc: conc || '',
+      qty: qty || '',
+      price: price || '',
+      sample: sample || '',
+      center: center || ''
     });
   });
 
@@ -785,7 +752,7 @@ $('mainForm').addEventListener('submit', async function(e) {
 
   try {
     const params = new URLSearchParams();
-    params.append('action', 'adwyt_alqawafel');
+    params.append('action', 'nawa2es_serf');
     params.append('date', date);
     params.append('center', center);
     params.append('tab', JSON.stringify(tabData));
@@ -806,7 +773,7 @@ $('mainForm').addEventListener('submit', async function(e) {
         hideStatus();
 
         if (data.status === 'success') {
-          $('successMsg').textContent = `✅ تم تسجيل أدوية القافلة "${center}" بنجاح`;
+          $('successMsg').textContent = `✅ تم تسجيل نواقص الصرف للمركز "${center}" بنجاح`;
           showOverlay('successOverlay');
           return;
         } else {
@@ -836,8 +803,8 @@ addTabItem();
 updateProgress();
 
 // ---- offline utils ----
-var CSV_FIELDS = ['date','center','name','conc','exp','active','type','unit','qty','spec'];
-var CSV_HEADERS = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','تاريخ الانتهاء','المادة الفعالة','النوع','شريط/علبة','الكمية','التخصص'];
+var CSV_FIELDS = ['date','center','name','form','conc','qty','price','sample'];
+var CSV_HEADERS = ['تاريخ التسجيل','المركز','اسم الدواء','شكل الجرعة','التركيز','الكمية','السعر للوحدة','العينة'];
 
 function collectFormData() {
   var date = $('date')?.value;
@@ -849,13 +816,11 @@ function collectFormData() {
     var idx = item.id.split('_')[1];
     tabs.push({
       name: $('name_' + idx)?.value?.trim() || '',
+      form: $('form_' + idx)?.value || '',
       conc: $('conc_' + idx)?.value?.trim() || '',
-      exp: $('exp_' + idx)?.value || '',
-      active: $('active_' + idx)?.value?.trim() || '',
-      type: $('type_' + idx)?.value || '',
-      unit: $('unit_' + idx)?.value || '',
       qty: $('qty_' + idx)?.value?.trim() || '',
-      spec: $('spec_' + idx)?.value || ''
+      price: $('price_' + idx)?.value?.trim() || '',
+      sample: $('sample_' + idx)?.value || ''
     });
   });
   return { date: date, center: center, medications: tabs };
@@ -869,7 +834,7 @@ function flattenData(d) {
     rows.push(r);
   } else {
     d.medications.forEach(function(m) {
-      rows.push({date:d.date,center:d.center,name:m.name,conc:m.conc,exp:m.exp,active:m.active,type:m.type,unit:m.unit,qty:m.qty,spec:m.spec});
+      rows.push({date:d.date,center:d.center,name:m.name,form:m.form,conc:m.conc,qty:m.qty,price:m.price,sample:m.sample});
     });
   }
   return rows;
@@ -893,13 +858,11 @@ function importCSVData(headers, rows) {
     }
     addTabItem();
     if (row['اسم الدواء']) $('name_' + tabCount).value = row['اسم الدواء'];
+    if (row['شكل الجرعة']) $('form_' + tabCount).value = row['شكل الجرعة'];
     if (row['التركيز']) $('conc_' + tabCount).value = row['التركيز'];
-    if (row['تاريخ الانتهاء']) $('exp_' + tabCount).value = row['تاريخ الانتهاء'];
-    if (row['المادة الفعالة']) $('active_' + tabCount).value = row['المادة الفعالة'];
-    if (row['النوع']) $('type_' + tabCount).value = row['النوع'];
-    if (row['شريط/علبة']) $('unit_' + tabCount).value = row['شريط/علبة'];
     if (row['الكمية']) $('qty_' + tabCount).value = row['الكمية'];
-    if (row['التخصص']) $('spec_' + tabCount).value = row['التخصص'];
+    if (row['السعر للوحدة']) $('price_' + tabCount).value = row['السعر للوحدة'];
+    if (row['العينة']) $('sample_' + tabCount).value = row['العينة'];
   });
   updateProgress();
   showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
@@ -909,12 +872,32 @@ var _origSho = showOverlay;
 showOverlay = function(id) {
   if (id === 'successOverlay') {
     var d = collectFormData();
-    if (d) { saveLocal('adwyt_alqawafel', d); updateLocalCount('adwyt_alqawafel'); }
+    if (d) { saveLocal('nawa2es_serf', d); updateLocalCount('nawa2es_serf'); }
   }
   _origSho(id);
 };
 
-initOffline('adwyt_alqawafel', 'أدوية القوافل', CSV_FIELDS, CSV_HEADERS);
+window.fillFormFromLocal = function(row) {
+  if (row.date) $('date').value = row.date;
+  if (row.center) $('center').value = row.center;
+  $('tabList').innerHTML = '';
+  tabCount = 0;
+  if (row.medications && row.medications.length) {
+    row.medications.forEach(function(m) {
+      addTabItem();
+      if (m.name) $('name_' + tabCount).value = m.name;
+      if (m.form) $('form_' + tabCount).value = m.form;
+      if (m.conc) $('conc_' + tabCount).value = m.conc;
+      if (m.qty) $('qty_' + tabCount).value = m.qty;
+      if (m.price) $('price_' + tabCount).value = m.price;
+      if (m.sample) $('sample_' + tabCount).value = m.sample;
+    });
+  }
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
+
+initOffline('nawa2es_serf', 'نواقص الصرف الشهري', CSV_FIELDS, CSV_HEADERS);
 
 window.exportFormCSV = function(fid, flabel, fields, headers) {
   var data = getLocalData(fid);
@@ -943,27 +926,8 @@ window.exportFormXLS = function(fid, flabel, fields, headers) {
   table += '</tbody></table>';
   downloadXLS(table, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv');
 };
-window.fillFormFromLocal = function(row) {
-  if (row.date) $('date').value = row.date;
-  if (row.center) $('center').value = row.center;
-  $('tabList').innerHTML = ''; tabCount = 0;
-  if (row.medications) row.medications.forEach(function(m) {
-    addTabItem();
-    if (m.name) $('name_' + tabCount).value = m.name;
-    if (m.conc) $('conc_' + tabCount).value = m.conc;
-    if (m.exp) $('exp_' + tabCount).value = m.exp;
-    if (m.active) $('active_' + tabCount).value = m.active;
-    if (m.type) $('type_' + tabCount).value = m.type;
-    if (m.unit) $('unit_' + tabCount).value = m.unit;
-    if (m.qty) $('qty_' + tabCount).value = m.qty;
-    if (m.spec) $('spec_' + tabCount).value = m.spec;
-  });
-  updateProgress();
-  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
-};
 window.downloadCSVTemplate = function(flabel) { downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>
 </div>
 </body>
 </html>
-

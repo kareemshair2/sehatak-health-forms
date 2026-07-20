@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+﻿?<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -412,7 +412,7 @@ body { padding-top: 32px; }
 
 <div class="premium-bar">
   <span class="bar-icon">◈</span>
-  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+  <span>منظومة الملف الطبي — صناع الحياة المنوفية</span>
 </div>
 <div class="geo-bg"></div>
 <div class="grain"></div>
@@ -423,8 +423,7 @@ body { padding-top: 32px; }
   <div class="logo-frame" style="display:flex;justify-content:center;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
     <img src="logo.jpg" alt="صناع الحياة" style="height:90px;width:auto;border-radius:8px;display:block;">
   </div>
-  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div class="header-badge">🔄 الملف الصحي — التحول الرقمي</div>
+  <div class="header-badge">🔄 الملف الطبي — التحول الرقمي</div>
   <h1>استمارة التحويلات الطبية</h1>
   <p>جمعية صناع الحياة — محافظة المنوفية</p>
   <div class="header-divider"></div>
@@ -462,8 +461,8 @@ body { padding-top: 32px; }
             <label>الجنس <span class="req">*</span></label>
             <select id="patient_gender">
               <option value="">— اختر الجنس —</option>
-              <option value="male">ذكر</option>
-              <option value="female">أنثى</option>
+              <option value="ذكر">ذكر</option>
+              <option value="أنثى">أنثى</option>
             </select>
             <span class="field-error" id="e3">يرجى اختيار الجنس</span>
           </div>
@@ -482,18 +481,19 @@ body { padding-top: 32px; }
             <span class="field-error" id="e5">يرجى إدخال رقم قومي صحيح (14 رقم)</span>
           </div>
           <div class="field">
-            <label>المركز الصحي <span class="req">*</span></label>
+            <label>المركز <span class="req">*</span></label>
             <select id="patient_center">
-              <option value="">— اختر المركز —</option>
-              <option value="shibin_el_kom">شبين الكوم</option>
-              <option value="quwaysna">قويسنا</option>
-              <option value="birkat_el_sab">بركة السبع</option>
-              <option value="tala">تلا</option>
-              <option value="minuf">منوف</option>
-              <option value="el_bagour">الباجور</option>
-              <option value="el_shuhada">الشهداء</option>
-              <option value="el_sadat">السادات</option>
-              <option value="ashmoun">أشمون</option>
+<option value="">— اختر المركز —</option>
+<option>مركزي</option>
+<option>شبين الكوم</option>
+              <option>قويسنا</option>
+              <option>بركة السبع</option>
+              <option>تلا</option>
+              <option>منوف</option>
+              <option>الباجور</option>
+              <option>الشهداء</option>
+              <option>السادات</option>
+              <option>أشمون</option>
             </select>
             <span class="field-error" id="e6">يرجى اختيار المركز</span>
           </div>
@@ -523,11 +523,11 @@ body { padding-top: 32px; }
             <label>جهة التحويل <span class="req">*</span></label>
             <select id="referral_type" onchange="onReferralTypeChange()">
               <option value="">— اختر جهة التحويل —</option>
-              <option value="doctor">دكتور</option>
-              <option value="lab">معمل تحاليل</option>
-              <option value="radiology">مركز أشعة</option>
-              <option value="glasses">مركز نظارات</option>
-              <option value="physio">علاج طبيعي</option>
+              <option>دكتور</option>
+              <option>معمل تحاليل</option>
+              <option>مركز أشعة</option>
+              <option>مركز نظارات</option>
+              <option>علاج طبيعي</option>
             </select>
             <span class="field-error" id="e8">يرجى اختيار جهة التحويل</span>
           </div>
@@ -545,21 +545,21 @@ body { padding-top: 32px; }
               <label>التخصص الطبي <span class="req">*</span></label>
               <select id="doctor_specialty" onchange="onSpecialtyChange()">
                 <option value="">— اختر التخصص —</option>
-                <option value="internal">باطنة</option>
-                <option value="cardiology">قلب وأوعية</option>
-                <option value="orthopedics">عظام</option>
-                <option value="neurology">أعصاب</option>
-                <option value="pediatrics">أطفال</option>
-                <option value="gynecology">نساء وتوليد</option>
-                <option value="dermatology">جلدية</option>
-                <option value="ophthalmology">عيون</option>
-                <option value="ent">أنف وأذن وحنجرة</option>
-                <option value="urology">مسالك بولية</option>
-                <option value="psychiatry">طب نفسي</option>
-                <option value="dentistry">أسنان</option>
-                <option value="endocrinology">غدد صماء</option>
-                <option value="general_surgery">جراحة عامة</option>
-                <option value="other">تخصص آخر</option>
+                <option>باطنة</option>
+                <option>قلب وأوعية</option>
+                <option>عظام</option>
+                <option>أعصاب</option>
+                <option>أطفال</option>
+                <option>نساء وتوليد</option>
+                <option>جلدية</option>
+                <option>عيون</option>
+                <option>أنف وأذن وحنجرة</option>
+                <option>مسالك بولية</option>
+                <option>طب نفسي</option>
+                <option>أسنان</option>
+                <option>غدد صماء</option>
+                <option>جراحة عامة</option>
+                <option>تخصص آخر</option>
               </select>
               <span class="field-error" id="e10">يرجى اختيار التخصص</span>
             </div>
@@ -569,12 +569,11 @@ body { padding-top: 32px; }
               <label>نوع الشراكة <span class="req">*</span></label>
               <select id="partnership_type">
                 <option value="">— اختر نوع الشراكة —</option>
-                <option value="discount">خصم على الكشف</option>
-                <option value="full_discount">خصم كامل</option>
-                <option value="priority">أولوية في الحجز</option>
-                <option value="commission">عمولة تحويل</option>
-                <option value="package">باقة شاملة</option>
-                <option value="other">أخرى</option>
+                <option>خصم على الكشف</option>
+                <option>خصم كامل</option>
+                <option>أولوية في الحجز</option>
+
+                <option>أخرى</option>
               </select>
               <span class="field-error" id="e11">يرجى اختيار نوع الشراكة</span>
             </div>
@@ -589,14 +588,16 @@ body { padding-top: 32px; }
               <input type="text" id="partnership_benefits" placeholder="مثال: خصم 20% - أولوية الحجز">
             </div>
             <div class="field">
-              <label>هاتف الدكتور / العيادة</label>
+              <label>هاتف الدكتور / العيادة <span class="req">*</span></label>
               <input type="tel" id="doctor_phone" placeholder="رقم هاتف العيادة">
+              <span class="field-error" id="e20">يرجى إدخال رقم هاتف العيادة</span>
             </div>
           </div>
           <div class="field-row single">
             <div class="field">
-              <label>عنوان العيادة</label>
+              <label>عنوان العيادة <span class="req">*</span></label>
               <input type="text" id="doctor_address" placeholder="عنوان العيادة">
+              <span class="field-error" id="e21">يرجى إدخال عنوان العيادة</span>
             </div>
           </div>
         </div>
@@ -729,11 +730,15 @@ body { padding-top: 32px; }
             <textarea id="notes" rows="2" placeholder="أي معلومات إضافية تخص هذا التحويل..."></textarea>
           </div>
         </div>
-        <div class="field-row single">
+        <div class="field-row">
           <div class="field">
-            <label>اسم الموظف المسؤول <span class="req">*</span></label>
-            <input type="text" id="staff_name" placeholder="اسم الموظف المسؤول عن التحويل">
-            <span class="field-error" id="e19">يرجى إدخال اسم الموظف المسؤول</span>
+            <label>اسم المتطوع <span class="req">*</span></label>
+            <input type="text" id="staff_name" placeholder="اسم المتطوع المسؤول عن التحويل">
+            <span class="field-error" id="e19">يرجى إدخال اسم المتطوع</span>
+          </div>
+          <div class="field">
+            <label>رقم المتطوع</label>
+            <input type="text" id="volunteer_number" placeholder="رقم هاتف المتطوع">
           </div>
         </div>
       </div>
@@ -748,7 +753,7 @@ body { padding-top: 32px; }
 
   <div class="footer">
     <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-    <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية<br>
+    <div style="margin-top:8px"><strong>الملف الطبي</strong> — صناع الحياة المنوفية<br>
     التحول الرقمي © 2026</div>
   </div>
 </div>
@@ -773,7 +778,7 @@ body { padding-top: 32px; }
 
 <script>
 // ═══ CONFIG ═══
-const API_URL = "https://script.google.com/macros/s/AKfycbxEOUNtBfCY6ld7TZV17frxjfM4zkvTnXD7wLKQfXTuBcWeXllEmGdayM1oYlLK1pfH5w/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzTkmFGEYZHEhQssU38zv65WZcQ4MqWMeIWI2vUmG8JpBIQjpwCnBUg846RSNMtTEFW/exec";
 
 // ─── مختصرات ───
 const $ = id => document.getElementById(id);
@@ -796,16 +801,16 @@ document.querySelectorAll('input,select,textarea').forEach(el => el.addEventList
 function onReferralTypeChange() {
   const val = $('referral_type').value;
   ['grp_doctor','grp_lab','grp_radiology','grp_glasses','grp_physio'].forEach(id => hide(id));
-  if (val === 'doctor') show('grp_doctor');
-  else if (val === 'lab') show('grp_lab');
-  else if (val === 'radiology') show('grp_radiology');
-  else if (val === 'glasses') show('grp_glasses');
-  else if (val === 'physio') show('grp_physio');
+  if (val === 'دكتور') show('grp_doctor');
+  else if (val === 'معمل تحاليل') show('grp_lab');
+  else if (val === 'مركز أشعة') show('grp_radiology');
+  else if (val === 'مركز نظارات') show('grp_glasses');
+  else if (val === 'علاج طبيعي') show('grp_physio');
 }
 
 function onSpecialtyChange() {
   const val = $('doctor_specialty').value;
-  $('doctor_specialty_other').style.display = val === 'other' ? 'block' : 'none';
+  $('doctor_specialty_other').style.display = val === 'تخصص آخر' ? 'block' : 'none';
 }
 
 // ─── File handling ───
@@ -883,6 +888,24 @@ const toBase64 = file => new Promise((res, rej) => {
   r.onerror = rej;
 });
 
+// ─── دوال التحقق ───
+function validatePhone(p) {
+  return /^(010|011|012|015)\d{8}$/.test(p);
+}
+function validateEgyptianNID(nid) {
+  if (!/^\d{14}$/.test(nid)) return false;
+  var c = nid[0];
+  if (c !== '2' && c !== '3') return false;
+  var yy = parseInt(nid.substring(1,3),10);
+  var mm = parseInt(nid.substring(3,5),10);
+  var dd = parseInt(nid.substring(5,7),10);
+  if (mm<1||mm>12) return false;
+  if (dd<1||dd>31) return false;
+  if (c==='2' && yy>99) return false;
+  if (c==='3') { var cur = new Date().getFullYear()%100; if (yy>cur) return false; }
+  return ['01','02','03','04','06','11','12','13','14','15','16','17','18','19','21','22','23','24','25','26','27','28','29','31','32','33','34','35','88'].includes(nid.substring(7,9));
+}
+
 // ─── إرسال النموذج ───
 $('mainForm').addEventListener('submit', async function(e) {
   e.preventDefault();
@@ -900,42 +923,47 @@ $('mainForm').addEventListener('submit', async function(e) {
   const referral_type    = $('referral_type').value;
   const notes            = $('notes').value.trim();
   const staff_name       = $('staff_name').value.trim();
+  const volunteer_number = $('volunteer_number').value.trim();
 
-  if (!patient_name) { showErr('e1'); valid = false; }
+  if (!patient_name || !/^\S+(\s+\S+){2,}$/.test(patient_name)) { showErr('e1', 'الاسم يجب أن يكون ثلاثيًا فأكثر'); valid = false; }
   if (!patient_age || patient_age < 1 || patient_age > 120) { showErr('e2'); valid = false; }
   if (!patient_gender) { showErr('e3'); valid = false; }
-  if (!patient_phone || patient_phone.length < 10) { showErr('e4'); valid = false; }
-  if (national_id.length !== 14) { showErr('e5', 'يرجى إدخال رقم قومي صحيح (14 رقم)'); valid = false; }
+  if (!validatePhone(patient_phone)) { showErr('e4', 'رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015'); valid = false; }
+  if (!validateEgyptianNID(national_id)) { showErr('e5', 'يرجى إدخال رقم قومي مصري صحيح (14 رقم)'); valid = false; }
   if (!patient_center) { showErr('e6'); valid = false; }
   if (!referral_date) { showErr('e7'); valid = false; }
   if (!referral_type) { showErr('e8'); valid = false; }
-  if (!staff_name) { showErr('e19'); valid = false; }
+  if (!staff_name || !/^\S+(\s+\S+){2,}$/.test(staff_name)) { showErr('e19', 'اسم المتطوع يجب أن يكون ثلاثيًا فأكثر'); valid = false; }
 
   // Validate referral sub-fields
   const imgFile = $('referral_image')._compressed || $('referral_image').files[0];
   if (!imgFile) { showErr('e18'); valid = false; }
 
-  if (referral_type === 'doctor') {
+  if (referral_type === 'دكتور') {
     const dn = $('doctor_name').value.trim();
     const ds = $('doctor_specialty').value;
     const pt = $('partnership_type').value;
+    const dp = $('doctor_phone').value.trim();
+    const da = $('doctor_address').value.trim();
     if (!dn) { showErr('e9'); valid = false; }
     if (!ds) { showErr('e10'); valid = false; }
     if (!pt) { showErr('e11'); valid = false; }
-  } else if (referral_type === 'lab') {
+    if (!dp) { showErr('e20'); valid = false; }
+    if (!da) { showErr('e21'); valid = false; }
+  } else if (referral_type === 'معمل تحاليل') {
     const ln = $('lab_name').value.trim();
     const lt = $('lab_tests').value.trim();
     if (!ln) { showErr('e12'); valid = false; }
     if (!lt) { showErr('e13'); valid = false; }
-  } else if (referral_type === 'radiology') {
+  } else if (referral_type === 'مركز أشعة') {
     const rc = $('radiology_center').value.trim();
     const rt = $('radiology_type').value.trim();
     if (!rc) { showErr('e14'); valid = false; }
     if (!rt) { showErr('e15'); valid = false; }
-  } else if (referral_type === 'glasses') {
+  } else if (referral_type === 'مركز نظارات') {
     const gc = $('glasses_center').value.trim();
     if (!gc) { showErr('e16'); valid = false; }
-  } else if (referral_type === 'physio') {
+  } else if (referral_type === 'علاج طبيعي') {
     const pc = $('physio_center').value.trim();
     if (!pc) { showErr('e17'); valid = false; }
   }
@@ -958,11 +986,11 @@ $('mainForm').addEventListener('submit', async function(e) {
       national_id, patient_center, patient_address,
       referral_date, referral_type,
       referral_image: imgB64,
-      notes, staff_name
+      notes, staff_name, volunteer_number
     };
 
     // Add sub-fields based on referral type
-    if (referral_type === 'doctor') {
+    if (referral_type === 'دكتور') {
       payload.doctor_name = $('doctor_name').value.trim();
       payload.doctor_specialty = $('doctor_specialty').value;
       payload.doctor_specialty_other = $('doctor_specialty_other').value.trim();
@@ -970,19 +998,19 @@ $('mainForm').addEventListener('submit', async function(e) {
       payload.partnership_benefits = $('partnership_benefits').value.trim();
       payload.doctor_address = $('doctor_address').value.trim();
       payload.doctor_phone = $('doctor_phone').value.trim();
-    } else if (referral_type === 'lab') {
+    } else if (referral_type === 'معمل تحاليل') {
       payload.lab_name = $('lab_name').value.trim();
       payload.lab_tests = $('lab_tests').value.trim();
       payload.lab_address = $('lab_address').value.trim();
-    } else if (referral_type === 'radiology') {
+    } else if (referral_type === 'مركز أشعة') {
       payload.radiology_center = $('radiology_center').value.trim();
       payload.radiology_type = $('radiology_type').value.trim();
       payload.radiology_address = $('radiology_address').value.trim();
-    } else if (referral_type === 'glasses') {
+    } else if (referral_type === 'مركز نظارات') {
       payload.glasses_center = $('glasses_center').value.trim();
       payload.glasses_prescription = $('glasses_prescription').value.trim();
       payload.glasses_address = $('glasses_address').value.trim();
-    } else if (referral_type === 'physio') {
+    } else if (referral_type === 'علاج طبيعي') {
       payload.physio_center = $('physio_center').value.trim();
       payload.physio_sessions = $('physio_sessions').value.trim();
       payload.physio_address = $('physio_address').value.trim();
@@ -992,8 +1020,8 @@ $('mainForm').addEventListener('submit', async function(e) {
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);

@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+﻿?<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <script src="offline-utils.js"></script>
@@ -411,7 +411,7 @@ body {
 
 <div class="premium-bar">
   <span class="bar-icon">◈</span>
-  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+  <span>منظومة الملف الطبي — صناع الحياة المنوفية</span>
 </div>
 <div class="geo-bg"></div>
 <div class="grain"></div>
@@ -422,8 +422,7 @@ body {
     <div class="logo-frame" style="display:flex;justify-content:center;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
       <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
     </div>
-  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div class="header-badge">🤝 الملف الصحي — التحول الرقمي</div>
+  <div class="header-badge">🤝 الملف الطبي — التحول الرقمي</div>
   <h1>استمارة التعاقدات والشراكات الطبية</h1>
   <p>جمعية صناع الحياة — محافظة المنوفية</p>
   <div class="header-divider"></div>
@@ -441,7 +440,7 @@ body {
     <div class="alert-icon">📌</div>
     <div>
       <strong>تنبيه هام:</strong> يرجى التأكد من صحة جميع البيانات قبل الإرسال.
-      <br><strong style="color:var(--warn)">التعاقدات تخضع لمراجعة إدارة الملف الصحي.</strong>
+      <br><strong style="color:var(--warn)">التعاقدات تخضع لمراجعة إدارة الملف الطبي.</strong>
     </div>
   </div>
 
@@ -463,6 +462,7 @@ body {
               <option>معمل</option>
               <option>أشعات</option>
               <option>علاج طبيعي</option>
+              <option>مركز تخاطب</option>
               <option>نظارات</option>
               <option>شركة أدوية</option>
               <option>مخزن أدوية</option>
@@ -484,8 +484,9 @@ body {
           <div class="field">
             <label>المركز <span class="req">*</span></label>
             <select id="center">
-              <option value="">— اختر المركز —</option>
-              <option>شبين الكوم</option>
+<option value="">— اختر المركز —</option>
+<option>مركزي</option>
+<option>شبين الكوم</option>
               <option>منوف</option>
               <option>أشمون</option>
               <option>بركة السبع</option>
@@ -493,7 +494,7 @@ body {
               <option>تلا</option>
               <option>الشهداء</option>
               <option>الباجور</option>
-              <option>سرس الليان</option>
+
               <option>السادات</option>
             </select>
             <span class="field-error" id="e_center">يرجى اختيار المركز</span>
@@ -525,6 +526,7 @@ body {
               <img class="file-preview" id="contractPreview" alt="معاينة العقد">
               <input type="file" id="contractFile" accept="image/*" capture="environment"
                      onchange="handleFile(this, 'contractName', 'contractPreview', 'e_contract_photo', 'contractArea')">
+              <span class="field-error" id="e_contract_photo"></span>
             </div>
           </div>
         </div>
@@ -608,7 +610,7 @@ body {
 
   <div class="footer">
     <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-    <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية<br>
+    <div style="margin-top:8px"><strong>الملف الطبي</strong> — صناع الحياة المنوفية<br>
     التحول الرقمي © 2026</div>
   </div>
 </div>
@@ -632,7 +634,7 @@ body {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxEOUNtBfCY6ld7TZV17frxjfM4zkvTnXD7wLKQfXTuBcWeXllEmGdayM1oYlLK1pfH5w/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzTkmFGEYZHEhQssU38zv65WZcQ4MqWMeIWI2vUmG8JpBIQjpwCnBUg846RSNMtTEFW/exec";
 
 const $ = id => document.getElementById(id);
 const show = (id, v) => $(id).style.display = v || 'block';
@@ -644,7 +646,7 @@ const hideAllErrs = () => document.querySelectorAll('.field-error').forEach(e =>
 function updateProgress() {
   const fields = ['entity_type','facility_name','facility_phone','center','contract_text','contractor_name','volunteer_number','name_contractor','job_title','detailed_address'];
   const filled = fields.filter(id => $(id)?.value?.trim()).length;
-  $('#progressBar').style.width = Math.round(filled / fields.length * 100) + '%';
+  $('progressBar').style.width = Math.round(filled / fields.length * 100) + '%';
 }
 document.querySelectorAll('input,select,textarea').forEach(el => el.addEventListener('input', updateProgress));
 
@@ -715,6 +717,11 @@ const toBase64 = file => new Promise((res, rej) => {
   r.onerror = rej;
 });
 
+// ─── دوال التحقق ───
+function validatePhone(p) {
+  return /^(010|011|012|015)\d{8}$/.test(p);
+}
+
 function resetForm() {
   closeOverlay('successOverlay');
   closeOverlay('errorOverlay');
@@ -733,28 +740,28 @@ $('mainForm').addEventListener('submit', async function(e) {
   hideAllErrs();
   let valid = true;
 
-  const entity_type       = $('#entity_type').value;
-  const facility_name     = $('#facility_name').value.trim();
-  const facility_phone    = $('#facility_phone').value.trim();
-  const center            = $('#center').value;
-  const contract_text     = $('#contract_text').value.trim();
-  const contractor_name   = $('#contractor_name').value.trim();
-  const volunteer_number  = $('#volunteer_number').value.trim();
-  const name_contractor   = $('#name_contractor').value.trim();
-  const job_title         = $('#job_title').value.trim();
-  const detailed_address  = $('#detailed_address').value.trim();
-  const location          = $('#location').value.trim();
-  const notes             = $('#notes').value.trim();
-  const contractFile      = $('#contractFile')._compressed || $('#contractFile').files[0];
+  const entity_type       = $('entity_type').value;
+  const facility_name     = $('facility_name').value.trim();
+  const facility_phone    = $('facility_phone').value.trim();
+  const center            = $('center').value;
+  const contract_text     = $('contract_text').value.trim();
+  const contractor_name   = $('contractor_name').value.trim();
+  const volunteer_number  = $('volunteer_number').value.trim();
+  const name_contractor   = $('name_contractor').value.trim();
+  const job_title         = $('job_title').value.trim();
+  const detailed_address  = $('detailed_address').value.trim();
+  const location          = $('location').value.trim();
+  const notes             = $('notes').value.trim();
+  const contractFile      = $('contractFile')._compressed || $('contractFile').files[0];
 
   if (!entity_type) { showErr('e_entity_type'); valid = false; }
   if (!facility_name) { showErr('e_facility_name'); valid = false; }
-  if (!facility_phone || facility_phone.length < 10) { showErr('e_facility_phone'); valid = false; }
+  if (!validatePhone(facility_phone)) { showErr('e_facility_phone', 'رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 010 أو 011 أو 012 أو 015'); valid = false; }
   if (!center) { showErr('e_center'); valid = false; }
   if (!contract_text) { showErr('e_contract_text'); valid = false; }
-  if (!contractor_name) { showErr('e_contractor_name'); valid = false; }
+  if (!contractor_name || !/^\S+(\s+\S+){2,}$/.test(contractor_name)) { showErr('e_contractor_name', 'اسم المتطوع يجب أن يكون ثلاثيًا فأكثر'); valid = false; }
   if (!volunteer_number) { showErr('e_volunteer_number'); valid = false; }
-  if (!name_contractor) { showErr('e_name_contractor'); valid = false; }
+  if (!name_contractor || !/^\S+(\s+\S+){2,}$/.test(name_contractor)) { showErr('e_name_contractor', 'اسم ممثل المكان يجب أن يكون ثلاثيًا فأكثر'); valid = false; }
   if (!job_title) { showErr('e_job_title'); valid = false; }
   if (!detailed_address) { showErr('e_detailed_address'); valid = false; }
 
@@ -769,7 +776,7 @@ $('mainForm').addEventListener('submit', async function(e) {
   showStatus('جارٍ رفع الصورة والبيانات... برجاء الانتظار');
 
   try {
-    const contractB64 = await toBase64(contractFile);
+    const contractB64 = contractFile ? await toBase64(contractFile) : null;
 
     const payload = {
       action: 'taaqodat',
@@ -793,11 +800,8 @@ $('mainForm').addEventListener('submit', async function(e) {
       try {
         showStatus(`جارٍ الإرسال... المحاولة ${attempt}/3`);
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -875,6 +879,11 @@ showOverlay = function(id) {
   _origSho(id);
 };
 
+window.fillFormFromLocal = function(row) {
+  CSV_FIELDS.forEach(function(f) { if (row[f]) $(f).value = row[f]; });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 initOffline('taaqodat', 'التعاقدات الطبية', CSV_FIELDS, CSV_HEADERS);
 </script>
 </div>

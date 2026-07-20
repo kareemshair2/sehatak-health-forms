@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+﻿?<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <script src="offline-utils.js"></script>
@@ -443,7 +443,7 @@ body {
 
 <div class="premium-bar">
   <span class="bar-icon">◈</span>
-  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+  <span>منظومة الملف الطبي — صناع الحياة المنوفية</span>
 </div>
 <div class="geo-bg"></div>
 <div class="grain"></div>
@@ -454,8 +454,7 @@ body {
     <div class="logo-frame" style="display:flex;justify-content:center;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
       <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
     </div>
-  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div class="header-badge">🏥 الملف الصحي — التحول الرقمي</div>
+  <div class="header-badge">🏥 الملف الطبي — التحول الرقمي</div>
   <h1>نتائج القوافل الطبية</h1>
   <p>جمعية صناع الحياة — محافظة المنوفية</p>
   <div class="header-divider"></div>
@@ -481,8 +480,9 @@ body {
           <div class="field">
             <label>المركز <span class="req">*</span></label>
             <select id="center">
-              <option value="">— اختر المركز —</option>
-              <option>شبين الكوم</option>
+<option value="">— اختر المركز —</option>
+<option>مركزي</option>
+<option>شبين الكوم</option>
               <option>منوف</option>
               <option>أشمون</option>
               <option>بركة السبع</option>
@@ -490,7 +490,7 @@ body {
               <option>تلا</option>
               <option>الشهداء</option>
               <option>الباجور</option>
-              <option>سرس الليان</option>
+
               <option>السادات</option>
             </select>
             <span class="field-error" id="e_center">يرجى اختيار المركز</span>
@@ -541,7 +541,7 @@ body {
 
   <div class="footer">
     <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-    <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية<br>
+    <div style="margin-top:8px"><strong>الملف الطبي</strong> — صناع الحياة المنوفية<br>
     التحول الرقمي © 2026</div>
   </div>
 </div>
@@ -565,7 +565,7 @@ body {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxEOUNtBfCY6ld7TZV17frxjfM4zkvTnXD7wLKQfXTuBcWeXllEmGdayM1oYlLK1pfH5w/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzTkmFGEYZHEhQssU38zv65WZcQ4MqWMeIWI2vUmG8JpBIQjpwCnBUg846RSNMtTEFW/exec";
 
 const $ = id => document.getElementById(id);
 const show = (id, v) => $(id).style.display = v || 'block';
@@ -719,11 +719,8 @@ $('mainForm').addEventListener('submit', async function(e) {
       try {
         showStatus(`جارٍ الإرسال... المحاولة ${attempt}/3`);
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: {
-            'Content-Type': 'application/json;charset=UTF-8',
-            'Accept': 'application/json'
-          },
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -835,6 +832,26 @@ function importCSVData(headers, rows) {
   showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
 }
 
+window.fillFormFromLocal = function(row) {
+  if (row.center) $('center').value = row.center;
+  if (row.total_checkups) $('total_checkups').value = row.total_checkups;
+  if (row.total_labs) $('total_labs').value = row.total_labs;
+  if (row.other_interventions) $('other_interventions').value = row.other_interventions;
+  if (row.other_interventions_count) $('other_interventions_count').value = row.other_interventions_count;
+  $('specialtiesList').innerHTML = ''; specCount = 0;
+  if (row.specialties) row.specialties.forEach(function(s) {
+    addSpecialty();
+    var item = document.querySelector('.specialty-item:last-child');
+    if (!item) return;
+    var inp = item.querySelectorAll('[name="specialty"],[name="doctor_name"],[name="spec_checkups"],[name="time_spent"]');
+    if (inp[0]) inp[0].value = s.specialty || '';
+    if (inp[1]) inp[1].value = s.doctor_name || '';
+    if (inp[2]) inp[2].value = s.spec_checkups || '';
+    if (inp[3]) inp[3].value = s.time_spent || '';
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 var _origSho = showOverlay;
 showOverlay = function(id) {
   if (id === 'successOverlay') {
@@ -855,6 +872,23 @@ window.exportFormCSV = function(fid, flabel, fields, headers) {
   var csv = CSV_HEADERS.join(',') + '\n';
   flat.forEach(function(r) { csv += CSV_FIELDS.map(function(f) { return escapeCSV(r[f]); }).join(',') + '\n'; });
   downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
+};
+window.exportFormXLS = function(fid, flabel, fields, headers) {
+  var data = getLocalData(fid);
+  if (!data.length) { alert('⚠️ لا توجد بيانات محفوظة'); return; }
+  var flat = [];
+  data.forEach(function(d) { flat = flat.concat(flattenData(d)); });
+  if (!flat.length) { alert('⚠️ لا توجد بيانات'); return; }
+  var table = '<table dir="rtl" style="font-family:sans-serif;font-size:12px;border-collapse:collapse;width:100%;direction:rtl"><thead><tr style="background:#0f766e;color:#fff">';
+  headers.forEach(function(h) { table += '<th style="padding:8px 10px;border:1px solid #ddd;text-align:right">' + h + '</th>'; });
+  table += '</tr></thead><tbody>';
+  flat.forEach(function(r, ri) {
+    table += '<tr' + (ri % 2 ? ' style="background:#f5f5f5"' : '') + '>';
+    fields.forEach(function(f) { table += '<td style="padding:6px 10px;border:1px solid #ddd;text-align:right">' + (r[f] !== undefined && r[f] !== null ? r[f] : '') + '</td>'; });
+    table += '</tr>';
+  });
+  table += '</tbody></table>';
+  downloadXLS(table, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv');
 };
 window.downloadCSVTemplate = function(flabel) { downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>

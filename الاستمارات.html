@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,7 @@
 <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="expires" content="0">
-<title>الاستمارات — الملف الصحي | صناع الحياة المنوفية</title>
+<title>الاستمارات — الملف الطبي | صناع الحياة المنوفية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -586,9 +586,10 @@ body { padding-top: 32px; }
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
-  .top-inner { padding: 8px 16px; }
+  .top-inner { padding: 8px 16px; justify-content: space-between; }
   .top-logo-frame img { height: 32px; }
   .top-logo-text { font-size: 0.75rem; }
+  .top-left { position: static; left: auto; }
   .top-stat { font-size: 0.65rem; padding: 5px 12px; }
   .page-header { padding: 40px 16px 18px; }
   .toolbar { padding: 18px 16px 12px; gap: 8px; }
@@ -615,7 +616,7 @@ body { padding-top: 32px; }
 
 <div class="premium-bar">
   <span class="bar-icon">◈</span>
-  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+  <span>منظومة الملف الطبي — صناع الحياة المنوفية</span>
   <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" aria-label="تبديل الوضع الليلي">☾</button>
 </div>
 
@@ -651,10 +652,10 @@ body { padding-top: 32px; }
 <div class="page-header">
   <div class="badge">
     <span class="badge-dot"></span>
-    الملف الصحي — منصة الاستمارات
+    الملف الطبي — منصة الاستمارات
   </div>
-  <h1>استمارات <span class="hl">الملف الصحي</span></h1>
-  <p>جميع استمارات الملف الصحي في مكانٍ واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام في أي وقت.</p>
+  <h1>استمارات <span class="hl">الملف الطبي</span></h1>
+  <p>جميع استمارات الملف الطبي في مكانٍ واحد — سهلة الوصول، منظمة، وجاهزة للاستخدام في أي وقت.</p>
 </div>
 
 <!-- Toolbar -->
@@ -730,7 +731,7 @@ body { padding-top: 32px; }
 <!-- Footer -->
 <div class="footer">
 
-  <strong>الملف الصحي</strong> — صناع الحياة المنوفية &nbsp;|&nbsp; التحول الرقمي<br>
+  <strong>الملف الطبي</strong> — صناع الحياة المنوفية &nbsp;|&nbsp; التحول الرقمي<br>
   OP_IT_MLM | كريم شعير &nbsp;|&nbsp; © 2026
 </div>
 
@@ -780,21 +781,21 @@ function showToast(msg, type, duration) {
   }, duration);
 }
 
-const FORM_IDS = ['مساعدات_طبية','تحويلات_طبية','hser_edwia','adwyt_alqawafel','sarf_alqawafel','nata2_alqawafel','taaqodat','masroufat'];
-const FORM_LABELS = ['المساعدات الطبية','التحويلات الطبية','حصر الأدوية','أدوية القوافل','صرف أدوية القوافل','نتائج القوافل','التعاقدات الطبية','مصروفات الحالات'];
+const FORM_IDS = ['مساعدات_طبية','تحويلات_طبية','hser_edwia','adwyt_alqawafel','sarf_alqawafel','nata2_alqawafel','taaqodat','masroufat','nawa2es_serf'];
+const FORM_LABELS = ['المساعدات الطبية','التحويلات الطبية','حصر الأدوية','أدوية القوافل','صرف أدوية القوافل','نتائج القوافل','التعاقدات الطبية','مصروفات الحالات','نواقص الصرف الشهري'];
 
 const forms = [
   { title:"الدليل التشغيلي للقوافل الطبية", desc:"دليل تنظيمي وتشغيلي شامل لإدارة القوافل الطبية، يوضح خطوات التخطيط والتنفيذ والمتابعة لضمان تقديم خدمة صحية منظمة وآمنة وفعالة للأسر الأكثر احتياجاً.", file:"الدليل_التشغيلي.html", cat:"caravan" },
-  { title:"استمارة التعاقدات والشراكات الطبية", desc:"تهدف هذه الاستمارة إلى تسجيل بيانات التعاقدات والشراكات الطبية الخاصة بالملف الصحي في جمعية صناع الحياة – محافظة المنوفية، وذلك لحصر الجهات الطبية المتعاقدة وتوثيق تفاصيل الخدمات والتخفيضات المقدمة للأسر المستفيدة.", file:"التعاقدات_الطبية.html", cat:"finance" },
+  { title:"استمارة التعاقدات والشراكات الطبية", desc:"تهدف هذه الاستمارة إلى تسجيل بيانات التعاقدات والشراكات الطبية الخاصة بالملف الطبي في جمعية صناع الحياة – محافظة المنوفية، وذلك لحصر الجهات الطبية المتعاقدة وتوثيق تفاصيل الخدمات والتخفيضات المقدمة للأسر المستفيدة.", file:"التعاقدات_الطبية.html", cat:"finance" },
   { title:"استمارة نتائج القوافل الطبية", desc:"تهدف هذه الاستمارة إلى توثيق ومتابعة نتائج القوافل الطبية التابعة للملف الصحي، من خلال تسجيل بيانات القافلة والخدمات الطبية المقدمة داخل كل مركز. تساعد في قياس أثر القوافل وإعداد التقارير والإحصائيات.", file:"نتائج_القوافل.html", cat:"caravan" },
   { title:"استمارة التحويلات الطبية", desc:"تهدف إلى تسجيل ومتابعة التحويلات الطبية للحالات المستفيدة، وذلك لضمان توثيق بيانات المرضى وجهات التحويل والخدمات المطلوبة بدقة. تُستخدم في تنظيم التحويلات ومتابعة الحالات وإعداد التقارير.", file:"التحويلات_الطبية.html", cat:"transfer" },
   { title:"استمارة مصروفات الحالات الطبية الشهرية", desc:"توثيق ومتابعة مصروفات الحالات الطبية الشهرية، من خلال تسجيل قيمة الأدوية والخدمات العلاجية مع إرفاق صورة الروشتة. تساعد في متابعة الدعم الطبي وإعداد التقارير المالية والإحصائية.", file:"مصروفات_الحالات.html", cat:"finance" },
   { title:"استمارة حصر أدوية صيدلية صناع الحياة", desc:"تهدف إلى تسجيل وحصر الأدوية المتوفرة داخل صيدلية صناع الحياة، لتنظيم المخزون الدوائي ومتابعة الكميات وتواريخ الصلاحية وتقليل الهدر الناتج عن انتهاء الصلاحية.", file:"حصر_الأدوية.html", cat:"pharmacy" },
-  { title:"استمارة أدوية القوافل الطبية", desc:"تهدف إلى تسجيل وحصر الأدوية المستخدمة أو المتوفرة بالقوافل الطبية، وذلك لتحديد الأدوية التي يتم النزول بها إلى القوافل الطبية وضمان توفرها.", file:"أدوية_القوافل.html", cat:"caravan" },
   { title:"استمارة صرف أدوية القوافل الطبية", desc:"توثيق صرف الأدوية خلال القوافل الطبية، وذلك لضمان متابعة الأدوية المصروفة للحالات وربطها بالروشتات الطبية المعتمدة. تساعد في متابعة حركة الأدوية وإعداد التقارير.", file:"صرف_أدوية_القوافل.html", cat:"caravan" },
   { title:"استمارة المساعدات الطبية وصرف الأدوية", desc:"تسجيل المساعدات الطبية وصرف الأدوية لأي حالة بشكل عام، مع التحقق التلقائي من عدم وجود تكرار في الرقم القومي. في حال وجود تسجيل سابق يتم تحويل الحالة لإدارة الحالات للمراجعة قبل إتمام الصرف.", file:"المساعدات_الطبية.html", cat:"beneficiary" },
   { title:"نظام استعلامات الدواء", desc:"يسهّل البحث عن الأدوية المتوفرة داخل مقرات صناع الحياة من خلال قاعدة بيانات محدثة. يساعد في تسريع عملية صرف العلاج، تنظيم المخزون الدوائي، وتقليل وقت البحث اليدوي.", file:"استعلامات_الأدوية.html", cat:"pharmacy" },
-  { title:"غرفة استعلامات أدوية القوافل الطبية", desc:"تُتيح للمرضى والأهالي الاطلاع الفوري على الأدوية المتوفرة في القافلة الطبية، سواء قبل الحضور أو أثناء التواجد في الموقع. ما عليك إلا البحث عن اسم الدواء ومعرفة هل هو متاح في القافلة دي أم لا، توفيراً للوقت وتنظيماً لعملية الصرف.", file:"استعلامات_القوافل.html", cat:"caravan" }
+  { title:"غرفة استعلامات أدوية القوافل الطبية", desc:"تُتيح للمرضى والأهالي الاطلاع الفوري على الأدوية المتوفرة في القافلة الطبية، سواء قبل الحضور أو أثناء التواجد في الموقع. ما عليك إلا البحث عن اسم الدواء ومعرفة هل هو متاح في القافلة دي أم لا، توفيراً للوقت وتنظيماً لعملية الصرف.", file:"استعلامات_القوافل.html", cat:"caravan" },
+  { title:"نواقص الصرف الشهري لحالات الملف الطبي", desc:"تسجيل نواقص الصرف الشهري للأدوية الخاصة بحالات الملف الطبي. يشمل اسم الدواء، شكل الجرعة، التركيز، الكمية، السعر للوحدة، العينة (علبة/شريط)، والمركز.", file:"نواقص_الصرف_الشهري.html", cat:"pharmacy" }
 ];
 
 const CAT_LABELS = { beneficiary:"كشف طبي", transfer:"تحويل", pharmacy:"صيدلية", caravan:"قافلة", finance:"إحصائيات" };
@@ -910,10 +911,11 @@ function exportOneCSV(fid, flabel) {
   var fields = ['dummy']; var headers = ['حقل'];
   if (fid === 'hser_edwia') { fields = ['date','sec','med_name','med_ava','med_typ','med_do','med_quan','med_date','med_takhassos']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','المادة الفعالة','النوع','شريط/علبة','الكمية','تاريخ الانتهاء','التخصص']; }
   else if (fid === 'adwyt_alqawafel') { fields = ['date','center','name','conc','exp','active','type','unit','qty','spec']; headers = ['تاريخ التسجيل','المركز','اسم الدواء','التركيز','تاريخ الانتهاء','المادة الفعالة','النوع','شريط/علبة','الكمية','التخصص']; }
-  else if (fid === 'sarf_alqawafel') { fields = ['center','caravan_date','doctor_name','doctor_specialty','medicine_name','quantity']; headers = ['المركز','تاريخ القافلة','اسم الدكتور','التخصص','اسم الدواء','الكمية']; }
+  else if (fid === 'sarf_alqawafel') { fields = ['center','caravan_date','doctor_name','doctor_specialty','medicine_name','med_form','med_conc','med_type','med_exp','quantity']; headers = ['المركز','تاريخ القافلة','اسم الدكتور','التخصص','اسم الدواء','شريط/علبة','التركيز','النوع','تاريخ الانتهاء','الكمية']; }
   else if (fid === 'nata2_alqawafel') { fields = ['center','total_checkups','total_labs','other_interventions','other_interventions_count','specialty','doctor_name','spec_checkups','time_spent']; headers = ['المركز','عدد الكشوفات الإجمالي','عدد التحاليل','التدخلات الصحية الأخرى','عدد التدخلات','التخصص','اسم الدكتور','عدد الكشوفات للدكتور','الوقت المستغرق']; }
   else if (fid === 'taaqodat') { fields = ['entity_type','facility_name','contract_text','contractor_name','volunteer_number','name_contractor','job_title','facility_phone','detailed_address','location','center','notes']; headers = ['نوع الجهة','اسم المكان','نص التعاقد','المتطوع','رقم المتطوع','ممثل المكان','صفة الشخص','الهاتف','العنوان','الموقع الجغرافي','المركز','ملاحظات']; }
-  else if (fid === 'masroufat') { fields = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source']; headers = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء']; }
+  else if (fid === 'masroufat') { fields = ['patient_name','national_id','integer_wa4xt75','center','med_name','med_qty','med_source','med_form','med_conc','med_type','med_exp']; headers = ['اسم الحالة','الرقم القومي','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء','شريط/علبة','التركيز','النوع','تاريخ الانتهاء']; }
+  else if (fid === 'nawa2es_serf') { fields = ['center','name','form','conc','qty','price','sample']; headers = ['المركز','اسم الدواء','شكل الجرعة','التركيز','الكمية','السعر للوحدة','العينة']; }
   else { alert('غير مدعوم'); return; }
   var data = getLocalData(fid);
   if (!data.length) { alert('لا توجد بيانات محفوظة'); return; }

@@ -1,4 +1,4 @@
-?<!DOCTYPE html>
+﻿?<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <script src="offline-utils.js"></script>
@@ -367,6 +367,11 @@ body {
   margin-top: 4px;
 }
 .btn-add:hover { border-color: var(--primary); background: rgba(15,118,110,0.08); }
+.cascade-view { border-top: 1px dashed var(--border); padding-top: 14px; margin-top: 6px; }
+.cascade-view .field-row { animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+.cascade-view select option { direction: rtl; }
+.cascade-view input[readonly] { background: rgba(15,118,110,0.04); border-color: rgba(15,118,110,0.1); cursor: default; }
 .btn-submit {
   width: 100%;
   background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
@@ -469,7 +474,7 @@ body {
 
 <div class="premium-bar">
   <span class="bar-icon">◈</span>
-  <span>منظومة الملف الصحي — صناع الحياة المنوفية</span>
+  <span>منظومة الملف الطبي — صناع الحياة المنوفية</span>
 </div>
 <div class="geo-bg"></div>
 <div class="grain"></div>
@@ -480,8 +485,7 @@ body {
     <div class="logo-frame" style="display:flex;justify-content:center;padding:6px;border:1px solid var(--border);border-radius:12px;background:rgba(14,22,40,0.6);margin-bottom:14px;">
       <img src="logo.jpg" alt="صناع الحياة" style="height:80px;width:auto;border-radius:8px;display:block;">
     </div>
-  <div class="brand-banner">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-  <div class="header-badge">🏥 الملف الصحي — التحول الرقمي</div>
+  <div class="header-badge">🏥 الملف الطبي — التحول الرقمي</div>
   <h1>مصروفات الحالات الطبية</h1>
   <p>جمعية صناع الحياة — محافظة المنوفية</p>
   <div class="header-divider"></div>
@@ -518,8 +522,9 @@ body {
             <span class="field-error" id="e_patient_name">يرجى إدخال اسم الحالة</span>
           </div>
           <div class="field">
-            <label>كود الحالة</label>
-            <input type="text" id="patient_code" placeholder="كود الحالة (اختياري)">
+            <label>الرقم القومي <span class="req">*</span></label>
+            <input type="text" id="national_id" placeholder="14 رقم" maxlength="14" inputmode="numeric" pattern="[0-9]{14}" oninput="this.value=this.value.replace(/\D/g,'')">
+            <span class="field-error" id="e_national_id">يرجى إدخال رقم قومي صحيح (14 رقم)</span>
           </div>
         </div>
         <div class="field-row">
@@ -531,18 +536,77 @@ body {
           <div class="field">
             <label>المركز <span class="req">*</span></label>
             <select id="center">
-              <option value="">— اختر المركز —</option>
-              <option value="shibin">شبين الكوم</option>
-              <option value="menouf">منوف</option>
-              <option value="ashmoun">أشمون</option>
-              <option value="berket_saba">بركة السبع</option>
-              <option value="quesna">قويسنا</option>
-              <option value="tala">تلا</option>
-              <option value="shohada">الشهداء</option>
-              <option value="الباجور">الباجور</option>
-              <option value="السادات">مدينة السادات</option>
+<option value="">— اختر المركز —</option>
+<option>مركزي</option>
+<option>شبين الكوم</option>
+              <option>منوف</option>
+              <option>أشمون</option>
+              <option>بركة السبع</option>
+              <option>قويسنا</option>
+              <option>تلا</option>
+              <option>الشهداء</option>
+              <option>الباجور</option>
+              <option>مدينة السادات</option>
             </select>
             <span class="field-error" id="e_center">يرجى اختيار المركز</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-header">
+        <span class="icon">📋</span> نوع الصرف
+        <span class="badge">اختر النوع</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row single">
+          <div class="field">
+            <label>نوع الصرف <span class="req">*</span></label>
+            <div style="display:flex;gap:20px;margin-top:6px">
+              <label style="display:flex;align-items:center;gap:8px;font-size:0.86rem;cursor:pointer;font-weight:600">
+                <input type="radio" name="disp_type" value="متابعة" onchange="onDispTypeChange()" checked>
+                متابعة
+              </label>
+              <label style="display:flex;align-items:center;gap:8px;font-size:0.86rem;cursor:pointer;font-weight:600">
+                <input type="radio" name="disp_type" value="صرف شهري" onchange="onDispTypeChange()">
+                صرف شهري
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" id="followupSection">
+      <div class="section-header">
+        <span class="icon">🏥</span> بيانات المتابعة
+        <span class="badge">إلزامي للمتابعة</span>
+      </div>
+      <div class="section-body">
+        <div class="field-row">
+          <div class="field">
+            <label>جهة المتابعة <span class="req">*</span></label>
+            <select id="followup_entity">
+              <option value="">— اختر جهة المتابعة —</option>
+              <option>دكتور</option>
+              <option>معمل تحاليل</option>
+              <option>مركز أشعة</option>
+              <option>مركز نظارات</option>
+              <option>علاج طبيعي</option>
+            </select>
+            <span class="field-error" id="e_followup_entity">يرجى اختيار جهة المتابعة</span>
+          </div>
+          <div class="field">
+            <label>تاريخ المتابعة <span class="req">*</span></label>
+            <input type="date" id="followup_date">
+            <span class="field-error" id="e_followup_date">يرجى اختيار تاريخ المتابعة</span>
+          </div>
+        </div>
+        <div class="field-row single">
+          <div class="field">
+            <label>ملاحظات المتابعة</label>
+            <textarea id="followup_notes" rows="2" placeholder="ملاحظات عن حالة المتابعة..."></textarea>
           </div>
         </div>
       </div>
@@ -590,7 +654,7 @@ body {
 
   <div class="footer">
     <div class="brand-banner-bottom">✨ OP_IT_MLM <span class="brand-sep"></span> كريم شعير ✨</div>
-    <div style="margin-top:8px"><strong>الملف الصحي</strong> — صناع الحياة المنوفية<br>
+    <div style="margin-top:8px"><strong>الملف الطبي</strong> — صناع الحياة المنوفية<br>
     التحول الرقمي © 2026</div>
   </div>
 </div>
@@ -614,7 +678,7 @@ body {
 </div>
 
 <script>
-const API_URL = "https://script.google.com/macros/s/AKfycbxEOUNtBfCY6ld7TZV17frxjfM4zkvTnXD7wLKQfXTuBcWeXllEmGdayM1oYlLK1pfH5w/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbzTkmFGEYZHEhQssU38zv65WZcQ4MqWMeIWI2vUmG8JpBIQjpwCnBUg846RSNMtTEFW/exec";
 
 const $ = id => document.getElementById(id);
 const show = (id, v) => $(id).style.display = v || 'block';
@@ -623,15 +687,50 @@ const showErr = (id, msg) => { const e = $(id); e.textContent = msg || e.textCon
 const hideErr = id => { const e = $(id); if(e) e.style.display = 'none'; };
 const hideAllErrs = () => document.querySelectorAll('.field-error').forEach(e => e.style.display = 'none');
 
+function onDispTypeChange() {
+  var val = document.querySelector('[name="disp_type"]:checked')?.value;
+  var section = $('followupSection');
+  if (val === 'متابعة') {
+    section.style.display = 'block';
+  } else {
+    section.style.display = 'none';
+  }
+  updateProgress();
+}
+
+function validateEgyptianNID(nid) {
+  if (!/^\d{14}$/.test(nid)) return false;
+  var c = nid[0];
+  if (c !== '2' && c !== '3') return false;
+  var yy = parseInt(nid.substring(1,3),10);
+  var mm = parseInt(nid.substring(3,5),10);
+  var dd = parseInt(nid.substring(5,7),10);
+  if (mm<1||mm>12) return false;
+  if (dd<1||dd>31) return false;
+  if (c==='2' && yy>99) return false;
+  if (c==='3') { var cur = new Date().getFullYear()%100; if (yy>cur) return false; }
+  return ['01','02','03','04','06','11','12','13','14','15','16','17','18','19','21','22','23','24','25','26','27','28','29','31','32','33','34','35','88'].includes(nid.substring(7,9));
+}
+
 function updateProgress() {
-  const fields = ['patient_name', 'integer_wa4xt75', 'center'];
+  const fields = ['patient_name', 'national_id', 'integer_wa4xt75', 'center'];
   const filled = fields.filter(id => $(id)?.value?.trim()).length;
+  var total = 6;
+  var done = filled;
+  const dispType = document.querySelector('[name="disp_type"]:checked')?.value;
+  if (dispType === 'متابعة') {
+    if ($('followup_entity')?.value) done++;
+    if ($('followup_date')?.value) done++;
+    total += 2;
+  }
   const hasPhoto = $('prescriptionName')?.style?.display === 'block' || 0;
   const hasMeds = $('medicationsList')?.children?.length > 0 || 0;
-  const done = filled + (hasPhoto ? 1 : 0) + (hasMeds ? 1 : 0);
-  $('progressBar').style.width = Math.round(done / 5 * 100) + '%';
+  done += hasPhoto ? 1 : 0;
+  done += hasMeds ? 1 : 0;
+  $('progressBar').style.width = Math.round(done / total * 100) + '%';
 }
 document.querySelectorAll('input,select,textarea').forEach(el => el.addEventListener('input', updateProgress));
+$('center').addEventListener('change', function() { drugCache = {}; document.querySelectorAll('.cascade-view').forEach(v => v.style.display = 'none'); });
 
 function compressImage(file, quality) {
   return new Promise((resolve, reject) => {
@@ -694,30 +793,240 @@ function addMedication() {
       <span class="medicine-num">💊 دواء #${medCount}</span>
       ${medCount > 1 ? `<button type="button" class="btn-remove" onclick="removeMedication('med_${medCount}')">🗑 حذف</button>` : ''}
     </div>
-    <div class="field-row">
-      <div class="field">
-        <label>اسم الدواء <span class="req">*</span></label>
-        <input type="text" name="med_name_${medCount}" placeholder="اسم الدواء">
-      </div>
-      <div class="field">
-        <label>كمية الدواء <span class="req">*</span></label>
-        <input type="number" name="med_qty_${medCount}" min="1" placeholder="الكمية">
-      </div>
-    </div>
     <div class="field-row single">
       <div class="field">
         <label>مصدر الدواء <span class="req">*</span></label>
-        <select name="med_source_${medCount}">
+        <select name="med_source_${medCount}" onchange="onSourceChange(this, '${medCount}')">
           <option value="">— اختر المصدر —</option>
-          <option value="تبرعات_عينية_من_المقر">تبرعات عينية من المقر</option>
-          <option value="تبرعات_عينية_من_الشراكات">تبرعات عينية من الشراكات</option>
+          <option value="تبرعات عينية من المقر">تبرعات عينية من المقر</option>
+          <option value="تبرعات عينية من الشراكات">تبرعات عينية من الشراكات</option>
           <option value="شراء">شراء</option>
         </select>
       </div>
+    </div>
+    <div class="simple-fields" id="simple_${medCount}" style="display:none">
+      <div class="field-row">
+        <div class="field">
+          <label>اسم الدواء <span class="req">*</span></label>
+          <input type="text" name="med_name_${medCount}" placeholder="اسم الدواء">
+        </div>
+        <div class="field">
+          <label>كمية الدواء <span class="req">*</span></label>
+          <input type="number" name="med_qty_${medCount}" min="1" placeholder="الكمية">
+        </div>
+      </div>
+    </div>
+    <div class="cascade-view" id="cascade_${medCount}" style="display:none">
+      <div class="field-row single">
+        <div class="field">
+          <label>اسم الدواء <span class="req">*</span></label>
+          <select name="cs_name_${medCount}" id="cs_name_${medCount}" onchange="onCSC('${medCount}','name')">
+            <option value="">— اختر اسم الدواء —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_form_${medCount}" style="display:none">
+        <div class="field">
+          <label>شريط / علبة <span class="req">*</span></label>
+          <select name="cs_form_${medCount}" id="cs_form_${medCount}" onchange="onCSC('${medCount}','form')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_conc_${medCount}" style="display:none">
+        <div class="field">
+          <label>التركيز <span class="req">*</span></label>
+          <select name="cs_conc_${medCount}" id="cs_conc_${medCount}" onchange="onCSC('${medCount}','conc')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_type_${medCount}" style="display:none">
+        <div class="field">
+          <label>النوع <span class="req">*</span></label>
+          <select name="cs_type_${medCount}" id="cs_type_${medCount}" onchange="onCSC('${medCount}','type')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_exp_${medCount}" style="display:none">
+        <div class="field">
+          <label>تاريخ الانتهاء <span class="req">*</span></label>
+          <select name="cs_exp_${medCount}" id="cs_exp_${medCount}" onchange="onCSC('${medCount}','exp')">
+            <option value="">— اختر —</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row" id="cs_row_qty_${medCount}" style="display:none">
+        <div class="field">
+          <label>الكمية المصروفة <span class="req">*</span></label>
+          <input type="number" name="cs_qty_${medCount}" id="cs_qty_${medCount}" min="1" placeholder="أدخل الكمية المصروفة يدوياً" oninput="checkQtyStock('${medCount}')">
+          <span class="field-error" id="e_cs_qty_${medCount}">الكمية تتجاوز المخزون المتاح</span>
+        </div>
+        <div class="field">
+          <label>المخزون المتاح</label>
+          <input type="text" id="cs_stock_${medCount}" readonly style="color:var(--text2);font-weight:600;">
+        </div>
+      </div>
+      <input type="hidden" name="med_cs_name_${medCount}" id="med_cs_name_${medCount}" value="">
+      <input type="hidden" name="med_cs_form_${medCount}" id="med_cs_form_${medCount}" value="">
+      <input type="hidden" name="med_cs_conc_${medCount}" id="med_cs_conc_${medCount}" value="">
+      <input type="hidden" name="med_cs_type_${medCount}" id="med_cs_type_${medCount}" value="">
+      <input type="hidden" name="med_cs_exp_${medCount}" id="med_cs_exp_${medCount}" value="">
     </div>`;
   $('medicationsList').appendChild(div);
   div.querySelectorAll('input,select').forEach(el => el.addEventListener('input', updateProgress));
   updateProgress();
+}
+
+function onSourceChange(sel, idx) {
+  const val = sel.value;
+  const simple = $('simple_' + idx);
+  const cascade = $('cascade_' + idx);
+  if (val === 'تبرعات عينية من المقر') {
+    simple.style.display = 'none';
+    cascade.style.display = 'block';
+    fetchDrugSummary(idx);
+  } else if (val) {
+    cascade.style.display = 'none';
+    simple.style.display = 'block';
+  } else {
+    simple.style.display = 'none';
+    cascade.style.display = 'none';
+  }
+}
+
+var drugCache = {};
+
+function fetchDrugSummary(idx) {
+  const center = $('center').value;
+  if (!center) { alert('⚠️ يرجى اختيار المركز أولاً'); return; }
+  const cacheKey = 'drugs_' + center;
+  if (drugCache[cacheKey]) {
+    setupCascade(idx, drugCache[cacheKey]);
+    return;
+  }
+  const el = $('cs_name_' + idx);
+  el.innerHTML = '<option value="">⏳ جارٍ التحميل...</option>';
+  fetch(API_URL + '?action=getDrugSummary&center=' + encodeURIComponent(center))
+    .then(r => r.json())
+    .then(res => {
+      if (res.status !== 'success' || !res.data.length) {
+        el.innerHTML = '<option value="">❌ لا توجد أدوية لهذا المركز</option>';
+        return;
+      }
+      drugCache[cacheKey] = res.data;
+      setupCascade(idx, res.data);
+    })
+    .catch(() => {
+      el.innerHTML = '<option value="">❌ فشل التحميل</option>';
+    });
+}
+
+function setupCascade(idx, data) {
+  var names = [...new Set(data.map(d => d.name).filter(Boolean))];
+  var sel = $('cs_name_' + idx);
+  sel.innerHTML = '<option value="">— اختر اسم الدواء —</option>' + names.map(n => '<option value="' + escHtml(n) + '">' + escHtml(n) + '</option>').join('');
+  sel.parentElement.closest('.field').querySelector('.field-error')?.remove();
+  // Store data on the select for cascading
+  sel._drugData = data;
+  // Reset all cascade rows below
+  resetCascadeAfter(idx, 'name');
+}
+
+function escHtml(s) { return String(s).replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function resetCascadeAfter(idx, afterField) {
+  var fields = ['form','conc','type','exp','qty'];
+  var start = fields.indexOf(afterField) + 1;
+  for (var i = start; i < fields.length; i++) {
+    var row = $('cs_row_' + fields[i] + '_' + idx);
+    if (row) row.style.display = 'none';
+    var sel = $('cs_' + fields[i] + '_' + idx);
+    if (sel) sel.innerHTML = '<option value="">— اختر —</option>';
+  }
+  $('cs_stock_' + idx).value = '';
+  var hiddenFields = ['name','form','conc','type','exp'];
+  var hStart = hiddenFields.indexOf(afterField) + 1;
+  for (var i = hStart; i < hiddenFields.length; i++) {
+    var h = $('med_cs_' + hiddenFields[i] + '_' + idx);
+    if (h) h.value = '';
+  }
+}
+
+function onCSC(idx, field) {
+  var sel = $('cs_' + field + '_' + idx);
+  var val = sel.value;
+  if (!val) { resetCascadeAfter(idx, field); return; }
+
+  // Store the selected value in hidden input
+  var hidden = $('med_cs_' + (field === 'name' ? 'name' : field) + '_' + idx);
+  if (hidden) hidden.value = val;
+
+  // Get current filters
+  var data = $('cs_name_' + idx)._drugData || [];
+  var filters = {};
+  var fields = ['name','form','conc','type','exp'];
+  for (var i = 0; i < fields.length; i++) {
+    var f = fields[i];
+    var s = $('cs_' + f + '_' + idx);
+    if (s && s.value) filters[f] = s.value;
+    else break;
+  }
+  if (!Object.keys(filters).length) return;
+
+  var filtered = data.filter(function(d) {
+    for (var k in filters) {
+      if (String(d[k] || '').trim() !== String(filters[k]).trim()) return false;
+    }
+    return true;
+  });
+
+  // What's the next field?
+  var nextMap = { name: 'form', form: 'conc', conc: 'type', type: 'exp', exp: 'qty' };
+  var next = nextMap[field];
+
+  if (!next) {
+    var stockVal = filtered.length > 0 ? filtered[0].qty : 0;
+    var stock = $('cs_stock_' + idx);
+    stock.value = 'المخزون: ' + stockVal;
+    stock._maxQty = parseInt(stockVal) || 0;
+    var qtyInput = $('cs_qty_' + idx);
+    if (qtyInput) { qtyInput.max = stock._maxQty; checkQtyStock(idx); }
+    return;
+  }
+
+  resetCascadeAfter(idx, field);
+
+  if (next === 'qty') {
+    $('cs_row_qty_' + idx).style.display = 'block';
+    var stockVal = filtered.length > 0 ? filtered[0].qty : 0;
+    var stock = $('cs_stock_' + idx);
+    stock.value = 'المخزون المتاح: ' + stockVal;
+    stock._maxQty = parseInt(stockVal) || 0;
+    var qtyInput = $('cs_qty_' + idx);
+    qtyInput.max = stock._maxQty;
+    checkQtyStock(idx);
+    return;
+  }
+
+  // Populate next dropdown
+  var nextVals = [...new Set(filtered.map(function(d) { return d[next]; }).filter(Boolean))];
+  if (!nextVals.length) { resetCascadeAfter(idx, field); return; }
+
+  var nextRow = $('cs_row_' + next + '_' + idx);
+  var nextSel = $('cs_' + next + '_' + idx);
+  nextRow.style.display = 'block';
+  nextSel.innerHTML = '<option value="">— اختر —</option>' + nextVals.map(function(v) { return '<option value="' + escHtml(v) + '">' + escHtml(v) + '</option>'; }).join('');
+  updateProgress();
+}
+
+function checkQtyStock(idx) {
+  var qty = parseInt($('cs_qty_' + idx)?.value) || 0;
+  var maxQty = parseInt($('cs_stock_' + idx)?._maxQty) || 0;
+  var err = $('e_cs_qty_' + idx);
+  if (qty > maxQty) err.style.display = 'block';
+  else err.style.display = 'none';
 }
 
 function removeMedication(id) { $(id)?.remove(); updateProgress(); }
@@ -750,6 +1059,7 @@ function resetForm() {
   document.querySelectorAll('.error,.valid').forEach(e => e.classList.remove('error','valid'));
   hideStatus();
   medCount = 0;
+  onDispTypeChange();
   updateProgress();
   addMedication();
 }
@@ -761,13 +1071,26 @@ $('mainForm').addEventListener('submit', async function(e) {
   let valid = true;
 
   const patient_name = $('patient_name').value.trim();
-  const patient_code = $('patient_code').value.trim();
+  const national_id = $('national_id').value.trim();
   const integer_wa4xt75 = $('integer_wa4xt75').value.trim();
   const center = $('center').value;
 
-  if (!patient_name) { showErr('e_patient_name'); valid = false; }
+  if (!patient_name || !/^\S+(\s+\S+){2,}$/.test(patient_name)) { showErr('e_patient_name', 'الاسم يجب أن يكون ثلاثيًا فأكثر (مثال: أحمد محمد علي)'); valid = false; }
+  if (!validateEgyptianNID(national_id)) { showErr('e_national_id', 'يرجى إدخال رقم قومي مصري صحيح (14 رقم)'); valid = false; }
   if (!integer_wa4xt75) { showErr('e_integer_wa4xt75'); valid = false; }
   if (!center) { showErr('e_center'); valid = false; }
+
+  const dispType = document.querySelector('[name="disp_type"]:checked')?.value;
+  if (!dispType) { alert('⚠️ يرجى اختيار نوع الصرف'); valid = false; }
+
+  let followup_entity = '', followup_date = '', followup_notes = '';
+  if (dispType === 'متابعة') {
+    followup_entity = $('followup_entity').value;
+    followup_date = $('followup_date').value;
+    followup_notes = $('followup_notes').value.trim();
+    if (!followup_entity) { showErr('e_followup_entity'); valid = false; }
+    if (!followup_date) { showErr('e_followup_date'); valid = false; }
+  }
 
   const photoInput = $('prescription_input');
   const photoFile = photoInput._compressed || photoInput.files[0] || null;
@@ -779,14 +1102,30 @@ $('mainForm').addEventListener('submit', async function(e) {
   const medications = [];
   let medErrors = false;
   medItems.forEach(item => {
-    const med_name = item.querySelector('[name^="med_name_"]').value.trim();
-    const med_qty = item.querySelector('[name^="med_qty_"]').value.trim();
     const med_source = item.querySelector('[name^="med_source_"]').value;
-    if (!med_name || !med_qty || !med_source) { medErrors = true; return; }
-    medications.push({ med_name, med_qty: parseInt(med_qty), med_source });
+    if (!med_source) { medErrors = true; return; }
+
+    if (med_source === 'تبرعات عينية من المقر') {
+      const med_name = item.querySelector('[name^="med_cs_name_"]')?.value?.trim();
+      const med_form = item.querySelector('[name^="med_cs_form_"]')?.value?.trim();
+      const med_conc = item.querySelector('[name^="med_cs_conc_"]')?.value?.trim();
+      const med_type = item.querySelector('[name^="med_cs_type_"]')?.value?.trim();
+      const med_exp = item.querySelector('[name^="med_cs_exp_"]')?.value?.trim();
+      const med_qty = item.querySelector('[name^="cs_qty_"]')?.value?.trim();
+      if (!med_name || !med_form || !med_conc || !med_type || !med_exp || !med_qty) { medErrors = true; return; }
+      var medQty = parseInt(med_qty);
+      var maxStock = parseInt($('cs_stock_' + item.id.split('_')[1])?._maxQty) || 0;
+      if (medQty > maxStock) { showErr('e_cs_qty_' + item.id.split('_')[1], 'الكمية (' + medQty + ') تتجاوز المخزون (' + maxStock + ')'); medErrors = true; return; }
+      medications.push({ med_name, med_form, med_conc, med_type, med_exp, med_qty: medQty, med_source });
+    } else {
+      const med_name = item.querySelector('[name^="med_name_"]')?.value?.trim();
+      const med_qty = item.querySelector('[name^="med_qty_"]')?.value?.trim();
+      if (!med_name || !med_qty) { medErrors = true; return; }
+      medications.push({ med_name, med_qty: parseInt(med_qty), med_source });
+    }
   });
 
-  if (medErrors) { alert('⚠️ يرجى إكمال بيانات جميع الأدوية'); valid = false; }
+  if (medErrors) { alert('⚠️ توجد أخطاء في بيانات الأدوية. تأكد من إكمال جميع الحقول ومن أن الكمية لا تتجاوز المخزون.'); valid = false; }
   if (!valid) return;
 
   const btn = $('submitBtn');
@@ -801,9 +1140,13 @@ $('mainForm').addEventListener('submit', async function(e) {
     const payload = {
       action: 'masroufat',
       patient_name,
-      patient_code: patient_code || '',
+      national_id,
       integer_wa4xt75: parseInt(integer_wa4xt75),
       center,
+      disp_type: dispType,
+      followup_entity,
+      followup_date,
+      followup_notes,
       prescription_photo: await toBase64(photoFile),
       medications_group: medications
     };
@@ -813,8 +1156,8 @@ $('mainForm').addEventListener('submit', async function(e) {
       try {
         showStatus(`جارٍ الإرسال... المحاولة ${attempt}/3`);
         const res = await fetch(API_URL, {
-          method: 'POST', mode: 'cors', cache: 'no-cache',
-          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain' },
           body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
@@ -854,34 +1197,47 @@ addMedication();
 updateProgress();
 
 // ---- offline utils ----
-var CSV_FIELDS = ['patient_name','patient_code','integer_wa4xt75','center','med_name','med_qty','med_source'];
-var CSV_HEADERS = ['اسم الحالة','كود الحالة','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء'];
+var CSV_FIELDS = ['patient_name','national_id','integer_wa4xt75','center','med_name','med_qty','med_source','med_form','med_conc','med_type','med_exp'];
+var CSV_HEADERS = ['اسم الحالة','الرقم القومي','المبلغ الكلي','المركز','اسم الدواء','كمية الدواء','مصدر الدواء','شريط/علبة','التركيز','النوع','تاريخ الانتهاء'];
 
 function collectFormData() {
   var patient_name = $('patient_name')?.value?.trim();
-  var patient_code = $('patient_code')?.value?.trim();
+  var national_id = $('national_id')?.value?.trim();
   var integer_wa4xt75 = $('integer_wa4xt75')?.value?.trim();
   var center = $('center')?.value;
   if (!patient_name && !integer_wa4xt75 && !document.querySelectorAll('.medicine-item').length) return null;
   var meds = [];
   document.querySelectorAll('.medicine-item').forEach(function(item) {
-    meds.push({
-      med_name: item.querySelector('[name^="med_name_"]')?.value?.trim() || '',
-      med_qty: item.querySelector('[name^="med_qty_"]')?.value?.trim() || '',
-      med_source: item.querySelector('[name^="med_source_"]')?.value || ''
-    });
+    var source = item.querySelector('[name^="med_source_"]')?.value || '';
+    if (source === 'تبرعات عينية من المقر') {
+      meds.push({
+        med_name: item.querySelector('[name^="med_cs_name_"]')?.value?.trim() || '',
+        med_qty: item.querySelector('[name^="cs_qty_"]')?.value?.trim() || '',
+        med_form: item.querySelector('[name^="med_cs_form_"]')?.value?.trim() || '',
+        med_conc: item.querySelector('[name^="med_cs_conc_"]')?.value?.trim() || '',
+        med_type: item.querySelector('[name^="med_cs_type_"]')?.value?.trim() || '',
+        med_exp: item.querySelector('[name^="med_cs_exp_"]')?.value?.trim() || '',
+        med_source: source
+      });
+    } else {
+      meds.push({
+        med_name: item.querySelector('[name^="med_name_"]')?.value?.trim() || '',
+        med_qty: item.querySelector('[name^="med_qty_"]')?.value?.trim() || '',
+        med_source: source
+      });
+    }
   });
-  return { patient_name:patient_name, patient_code:patient_code, integer_wa4xt75:integer_wa4xt75, center:center, medications:meds };
+  return { patient_name:patient_name, national_id:national_id, integer_wa4xt75:integer_wa4xt75, center:center, medications:meds };
 }
 
 function flattenData(d) {
   var rows = [];
-  var base = { patient_name:d.patient_name, patient_code:d.patient_code, integer_wa4xt75:d.integer_wa4xt75, center:d.center };
+  var base = { patient_name:d.patient_name, national_id:d.national_id, integer_wa4xt75:d.integer_wa4xt75, center:d.center };
   if (!d.medications || !d.medications.length) {
-    rows.push(Object.assign({}, base, {med_name:'',med_qty:'',med_source:''}));
+    rows.push(Object.assign({}, base, {med_name:'',med_qty:'',med_source:'',med_form:'',med_conc:'',med_type:'',med_exp:''}));
   } else {
     d.medications.forEach(function(m) {
-      rows.push(Object.assign({}, base, {med_name:m.med_name,med_qty:m.med_qty,med_source:m.med_source}));
+      rows.push(Object.assign({}, base, {med_name:m.med_name,med_qty:m.med_qty,med_source:m.med_source,med_form:m.med_form||'',med_conc:m.med_conc||'',med_type:m.med_type||'',med_exp:m.med_exp||''}));
     });
   }
   return rows;
@@ -901,26 +1257,81 @@ function importCSVData(headers, rows) {
     CSV_HEADERS.forEach(function(h) { row[h] = vals[colMap[h]] || ''; });
     if (ri === 0) {
       if (row['اسم الحالة']) $('patient_name').value = row['اسم الحالة'];
-      if (row['كود الحالة']) $('patient_code').value = row['كود الحالة'];
+      if (row['الرقم القومي']) $('national_id').value = row['الرقم القومي'];
       if (row['المبلغ الكلي']) $('integer_wa4xt75').value = row['المبلغ الكلي'];
       if (row['المركز']) $('center').value = row['المركز'];
     }
-    if (ri > 0) addExpense();
+    addMedication();
     var items = document.querySelectorAll('.medicine-item');
     var item = items[items.length - 1];
     if (item) {
-      // Find inputs by name pattern
-      var allInputs = item.querySelectorAll('input, select');
       var inputs = item.querySelectorAll('[name^="med_name_"], [name^="med_qty_"], [name^="med_source_"]');
       if (inputs[0]) inputs[0].value = row['اسم الدواء'] || '';
       if (inputs[1]) inputs[1].value = row['كمية الدواء'] || '';
       if (inputs[2]) inputs[2].value = row['مصدر الدواء'] || '';
+      // Trigger source change if cascade source
+      if (inputs[2] && row['مصدر الدواء'] === 'تبرعات عينية من المقر') {
+        var idx = inputs[2].name.split('_').pop();
+        inputs[2].dispatchEvent(new Event('change'));
+        setTimeout(function() {
+          var csName = item.querySelector('[name^="med_cs_name_"]');
+          if (csName && row['اسم الدواء']) csName.value = row['اسم الدواء'];
+          var csForm = item.querySelector('[name^="med_cs_form_"]');
+          if (csForm && row['شريط/علبة']) csForm.value = row['شريط/علبة'];
+          var csConc = item.querySelector('[name^="med_cs_conc_"]');
+          if (csConc && row['التركيز']) csConc.value = row['التركيز'];
+          var csType = item.querySelector('[name^="med_cs_type_"]');
+          if (csType && row['النوع']) csType.value = row['النوع'];
+          var csExp = item.querySelector('[name^="med_cs_exp_"]');
+          if (csExp && row['تاريخ الانتهاء']) csExp.value = row['تاريخ الانتهاء'];
+          var csQty = item.querySelector('[name^="cs_qty_"]');
+          if (csQty && row['كمية الدواء']) csQty.value = row['كمية الدواء'];
+        }, 500);
+      }
     }
   });
   updateProgress();
   showTooltip('✅ تم استيراد ' + rows.length + ' سجل');
 }
 
+window.fillFormFromLocal = function(row) {
+  if (row.patient_name) $('patient_name').value = row.patient_name;
+  if (row.national_id) $('national_id').value = row.national_id;
+  if (row.integer_wa4xt75) $('integer_wa4xt75').value = row.integer_wa4xt75;
+  if (row.center) $('center').value = row.center;
+  $('medicationsList').innerHTML = ''; medCount = 0;
+  if (row.medications) row.medications.forEach(function(m) {
+    addMedication();
+    var item = document.querySelector('.medicine-item:last-child');
+    if (!item) return;
+    var src = item.querySelector('[name^="med_source_"]');
+    if (src) src.value = m.med_source || 'من المقر';
+    if (m.med_source === 'تبرعات عينية من المقر') {
+      src.dispatchEvent(new Event('change'));
+      setTimeout(function() {
+        var csName = item.querySelector('[name^="med_cs_name_"]');
+        if (csName) csName.value = m.med_name || '';
+        var csForm = item.querySelector('[name^="med_cs_form_"]');
+        if (csForm) csForm.value = m.med_form || '';
+        var csConc = item.querySelector('[name^="med_cs_conc_"]');
+        if (csConc) csConc.value = m.med_conc || '';
+        var csType = item.querySelector('[name^="med_cs_type_"]');
+        if (csType) csType.value = m.med_type || '';
+        var csExp = item.querySelector('[name^="med_cs_exp_"]');
+        if (csExp) csExp.value = m.med_exp || '';
+        var csQty = item.querySelector('[name^="cs_qty_"]');
+        if (csQty) csQty.value = m.med_qty || '';
+      }, 500);
+    } else {
+      var nm = item.querySelector('[name^="med_name_"]');
+      if (nm) nm.value = m.med_name || '';
+      var qt = item.querySelector('[name^="med_qty_"]');
+      if (qt) qt.value = m.med_qty || '';
+    }
+  });
+  updateProgress();
+  showTooltip('✅ تم تحميل البيانات من السجلات المحفوظة');
+};
 var _origSho = showOverlay;
 showOverlay = function(id) {
   if (id === 'successOverlay') {
@@ -941,6 +1352,23 @@ window.exportFormCSV = function(fid, flabel, fields, headers) {
   var csv = CSV_HEADERS.join(',') + '\n';
   flat.forEach(function(r) { csv += CSV_FIELDS.map(function(f) { return escapeCSV(r[f]); }).join(',') + '\n'; });
   downloadBlob(csv, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv', 'text/csv');
+};
+window.exportFormXLS = function(fid, flabel, fields, headers) {
+  var data = getLocalData(fid);
+  if (!data.length) { alert('⚠️ لا توجد بيانات محفوظة'); return; }
+  var flat = [];
+  data.forEach(function(d) { flat = flat.concat(flattenData(d)); });
+  if (!flat.length) { alert('⚠️ لا توجد بيانات'); return; }
+  var table = '<table dir="rtl" style="font-family:sans-serif;font-size:12px;border-collapse:collapse;width:100%;direction:rtl"><thead><tr style="background:#0f766e;color:#fff">';
+  headers.forEach(function(h) { table += '<th style="padding:8px 10px;border:1px solid #ddd;text-align:right">' + h + '</th>'; });
+  table += '</tr></thead><tbody>';
+  flat.forEach(function(r, ri) {
+    table += '<tr' + (ri % 2 ? ' style="background:#f5f5f5"' : '') + '>';
+    fields.forEach(function(f) { table += '<td style="padding:6px 10px;border:1px solid #ddd;text-align:right">' + (r[f] !== undefined && r[f] !== null ? r[f] : '') + '</td>'; });
+    table += '</tr>';
+  });
+  table += '</tbody></table>';
+  downloadXLS(table, flabel + '_' + new Date().toISOString().slice(0,10) + '.csv');
 };
 window.downloadCSVTemplate = function(flabel) { downloadCSVTemplate(flabel, CSV_FIELDS, CSV_HEADERS); };
 </script>
